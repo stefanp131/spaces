@@ -1,0 +1,9 @@
+using System.ComponentModel.DataAnnotations;
+
+namespace Spaces.Services.DTOs;
+
+public class LoginDto
+{
+    [Required] public string Username { get; set; }
+    [Required] public string Password { get; set; }
+}

@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spaces.API", "Spaces.API\Spaces.API.csproj", "{2775A27B-CAA9-4D80-8814-555EC531DB4F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spaces.DAL", "Spaces.DAL\Spaces.DAL.csproj", "{22127868-0A25-4C10-A3E7-44C3BE4E2640}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spaces.Services", "Spaces.Services\Spaces.Services.csproj", "{FE80B005-6E72-46A7-8D2E-BD60BCBBD7FE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2775A27B-CAA9-4D80-8814-555EC531DB4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2775A27B-CAA9-4D80-8814-555EC531DB4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2775A27B-CAA9-4D80-8814-555EC531DB4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2775A27B-CAA9-4D80-8814-555EC531DB4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22127868-0A25-4C10-A3E7-44C3BE4E2640}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22127868-0A25-4C10-A3E7-44C3BE4E2640}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22127868-0A25-4C10-A3E7-44C3BE4E2640}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22127868-0A25-4C10-A3E7-44C3BE4E2640}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE80B005-6E72-46A7-8D2E-BD60BCBBD7FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE80B005-6E72-46A7-8D2E-BD60BCBBD7FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE80B005-6E72-46A7-8D2E-BD60BCBBD7FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE80B005-6E72-46A7-8D2E-BD60BCBBD7FE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
