@@ -10,6 +10,10 @@ public class AutoMapperProfiles : Profile
     {
         CreateMap<RegisterDto, AppUser>();
         CreateMap<AppUser, UserDto>();
+        CreateMap<CreateCommentDto, Comment>();
+        CreateMap<UpdateCommentDto, Comment>();
+        CreateMap<CreatePostDto, Post>();
+        CreateMap<UpdatePostDto, Post>();
     }
 
 }

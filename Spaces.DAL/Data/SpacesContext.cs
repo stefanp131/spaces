@@ -9,6 +9,9 @@ namespace Spaces.DAL.Data;
 public class SpacesContext : IdentityDbContext<AppUser, AppRole, int, IdentityUserClaim<int>,
     AppUserRole, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>
 {
+    public DbSet<Post> Posts { get; set; }
+    public DbSet<Comment> Comments { get; set; }
+
     public SpacesContext(DbContextOptions options) : base(options)
     {
     }
@@ -31,5 +34,17 @@ public class SpacesContext : IdentityDbContext<AppUser, AppRole, int, IdentityUs
             .WithOne(u => u.Role)
             .HasForeignKey(ur => ur.RoleId)
             .IsRequired();
+        
+        builder.Entity<Follow>()
+            .HasOne(s => s.SourceUser)
+            .WithMany(l => l.UsersIFollow)
+            .HasForeignKey(s => s.SourceUserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Entity<Follow>()
+            .HasOne(s => s.TargetUser)
+            .WithMany(l => l.FollowedByUsers)
+            .HasForeignKey(s => s.TargetUserId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

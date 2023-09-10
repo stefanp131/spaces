@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Spaces.DAL.Data;
@@ -11,9 +12,11 @@ using Spaces.DAL.Data;
 namespace Spaces.DAL.Migrations
 {
     [DbContext(typeof(SpacesContext))]
-    partial class SpacesContextModelSnapshot : ModelSnapshot
+    [Migration("20230910044513_AlterUser")]
+    partial class AlterUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -227,36 +230,6 @@ namespace Spaces.DAL.Migrations
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Spaces.DAL.Entities.Comment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Content")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("DateUpdated")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("PostId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PostId");
-
-                    b.ToTable("Comments");
-                });
-
             modelBuilder.Entity("Spaces.DAL.Entities.Follow", b =>
                 {
                     b.Property<int>("Id")
@@ -278,36 +251,6 @@ namespace Spaces.DAL.Migrations
                     b.HasIndex("TargetUserId");
 
                     b.ToTable("Follow");
-                });
-
-            modelBuilder.Entity("Spaces.DAL.Entities.Post", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Content")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("DateUpdated")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("text");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Posts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -365,17 +308,6 @@ namespace Spaces.DAL.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Spaces.DAL.Entities.Comment", b =>
-                {
-                    b.HasOne("Spaces.DAL.Entities.Post", "Post")
-                        .WithMany("Comments")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Post");
-                });
-
             modelBuilder.Entity("Spaces.DAL.Entities.Follow", b =>
                 {
                     b.HasOne("Spaces.DAL.Entities.AppUser", "SourceUser")
@@ -395,17 +327,6 @@ namespace Spaces.DAL.Migrations
                     b.Navigation("TargetUser");
                 });
 
-            modelBuilder.Entity("Spaces.DAL.Entities.Post", b =>
-                {
-                    b.HasOne("Spaces.DAL.Entities.AppUser", "User")
-                        .WithMany("Posts")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Spaces.DAL.Entities.AppRole", b =>
                 {
                     b.Navigation("UserRoles");
@@ -415,16 +336,9 @@ namespace Spaces.DAL.Migrations
                 {
                     b.Navigation("FollowedByUsers");
 
-                    b.Navigation("Posts");
-
                     b.Navigation("UserRoles");
 
                     b.Navigation("UsersIFollow");
-                });
-
-            modelBuilder.Entity("Spaces.DAL.Entities.Post", b =>
-                {
-                    b.Navigation("Comments");
                 });
 #pragma warning restore 612, 618
         }
