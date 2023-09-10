@@ -1,0 +1,29 @@
+<mat-card class="register-card">
+  <mat-card-title class="register-card-header">
+    <h2>Register</h2>
+  </mat-card-title>
+  <mat-card-content class="register-card-content">
+    <form autocomplete="off" [formGroup]="registerForm" (ngSubmit)="registerForm.valid && register()">
+      <div class="register-form-content">
+        <mat-form-field appearance="outline">
+          <input matInput formControlName="userName" type="text" placeholder="Enter your username" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <input matInput #password formControlName="password" type="password" placeholder="Enter your password" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <input matInput type="password" #confirmPassword placeholder="Confirm password" />
+        </mat-form-field>
+        <button color="primary" mat-raised-button [disabled]="confirmPassword.value !== password.value || !registerForm.valid">
+          Register
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+  <mat-card-footer class="register-card-footer">
+    <div class="error">
+      <mat-error *ngIf="confirmPassword.value !== password.value">Your Passwords do not match!</mat-error>
+      <mat-error *ngIf="!registerForm.valid && registerForm.dirty">Username and Password required!</mat-error>
+    </div>
+  </mat-card-footer>
+</mat-card>

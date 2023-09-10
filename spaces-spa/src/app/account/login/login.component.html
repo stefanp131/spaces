@@ -1,0 +1,25 @@
+<mat-card class="login-card">
+  <mat-card-title class="login-card-header">
+    <h2>Login</h2>
+  </mat-card-title>
+  <mat-card-content class="login-card-content">
+    <form autocomplete="off" [formGroup]="loginForm" (ngSubmit)="loginForm.valid && login()">
+      <div class="login-form-content">
+        <mat-form-field appearance="outline">
+          <input matInput formControlName="userName" type="text" placeholder="Enter your username" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <input matInput #password formControlName="password" type="password" placeholder="Enter your password" />
+        </mat-form-field>
+        <button color="primary" mat-raised-button [disabled]="!loginForm.valid">
+          Login
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+  <mat-card-footer class="login-card-footer">
+    <div fxLayout="column" fxLayoutAlign="center center">
+      <mat-error class="error" *ngIf="!loginForm.valid && loginForm.dirty">Fields are required!</mat-error>
+    </div>
+  </mat-card-footer>
+</mat-card>

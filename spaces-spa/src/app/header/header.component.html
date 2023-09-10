@@ -1,1 +1,22 @@
-<p>header works!</p>
+<mat-toolbar color="primary">
+  <div class="toolbar-content">
+    <div class="menu"></div>
+
+    <div *ngIf="accountService.currentUserSource | async as account; else noAccount">
+      <button mat-raised-button color="warn" (click)="logout()">
+        Logout
+      </button>
+    </div>
+  </div>
+</mat-toolbar>
+
+<ng-template #noAccount>
+  <div class="account-buttons">
+    <button mat-raised-button color="basic" routerLink="/login">
+      Login
+    </button>
+    <button mat-raised-button color="accent" routerLink="/register">
+      Register
+    </button>
+  </div>
+</ng-template>

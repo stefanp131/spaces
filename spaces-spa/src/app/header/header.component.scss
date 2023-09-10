@@ -1,0 +1,19 @@
+button {
+  width: 8rem;
+}
+
+mat-toolbar {
+  box-shadow: 0 5px 5px rgba(#000000, 0.2) !important;
+}
+
+.toolbar-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+
+  .account-buttons {
+    display: flex;
+    gap: 1.5rem;
+  }
+}
