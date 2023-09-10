@@ -16,6 +16,8 @@ import { LoginComponent } from './account/login/login.component';
 import { RegisterComponent } from './account/register/register.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { spacesReducer } from './_ngrx/reducers';
+import { SpacesEffects } from './_ngrx/effects';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,7 @@ import { HttpClientModule } from '@angular/common/http';
     HeaderComponent,
     FooterComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,
@@ -34,11 +36,11 @@ import { HttpClientModule } from '@angular/common/http';
     NgMaterialModule,
     ReactiveFormsModule,
     HttpClientModule,
-    StoreModule.forRoot({}, {}),
-    EffectsModule.forRoot([]),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() })
+    StoreModule.forRoot({ spaces: spacesReducer }),
+    EffectsModule.forRoot([SpacesEffects]),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

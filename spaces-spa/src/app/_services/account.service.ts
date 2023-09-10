@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { User } from '../_models/User';
+import { Token } from '../_models/Token';
 
 @Injectable({
   providedIn: 'root',
@@ -13,35 +14,26 @@ export class AccountService {
 
   constructor(private http: HttpClient) {}
 
-  login(model: any) {
-    return this.http.post(this.baseUrl + 'account/login', model).pipe(
-      map((user: User) => {
-        if (user) {
-          this.setCurrentUser(user);
-        }
-      })
-    );
+  login(model: any): Observable<Token> {
+    return this.http.post<Token>(this.baseUrl + 'account/login', model);
   }
 
   register(model: any) {
-    return this.http.post(this.baseUrl + 'account/register', model).pipe(
-      map((user: User) => {
-        if (user) {
-          this.setCurrentUser(user);
-        }
-      })
-    );
+    return this.http.post(this.baseUrl + 'account/register', model);
   }
 
-  setCurrentUser(user: User) {
-    const token = this.getDecodedToken(user.token);
-    user.roles = [];
-    const roles = token.role;
-    Array.isArray(roles) ? (user.roles = roles) : user.roles.push(roles);
-    user.id = token.nameid;
-    user.username = token.unique_name;
-    localStorage.setItem('user', JSON.stringify(user));
-    this.currentUserSource.next(user);
+  setCurrentUser(token: Token): User {
+    const decodedToken = this.getDecodedToken(token.token);
+
+    let user: User = {
+      roles: decodedToken.role,
+      id: decodedToken.nameid,
+      username: decodedToken.unique_name,
+    };
+
+    localStorage.setItem('token', JSON.stringify(token));
+
+    return user;
   }
 
   logout() {

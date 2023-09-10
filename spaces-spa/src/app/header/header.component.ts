@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccountService } from '../_services/account.service';
+import { AppState } from '../_ngrx/selectors';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { User } from '../_models/User';
+import { logout } from '../_ngrx/actions';
 
 @Component({
   selector: 'app-header',
@@ -8,12 +13,14 @@ import { AccountService } from '../_services/account.service';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-  constructor(public accountService: AccountService, private router: Router) {}
+  constructor(public store: Store<AppState>, private router: Router) {}
 
-  ngOnInit(): void {}
+  account: Observable<User> = null;
+  ngOnInit(): void {
+    this.account = this.store.select(appstate => appstate.spaces.user);
+  }
 
-  logout() {
-    this.accountService.logout();
-    this.router.navigate(['/login']);
+  logOut() {
+    this.store.dispatch(logout());
   }
 }
