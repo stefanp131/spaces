@@ -1,5 +1,5 @@
 import { createSelector } from '@ngrx/store';
-import { User } from '../_models/User';
+import { User } from 'src/app/_models/User';
 
 export interface AppState {
   spaces: SpacesState;

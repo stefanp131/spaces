@@ -16,9 +16,9 @@ import { LoginComponent } from './account/login/login.component';
 import { RegisterComponent } from './account/register/register.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { spacesReducer } from './_ngrx/reducers';
-import { AccountEffects } from './_ngrx/effects';
+import { accountReducer } from './_ngrx/account/reducers';
 import { LoaderComponent } from './loader/loader/loader.component';
+import { AccountEffects } from './_ngrx/account/effects';
 
 @NgModule({
   declarations: [
@@ -38,7 +38,7 @@ import { LoaderComponent } from './loader/loader/loader.component';
     NgMaterialModule,
     ReactiveFormsModule,
     HttpClientModule,
-    StoreModule.forRoot({ spaces: spacesReducer }),
+    StoreModule.forRoot({ spaces: accountReducer }),
     EffectsModule.forRoot([AccountEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
   ],

@@ -4,6 +4,7 @@ import { BehaviorSubject, map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { User } from '../_models/User';
 import { Token } from '../_models/Token';
+import { Credentials } from '../_models/Credentials';
 
 @Injectable({
   providedIn: 'root',
@@ -14,12 +15,12 @@ export class AccountService {
 
   constructor(private http: HttpClient) {}
 
-  login(model: any): Observable<Token> {
+  login(model: Credentials): Observable<Token> {
     return this.http.post<Token>(this.baseUrl + 'account/login', model);
   }
 
-  register(model: any) {
-    return this.http.post(this.baseUrl + 'account/register', model);
+  register(model: Credentials): Observable<Token> {
+    return this.http.post<Token>(this.baseUrl + 'account/register', model);
   }
 
   setCurrentUser(token: Token): User {

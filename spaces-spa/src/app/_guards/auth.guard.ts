@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 import { AccountService } from '../_services/account.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
-import { AppState } from '../_ngrx/selectors';
 import { Observable, map } from 'rxjs';
+import { AppState } from '../_ngrx/account/selectors';
 
 @Injectable({
   providedIn: 'root',

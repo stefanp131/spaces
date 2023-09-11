@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
-import { AppState } from './selectors';
-import { AccountService } from '../_services/account.service';
 import {
   login,
   loginError,
@@ -10,16 +7,19 @@ import {
   logout,
   logoutError,
   logoutSuccess,
+  register,
+  registerError,
+  registerSuccess,
 } from './actions';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { AccountService } from 'src/app/_services/account.service';
 
 @Injectable()
 export class AccountEffects {
   constructor(
     private actions$: Actions,
-    private Store: Store<AppState>,
     private accountService: AccountService,
     private snackBar: MatSnackBar,
     private router: Router
@@ -30,7 +30,7 @@ export class AccountEffects {
       ofType(login),
       switchMap((action) =>
         this.accountService
-          .login({ userName: action.userName, password: action.password })
+          .login(action.model)
           .pipe(
             tap(() => {
               this.router.navigate(['/my-space']);
@@ -62,6 +62,32 @@ export class AccountEffects {
         return logoutSuccess();
       }),
       catchError((error) => of(logoutError(error)))
+    )
+  );
+
+  register$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(register),
+      switchMap((action) =>
+        this.accountService
+          .register(action.model)
+          .pipe(
+            tap(() => {
+              this.router.navigate(['/my-space']);
+              this.snackBar.open('Successfully registered and logged in!', 'Dismiss', {
+                duration: 5000,
+              });
+            }),
+            map((info) => this.accountService.setCurrentUser(info)),
+            map((info) => registerSuccess({ info })),
+            catchError((error) => {
+              this.snackBar.open('Something went wrong!', 'Dismiss', {
+                duration: 5000,
+              });
+              return of(registerError({ error }));
+            })
+          )
+      )
     )
   );
 }

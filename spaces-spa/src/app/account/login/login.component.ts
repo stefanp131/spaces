@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { login } from 'src/app/_ngrx/actions';
-import { AppState } from 'src/app/_ngrx/selectors';
+import { login } from 'src/app/_ngrx/account/actions';
+import { AppState } from 'src/app/_ngrx/account/selectors';
 import { AccountService } from 'src/app/_services/account.service';
 
 @Component({
@@ -14,7 +14,6 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
 
   constructor(
-    private accountService: AccountService,
     private formBuilder: FormBuilder,
     private store: Store<AppState>
   ) {}
@@ -31,6 +30,6 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    this.store.dispatch(login(this.loginForm.value));
+    this.store.dispatch(login({ model: this.loginForm.value }));
   }
 }

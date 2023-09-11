@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { AccountService } from './_services/account.service';
-import { AppState } from './_ngrx/selectors';
 import { Store } from '@ngrx/store';
 import { Token } from './_models/Token';
-import { autoLogin, loginSuccess } from './_ngrx/actions';
+import { autoLogin, loginSuccess } from './_ngrx/account/actions';
+import { AppState } from './_ngrx/account/selectors';
 
 @Component({
   selector: 'app-root',

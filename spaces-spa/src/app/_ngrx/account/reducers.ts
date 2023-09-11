@@ -1,12 +1,16 @@
 import { createReducer, on } from '@ngrx/store';
-import { User } from '../_models/User';
+import { User } from '../../_models/User';
 import {
   autoLogin,
   login,
   loginError,
   loginSuccess,
   logout,
+  logoutError,
   logoutSuccess,
+  register,
+  registerError,
+  registerSuccess,
 } from './actions';
 
 export enum SpacesStateStatus {
@@ -28,9 +32,9 @@ export const initialState: SpacesState = {
   status: SpacesStateStatus.Pending,
 };
 
-export const spacesReducer = createReducer(
+export const accountReducer = createReducer(
   initialState,
-  on(login, (state, { userName, password }) => ({
+  on(login, (state, { model }) => ({
     ...state,
     status: SpacesStateStatus.Loading,
   })),
@@ -58,9 +62,24 @@ export const spacesReducer = createReducer(
     user: null,
     status: SpacesStateStatus.Success,
   })),
-  on(loginError, (state, { error }) => ({
+  on(logoutError, (state, { error }) => ({
     ...state,
     error: error,
     status: SpacesStateStatus.Error,
-  }))
+  })),
+  on(register, (state, { model }) => ({
+    ...state,
+    status: SpacesStateStatus.Loading,
+  })),
+  on(registerSuccess, (state, { info }) => ({
+    ...state,
+    user: info,
+    status: SpacesStateStatus.Success,
+  })),
+  on(registerError, (state, { error }) => ({
+    ...state,
+    error: error,
+    status: SpacesStateStatus.Error,
+  })),
+  
 );
