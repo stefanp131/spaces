@@ -1,6 +1,5 @@
 import { createAction, props } from '@ngrx/store';
 import { User } from '../_models/User';
-import { Token } from '../_models/Token';
 
 export const login = createAction(
   '[Login Page] Login',
@@ -17,7 +16,7 @@ export const loginError = createAction(
   props<{ error: string }>()
 );
 
-export const autologin = createAction(
+export const autoLogin = createAction(
   '[Login Page] Auto Login',
   props<{ info: User }>()
 );

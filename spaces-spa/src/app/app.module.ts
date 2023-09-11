@@ -17,7 +17,8 @@ import { RegisterComponent } from './account/register/register.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { spacesReducer } from './_ngrx/reducers';
-import { SpacesEffects } from './_ngrx/effects';
+import { AccountEffects } from './_ngrx/effects';
+import { LoaderComponent } from './loader/loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { SpacesEffects } from './_ngrx/effects';
     FooterComponent,
     LoginComponent,
     RegisterComponent,
+    LoaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,7 +39,7 @@ import { SpacesEffects } from './_ngrx/effects';
     ReactiveFormsModule,
     HttpClientModule,
     StoreModule.forRoot({ spaces: spacesReducer }),
-    EffectsModule.forRoot([SpacesEffects]),
+    EffectsModule.forRoot([AccountEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
   ],
   providers: [],

@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import { User } from '../_models/User';
 import {
-  autologin,
+  autoLogin,
   login,
   loginError,
   loginSuccess,
@@ -39,7 +39,7 @@ export const spacesReducer = createReducer(
     user: info,
     status: SpacesStateStatus.Success,
   })),
-  on(autologin, (state, { info }) => ({
+  on(autoLogin, (state, { info }) => ({
     ...state,
     user: info,
     status: SpacesStateStatus.Success,

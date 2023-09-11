@@ -29,6 +29,7 @@ export class AccountService {
       roles: decodedToken.role,
       id: decodedToken.nameid,
       username: decodedToken.unique_name,
+      token: token.token,
     };
 
     localStorage.setItem('token', JSON.stringify(token));

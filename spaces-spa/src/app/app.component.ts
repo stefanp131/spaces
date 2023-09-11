@@ -3,7 +3,7 @@ import { AccountService } from './_services/account.service';
 import { AppState } from './_ngrx/selectors';
 import { Store } from '@ngrx/store';
 import { Token } from './_models/Token';
-import { autologin, loginSuccess } from './_ngrx/actions';
+import { autoLogin, loginSuccess } from './_ngrx/actions';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +19,7 @@ export class AppComponent {
     if (token) {
       const user = this.accountService.setCurrentUser(token);
 
-      this.store.dispatch(autologin({ info: user }));
+      this.store.dispatch(autoLogin({ info: user }));
     }
   }
 }

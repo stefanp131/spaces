@@ -16,7 +16,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
 @Injectable()
-export class SpacesEffects {
+export class AccountEffects {
   constructor(
     private actions$: Actions,
     private Store: Store<AppState>,
@@ -40,7 +40,6 @@ export class SpacesEffects {
             }),
             map((info) => this.accountService.setCurrentUser(info)),
             map((info) => loginSuccess({ info })),
-
             catchError((error) => {
               this.snackBar.open('Wrong credentials!', 'Dismiss', {
                 duration: 5000,
