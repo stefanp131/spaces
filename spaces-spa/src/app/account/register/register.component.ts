@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { register } from 'src/app/_ngrx/account/actions';
-import { AppState } from 'src/app/_ngrx/account/selectors';
+import { register } from 'src/app/account/account-state/actions';
+import { AppState } from 'src/app/account/account-state/selectors';
 
 @Component({
   selector: 'app-register',

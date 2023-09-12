@@ -4,7 +4,7 @@ import { AccountService } from '../_services/account.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { Observable, map } from 'rxjs';
-import { AppState } from '../_ngrx/account/selectors';
+import { AppState } from '../account/account-state/selectors';
 
 @Injectable({
   providedIn: 'root',

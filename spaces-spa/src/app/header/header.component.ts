@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { User } from '../_models/User';
-import { logout } from '../_ngrx/account/actions';
-import { AppState } from '../_ngrx/account/selectors';
+import { logout } from '../account/account-state/actions';
+import { AppState } from '../account/account-state/selectors';
 
 @Component({
   selector: 'app-header',
