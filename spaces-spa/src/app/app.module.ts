@@ -19,6 +19,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { accountReducer } from './_ngrx/account/reducers';
 import { LoaderComponent } from './loader/loader/loader.component';
 import { AccountEffects } from './_ngrx/account/effects';
+import { PostsListComponent } from './posts/posts-list/posts-list.component';
+import { PostComponent } from './posts/post/post.component';
+import { CreateUpdatePostComponent } from './posts/create-update-post/create-update-post.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +33,9 @@ import { AccountEffects } from './_ngrx/account/effects';
     LoginComponent,
     RegisterComponent,
     LoaderComponent,
+    PostsListComponent,
+    PostComponent,
+    CreateUpdatePostComponent,
   ],
   imports: [
     BrowserModule,

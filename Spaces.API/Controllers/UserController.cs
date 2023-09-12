@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Spaces.Services.DTOs;
 using Spaces.Services.Interfaces;
 
 namespace Spaces.API.Controllers
 {
+    [Authorize]
     public class UserController : BaseApiController
     {
         private readonly IUserService userService;
@@ -16,7 +18,7 @@ namespace Spaces.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<List<UserDto>>> GetUserById(int id)
+        public async Task<ActionResult<UserDto>> GetUserById(int id)
         {
             var user = await this.userService.GetUserByIdAsync(id);
             

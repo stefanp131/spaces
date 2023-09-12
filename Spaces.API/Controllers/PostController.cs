@@ -1,10 +1,12 @@
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Spaces.Services.DTOs;
 using Spaces.Services.Interfaces;
 
 namespace Spaces.API.Controllers;
 
+[Authorize]
 public class PostController : BaseApiController
 {
     private readonly IPostService _postService;
@@ -12,6 +14,14 @@ public class PostController : BaseApiController
     public PostController(IPostService postService)
     {
         _postService = postService;
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetPostsAsync()
+    {
+        var postDtos = await _postService.GetPostsAsync();
+
+        return Ok(postDtos);
     }
     
     

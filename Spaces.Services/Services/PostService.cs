@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Spaces.DAL.Entities;
@@ -19,6 +20,15 @@ public class PostService: IPostService
         _postRepository = postRepository;
         _mapper = mapper;
     }
+
+    public async Task<List<PostDto>> GetPostsAsync()
+    {
+        var posts = await _postRepository.GetPostsAsync();
+        var postDtos = _mapper.Map<List<PostDto>>(posts);
+
+        return postDtos;
+    }
+
     public async Task CreatePostAsync(CreatePostDto createPostDto)
     {
         var post = _mapper.Map<Post>(createPostDto);

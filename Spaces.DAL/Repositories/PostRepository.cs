@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Spaces.DAL.Data;
 using Spaces.DAL.Entities;
 using Spaces.DAL.Interfaces;
@@ -12,6 +14,11 @@ public class PostRepository: IPostRepository
     public PostRepository(SpacesContext context)
     {
         _context = context;
+    }
+
+    public async Task<List<Post>> GetPostsAsync()
+    {
+        return await _context.Posts.ToListAsync();
     }
 
     public async Task<Post> GetByIdAsync(int postId)

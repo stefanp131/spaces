@@ -1,10 +1,12 @@
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Spaces.Services.DTOs;
 using Spaces.Services.Interfaces;
 
 namespace Spaces.API.Controllers;
 
+[Authorize]
 public class CommentController : BaseApiController
 {
     private readonly ICommentService _commentService;
