@@ -1,3 +1,21 @@
+mat-card {
+  width: 100%;
+  padding: 1rem;
+  mat-card-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .action-buttons {
+      button {
+        mat-icon {
+          transform: scale(1.4);
+        }
+      }
+
+    }
+  }
+}
 mat-card-footer {
   display: flex;
   align-items: center;

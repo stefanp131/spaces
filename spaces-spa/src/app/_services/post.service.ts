@@ -27,4 +27,8 @@ export class PostsService {
   getPosts(): Observable<Post[]> {
     return this.http.get<Post[]>(`${this.baseUrl}post`);
   }
+
+  deletePost(id: number) {
+    return this.http.delete(`${this.baseUrl}post/${id}`);
+  }
 }

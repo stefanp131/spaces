@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import { map } from 'rxjs';
@@ -16,11 +16,10 @@ import { MySpaceAppState } from 'src/app/my-space/my-space-state/my-space.select
   styleUrls: ['./create-update-post.component.scss'],
 })
 export class CreateUpdatePostComponent implements OnInit {
+  @Input() postId: number;
+
   createUpdatePostForm: FormGroup;
 
-  /**
-   *
-   */
   constructor(
     private formBuilder: FormBuilder,
     private store: Store<MySpaceAppState>,
@@ -33,7 +32,7 @@ export class CreateUpdatePostComponent implements OnInit {
     });
   }
 
-  createUpdate() {
+  createPost() {
     this.storeAccount
       .select((appstate) => appstate.account.user)
       .pipe(
@@ -48,5 +47,9 @@ export class CreateUpdatePostComponent implements OnInit {
           );
         })
       ).subscribe();
+  }
+
+  updatePost() {
+    console.log('Updated');
   }
 }

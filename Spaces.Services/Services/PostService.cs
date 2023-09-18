@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -32,6 +33,7 @@ public class PostService : IPostService
     public async Task<PostDto> CreatePostAsync(CreatePostDto createPostDto)
     {
         var post = _mapper.Map<Post>(createPostDto);
+        post.DateCreated = DateTime.UtcNow;
 
         await _postRepository.CreatePostAsync(post);
 
@@ -44,6 +46,7 @@ public class PostService : IPostService
     {
         var post = await _postRepository.GetByIdAsync(updatePostDto.Id);
         _mapper.Map(updatePostDto, post);
+        post.DateUpdated = DateTime.UtcNow;
 
         await _unitOfWork.Complete();
     }

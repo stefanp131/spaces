@@ -1,21 +1,22 @@
 <mat-expansion-panel>
-  <mat-expansion-panel-header>Create post &nbsp; <mat-icon>playlist_add</mat-icon></mat-expansion-panel-header>
+  <mat-expansion-panel-header>{{ postId ? 'Update' : 'Create' }} post &nbsp;
+    <mat-icon>playlist_add</mat-icon></mat-expansion-panel-header>
   <mat-panel-description>
     <mat-card> <mat-card-content>
         <form class="" [formGroup]="createUpdatePostForm" autocomplete="off"
-          (ngSubmit)="createUpdatePostForm.valid && createUpdate()">
+          (ngSubmit)="createUpdatePostForm.valid && (postId ? updatePost() : createPost())">
           <mat-form-field appearance="outline">
             <mat-label>Title</mat-label>
             <input matInput formControlName="title" type="text" placeholder="Enter post title" />
           </mat-form-field>
           <mat-form-field appearance="outline">
             <mat-label>Content</mat-label>
-
             <input matInput formControlName="content" type="text" placeholder="Enter post content" />
           </mat-form-field>
           <button color="primary" mat-raised-button [disabled]="!createUpdatePostForm.valid">
-            Create
+            {{ postId ? 'Update' : 'Create' }}
           </button>
+
         </form>
       </mat-card-content>
     </mat-card>

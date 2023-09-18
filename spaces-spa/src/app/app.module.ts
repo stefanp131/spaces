@@ -26,6 +26,7 @@ import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 import { LoadingInterceptor } from './_interceptors/loading.interceptor';
 import { mySpaceReducer } from './my-space/my-space-state/my-space.reducers';
 import { MySpaceEffects } from './my-space/my-space-state/my-space.effects';
+import { UpdatePostComponent } from './posts/update-post/update-post.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { MySpaceEffects } from './my-space/my-space-state/my-space.effects';
     PostsListComponent,
     PostComponent,
     CreateUpdatePostComponent,
+    UpdatePostComponent,
   ],
   imports: [
     BrowserModule,

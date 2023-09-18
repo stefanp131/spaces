@@ -1,8 +1,10 @@
 <mat-toolbar color="primary">
-  <div class="toolbar-content">
-    <div class="menu"></div>
+  <div class="toolbar-content" *ngIf="account | async as account;">
+    <div class="menu">
+      <button mat-raised-button color="primary" *ngIf="account" routerLink="/my-space">My Space</button>
+    </div>
 
-    <div *ngIf="account | async; else noAccount">
+    <div *ngIf="account; else noAccount">
       <button mat-raised-button color="warn" (click)="logOut()">
         Logout
       </button>

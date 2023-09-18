@@ -27,3 +27,18 @@ export const createPostError = createAction(
   '[My-Space] Create Post Error',
   props<{ error: string }>()
 );
+
+export const deletePost = createAction(
+  '[My-Space] Delete Post',
+  props<{ postId: number }>()
+);
+
+export const deletePostSuccess = createAction(
+  '[My-Space] Delete Post Success',
+  props<{ postId: number }>()
+);
+
+export const deletePostError = createAction(
+  '[My-Space] Delete Post Error',
+  props<{ error: string }>()
+);

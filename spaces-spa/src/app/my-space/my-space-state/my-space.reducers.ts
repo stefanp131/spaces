@@ -5,6 +5,9 @@ import {
   createPost,
   createPostError,
   createPostSuccess,
+  deletePost,
+  deletePostError,
+  deletePostSuccess,
   getPosts,
   getPostsError,
   getPostsSuccess,
@@ -42,6 +45,17 @@ export const mySpaceReducer = createReducer(
     status: SpacesStateStatus.Success,
   })),
   on(createPostError, (state, { error }) => ({
+    ...state,
+    error: error,
+    status: SpacesStateStatus.Error,
+  })),
+  on(deletePost, (state) => ({ ...state, status: SpacesStateStatus.Loading })),
+  on(deletePostSuccess, (state, { postId }) => ({
+    ...state,
+    posts: state.posts.filter((post) => postId !== post.id),
+    status: SpacesStateStatus.Success,
+  })),
+  on(deletePostError, (state, { error }) => ({
     ...state,
     error: error,
     status: SpacesStateStatus.Error,

@@ -5,6 +5,7 @@ import { LoginComponent } from './account/login/login.component';
 import { RegisterComponent } from './account/register/register.component';
 import { MySpaceComponent } from './my-space/my-space.component';
 import { AuthGuard } from './_guards/auth.guard';
+import { UpdatePostComponent } from './posts/update-post/update-post.component';
 
 const routes: Routes = [
   { path: '', component: OurSpaceComponent },
@@ -13,6 +14,11 @@ const routes: Routes = [
   {
     path: 'my-space',
     component: MySpaceComponent,
+    canActivate: [() => inject(AuthGuard).canActivate()],
+  },
+  {
+    path: 'my-space/:id',
+    component: UpdatePostComponent,
     canActivate: [() => inject(AuthGuard).canActivate()],
   },
   { path: '*', component: OurSpaceComponent },
