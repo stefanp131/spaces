@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { register } from 'src/app/account/account-state/account.actions';
-import { AppState } from 'src/app/account/account-state/account.selectors';
+import { AccountAppState } from 'src/app/account/account-state/account.selectors';
 
 @Component({
   selector: 'app-register',
@@ -14,7 +14,7 @@ export class RegisterComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private store: Store<AppState>
+    private store: Store<AccountAppState>
   ) {}
 
   ngOnInit(): void {

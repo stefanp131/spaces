@@ -14,6 +14,8 @@ public class AutoMapperProfiles : Profile
         CreateMap<UpdateCommentDto, Comment>();
         CreateMap<CreatePostDto, Post>();
         CreateMap<UpdatePostDto, Post>();
+        CreateMap<PostDto, Post>();
+        CreateMap<Post, PostDto>();
     }
 
 }

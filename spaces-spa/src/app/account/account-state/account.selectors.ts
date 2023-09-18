@@ -1,16 +1,16 @@
 import { createSelector } from '@ngrx/store';
 import { User } from 'src/app/_models/User';
 
-export interface AppState {
-  spaces: SpacesState;
+export interface AccountAppState {
+  account: AccountState;
 }
 
-export interface SpacesState {
+export interface AccountState {
   user: User;
 }
 
-export const selectSpaces = (state: AppState) => state.spaces;
+export const selectSpaces = (state: AccountAppState) => state.account;
 export const selectUser = createSelector(
   selectSpaces,
-  (state: SpacesState) => state.user
+  (state: AccountState) => state.user
 );

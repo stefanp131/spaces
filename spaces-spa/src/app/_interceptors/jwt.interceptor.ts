@@ -7,17 +7,17 @@ import {
 } from '@angular/common/http';
 import { Observable, mergeMap } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { AppState } from '../account/account-state/account.selectors';
+import { AccountAppState } from '../account/account-state/account.selectors';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
-  constructor(private store: Store<AppState>) {}
+  constructor(private store: Store<AccountAppState>) {}
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     return this.store
-      .select((appstate) => appstate.spaces.user)
+      .select((appstate) => appstate.account.user)
       .pipe(
         mergeMap((user) => {
           if (user?.token) {

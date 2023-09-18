@@ -8,7 +8,7 @@ using Spaces.Services.Interfaces;
 
 namespace Spaces.Services.Services;
 
-public class PostService: IPostService
+public class PostService : IPostService
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IPostRepository _postRepository;
@@ -29,26 +29,29 @@ public class PostService: IPostService
         return postDtos;
     }
 
-    public async Task CreatePostAsync(CreatePostDto createPostDto)
+    public async Task<PostDto> CreatePostAsync(CreatePostDto createPostDto)
     {
         var post = _mapper.Map<Post>(createPostDto);
 
         await _postRepository.CreatePostAsync(post);
+
         await _unitOfWork.Complete();
+
+        return _mapper.Map<PostDto>(post);
     }
 
     public async Task UpdatePostAsync(UpdatePostDto updatePostDto)
     {
         var post = await _postRepository.GetByIdAsync(updatePostDto.Id);
         _mapper.Map(updatePostDto, post);
-        
+
         await _unitOfWork.Complete();
     }
 
     public async Task DeletePostAsync(int postId)
     {
         await _postRepository.DeletePostByIdAsync(postId);
-        
+
         await _unitOfWork.Complete();
     }
 }

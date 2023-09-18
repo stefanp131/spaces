@@ -12,21 +12,15 @@ import {
   registerError,
   registerSuccess,
 } from './account.actions';
+import { SpacesStateStatus } from 'src/app/_models/SpacesStateStatus';
 
-export enum SpacesStateStatus {
-  Pending,
-  Loading,
-  Error,
-  Success,
-}
-
-export interface SpacesState {
+export interface AccountState {
   user: User;
   error: string;
   status: SpacesStateStatus;
 }
 
-export const initialState: SpacesState = {
+export const initialState: AccountState = {
   user: null,
   error: null,
   status: SpacesStateStatus.Pending,
@@ -80,6 +74,5 @@ export const accountReducer = createReducer(
     ...state,
     error: error,
     status: SpacesStateStatus.Error,
-  })),
-  
+  }))
 );

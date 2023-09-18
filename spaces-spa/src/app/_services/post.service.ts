@@ -16,15 +16,15 @@ export class PostsService {
    */
   constructor(private http: HttpClient) {}
 
-  createPost(post: CreateUpdatePost) {
-    return this.http.post(`${this.baseUrl}/post`, post);
+  createPost(post: CreateUpdatePost): Observable<Post> {
+    return this.http.post<Post>(`${this.baseUrl}post`, post);
   }
 
   updatePost(id: number, post: CreateUpdatePost) {
-    return this.http.put(`${this.baseUrl}/post/${id}`, post);
+    return this.http.put(`${this.baseUrl}post/${id}`, post);
   }
 
-  getPosts(): Observable<Post> {
-    return this.http.get<Post>(`${this.baseUrl}/post`);
+  getPosts(): Observable<Post[]> {
+    return this.http.get<Post[]>(`${this.baseUrl}post`);
   }
 }

@@ -26,11 +26,11 @@ public class PostController : BaseApiController
     
     
     [HttpPost]
-    public async Task<IActionResult> CreatePostAsync([FromBody] CreatePostDto createPostDto)
+    public async Task<ActionResult<PostDto>> CreatePostAsync([FromBody] CreatePostDto createPostDto)
     {
-        await _postService.CreatePostAsync(createPostDto);
+        var postDto = await _postService.CreatePostAsync(createPostDto);
         
-        return Ok();
+        return Ok(postDto);
     }
 
     [HttpPut("{id}")]

@@ -1,1 +1,3 @@
-<p>posts-list works!</p>
+<ng-container *ngFor="let item of postList | async as list">
+  <app-post [post]="item"></app-post>
+</ng-container>

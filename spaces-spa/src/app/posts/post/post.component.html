@@ -1,1 +1,12 @@
-<p>post works!</p>
+<mat-card *ngIf="post">
+  <mat-card-title>
+    {{post.title}}
+  </mat-card-title>
+  <mat-card-content>
+    {{post.content}}
+  </mat-card-content>
+  <mat-card-footer>
+    <span>Date created: {{post.dateCreated}}</span>
+    <span>Date updated{{post.dateUpdated}}</span>
+  </mat-card-footer>
+</mat-card>

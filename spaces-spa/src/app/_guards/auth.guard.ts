@@ -4,7 +4,7 @@ import { AccountService } from '../_services/account.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { Observable, map } from 'rxjs';
-import { AppState } from '../account/account-state/account.selectors';
+import { AccountAppState } from '../account/account-state/account.selectors';
 
 @Injectable({
   providedIn: 'root',
@@ -14,12 +14,12 @@ export class AuthGuard {
     private router: Router,
     private accountService: AccountService,
     private snackBar: MatSnackBar,
-    private store: Store<AppState>
+    private store: Store<AccountAppState>
   ) {}
 
   canActivate(): Observable<boolean> {
     return this.store
-      .select((appstate) => appstate.spaces.user)
+      .select((appstate) => appstate.account.user)
       .pipe(
         map((user) => {
           if (!user) {
