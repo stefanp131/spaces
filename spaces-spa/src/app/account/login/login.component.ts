@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { login } from 'src/app/account/account-state/actions';
-import { AppState } from 'src/app/account/account-state/selectors';
+import { login } from 'src/app/account/account-state/account.actions';
+import { AppState } from 'src/app/account/account-state/account.selectors';
 import { AccountService } from 'src/app/_services/account.service';
 
 @Component({

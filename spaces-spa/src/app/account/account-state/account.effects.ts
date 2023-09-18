@@ -10,7 +10,7 @@ import {
   register,
   registerError,
   registerSuccess,
-} from './actions';
+} from './account.actions';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';

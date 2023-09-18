@@ -20,6 +20,9 @@ body {
   animation: changeBackgroundColor 10s infinite;
 }
 
+.material-icons{
+  font-family: 'Material Icons' !important;
+}
 
 @keyframes changeBackgroundColor {
   0% {

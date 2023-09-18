@@ -11,7 +11,7 @@ import {
   register,
   registerError,
   registerSuccess,
-} from './actions';
+} from './account.actions';
 
 export enum SpacesStateStatus {
   Pending,

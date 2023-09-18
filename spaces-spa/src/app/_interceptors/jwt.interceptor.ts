@@ -7,7 +7,7 @@ import {
 } from '@angular/common/http';
 import { Observable, mergeMap } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { AppState } from '../account/account-state/selectors';
+import { AppState } from '../account/account-state/account.selectors';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
