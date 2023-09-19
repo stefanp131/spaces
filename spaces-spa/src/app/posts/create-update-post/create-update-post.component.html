@@ -3,7 +3,7 @@
     <mat-icon>playlist_add</mat-icon></mat-expansion-panel-header>
   <mat-panel-description>
     <mat-card> <mat-card-content>
-        <form class="" [formGroup]="createUpdatePostForm" autocomplete="off"
+        <form [formGroup]="createUpdatePostForm" autocomplete="off"
           (ngSubmit)="createUpdatePostForm.valid && (postId ? updatePost() : createPost())">
           <mat-form-field appearance="outline">
             <mat-label>Title</mat-label>

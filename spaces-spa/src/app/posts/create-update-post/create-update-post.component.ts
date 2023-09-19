@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable, map } from 'rxjs';
 import { Post } from 'src/app/_models/Post';
+import { PostsService } from 'src/app/_services/post.service';
 import { AccountAppState } from 'src/app/account/account-state/account.selectors';
 import {
   createPost,
@@ -30,26 +31,31 @@ export class CreateUpdatePostComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private store: Store<MySpaceAppState>,
-    private storeAccount: Store<AccountAppState>
+    private storeAccount: Store<AccountAppState>,
+    private postsService: PostsService
   ) {}
   ngOnInit(): void {
-    this.store
-      .select(selectPost(+this.postId))
+    this.createUpdatePostForm = this.formBuilder.group({
+      title: ['', Validators.required],
+      content: ['', Validators.required],
+    });
+
+    if(this.postId) {
+      this.postsService
+      .getPostById(+this.postId)
       .pipe(
         map((post) => {
-          this.initForm(post);
+          this.initUpdateForm(post);
         })
       )
       .subscribe();
+    }    
   }
 
-  private initForm(post?: Post) {
-    this.createUpdatePostForm = this.formBuilder.group({
-      title: [post ? post.title : '', Validators.required],
-      content: [post ? post.content : '', Validators.required],
-    });
-
+  private initUpdateForm(post?: Post) {
     if (post) {
+      this.createUpdatePostForm.get('title').setValue(post.title);
+      this.createUpdatePostForm.get('content').setValue(post.content);
       this.postTitle = post.title;
       this.createUpdatePostForm.get('title').disable();
       this.createUpdatePostForm.markAsPristine();

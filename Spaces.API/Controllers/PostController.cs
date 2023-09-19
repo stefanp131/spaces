@@ -24,7 +24,14 @@ public class PostController : BaseApiController
         return Ok(postDtos);
     }
     
-    
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetPostsByIdAsync(int id)
+    {
+        var postDto = await _postService.GetPostByIdAsync(id);
+
+        return Ok(postDto);
+    }
+
     [HttpPost]
     public async Task<ActionResult<PostDto>> CreatePostAsync([FromBody] CreatePostDto createPostDto)
     {

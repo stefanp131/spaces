@@ -30,6 +30,14 @@ public class PostService : IPostService
         return postDtos;
     }
 
+    public async Task<PostDto> GetPostByIdAsync(int id)
+    {
+        var post = await _postRepository.GetByIdAsync(id);
+        var postDto = _mapper.Map<PostDto>(post);
+
+        return postDto;
+    }
+
     public async Task<PostDto> CreatePostAsync(CreatePostDto createPostDto)
     {
         var post = _mapper.Map<Post>(createPostDto);
