@@ -28,6 +28,21 @@ export const createPostError = createAction(
   props<{ error: string }>()
 );
 
+export const updatePost = createAction(
+  '[My-Space Update] Update Post',
+  props<{ id: number, updatePost: CreateUpdatePost }>()
+);
+
+export const updatePostSuccess = createAction(
+  '[My-Space Update] Update Post Success',
+  props<{ post: Post }>()
+);
+
+export const updatePostError = createAction(
+  '[My-Space Update] Create Post Error',
+  props<{ error: string }>()
+);
+
 export const deletePost = createAction(
   '[My-Space] Delete Post',
   props<{ postId: number }>()

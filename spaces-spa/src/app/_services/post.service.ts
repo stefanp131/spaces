@@ -20,8 +20,8 @@ export class PostsService {
     return this.http.post<Post>(`${this.baseUrl}post`, post);
   }
 
-  updatePost(id: number, post: CreateUpdatePost) {
-    return this.http.put(`${this.baseUrl}post/${id}`, post);
+  updatePost(id: number, post: CreateUpdatePost): Observable<Post> {
+    return this.http.put<Post>(`${this.baseUrl}post/${id}`, post);
   }
 
   getPosts(): Observable<Post[]> {

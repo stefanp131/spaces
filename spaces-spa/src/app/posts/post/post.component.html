@@ -2,6 +2,7 @@
   <mat-card-title>
     <span>{{post.title}}</span>
     <div class="action-buttons">
+      <button mat-fab [routerLink]="[post.id]"><mat-icon>edit</mat-icon></button>
       <button mat-fab (click)="delete(post.id)"><mat-icon>delete</mat-icon></button>
     </div>
   </mat-card-title>

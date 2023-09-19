@@ -34,6 +34,7 @@ public class PostService : IPostService
     {
         var post = _mapper.Map<Post>(createPostDto);
         post.DateCreated = DateTime.UtcNow;
+        post.DateUpdated = DateTime.UtcNow;
 
         await _postRepository.CreatePostAsync(post);
 
@@ -42,13 +43,16 @@ public class PostService : IPostService
         return _mapper.Map<PostDto>(post);
     }
 
-    public async Task UpdatePostAsync(UpdatePostDto updatePostDto)
+    public async Task<PostDto> UpdatePostAsync(UpdatePostDto updatePostDto)
     {
         var post = await _postRepository.GetByIdAsync(updatePostDto.Id);
         _mapper.Map(updatePostDto, post);
         post.DateUpdated = DateTime.UtcNow;
 
         await _unitOfWork.Complete();
+        
+        return _mapper.Map<PostDto>(post);
+
     }
 
     public async Task DeletePostAsync(int postId)

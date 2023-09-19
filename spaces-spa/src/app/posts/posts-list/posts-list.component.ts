@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Post } from 'src/app/_models/Post';
 import { getPosts } from 'src/app/my-space/my-space-state/my-space.actions';
-import { MySpaceAppState, selectMySpace, selectPosts } from 'src/app/my-space/my-space-state/my-space.selectors';
+import { MySpaceAppState, selectPosts } from 'src/app/my-space/my-space-state/my-space.selectors';
 
 @Component({
   selector: 'app-posts-list',
@@ -15,6 +15,6 @@ export class PostsListComponent implements OnInit {
   constructor(private store: Store<MySpaceAppState>) {}
   ngOnInit(): void {
     this.store.dispatch(getPosts());
-    this.postList = this.store.select(selectPosts => selectPosts.mySpace.posts);
+    this.postList = this.store.select(selectPosts);
   }
 }

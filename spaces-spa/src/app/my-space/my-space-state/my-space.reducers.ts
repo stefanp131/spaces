@@ -11,6 +11,9 @@ import {
   getPosts,
   getPostsError,
   getPostsSuccess,
+  updatePost,
+  updatePostError,
+  updatePostSuccess,
 } from './my-space.actions';
 
 export interface MySpaceState {
@@ -45,6 +48,21 @@ export const mySpaceReducer = createReducer(
     status: SpacesStateStatus.Success,
   })),
   on(createPostError, (state, { error }) => ({
+    ...state,
+    error: error,
+    status: SpacesStateStatus.Error,
+  })),
+  on(updatePost, (state) => ({ ...state, status: SpacesStateStatus.Loading })),
+  on(updatePostSuccess, (state, { post }) => ({
+    ...state,
+    posts: [
+      ...state.posts.map((listPost) =>
+        listPost.id === post.id ? post : listPost
+      ),
+    ],
+    status: SpacesStateStatus.Success,
+  })),
+  on(updatePostError, (state, { error }) => ({
     ...state,
     error: error,
     status: SpacesStateStatus.Error,

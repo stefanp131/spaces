@@ -1,5 +1,5 @@
 <mat-expansion-panel>
-  <mat-expansion-panel-header>{{ postId ? 'Update' : 'Create' }} post &nbsp;
+  <mat-expansion-panel-header> {{ postId ? 'Update' : 'Create' }} post &nbsp;
     <mat-icon>playlist_add</mat-icon></mat-expansion-panel-header>
   <mat-panel-description>
     <mat-card> <mat-card-content>
@@ -13,7 +13,7 @@
             <mat-label>Content</mat-label>
             <input matInput formControlName="content" type="text" placeholder="Enter post content" />
           </mat-form-field>
-          <button color="primary" mat-raised-button [disabled]="!createUpdatePostForm.valid">
+          <button color="primary" mat-raised-button [disabled]="!createUpdatePostForm.valid || !createUpdatePostForm.dirty">
             {{ postId ? 'Update' : 'Create' }}
           </button>
 

@@ -7,9 +7,13 @@ mat-card {
     justify-content: space-between;
 
     .action-buttons {
+      display: flex;
+      gap: 1.5rem;
       button {
+        width: 3.6rem;
+        height: 3.6rem;
         mat-icon {
-          transform: scale(1.4);
+          transform: scale(1.1);
         }
       }
 

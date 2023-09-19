@@ -1,14 +1,17 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Store, select } from '@ngrx/store';
-import { map } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { Observable, map } from 'rxjs';
+import { Post } from 'src/app/_models/Post';
+import { AccountAppState } from 'src/app/account/account-state/account.selectors';
 import {
-  AccountAppState,
-  AccountState,
-  selectUser,
-} from 'src/app/account/account-state/account.selectors';
-import { createPost } from 'src/app/my-space/my-space-state/my-space.actions';
-import { MySpaceAppState } from 'src/app/my-space/my-space-state/my-space.selectors';
+  createPost,
+  updatePost,
+} from 'src/app/my-space/my-space-state/my-space.actions';
+import {
+  MySpaceAppState,
+  selectPost,
+} from 'src/app/my-space/my-space-state/my-space.selectors';
 
 @Component({
   selector: 'app-create-update-post',
@@ -16,6 +19,10 @@ import { MySpaceAppState } from 'src/app/my-space/my-space-state/my-space.select
   styleUrls: ['./create-update-post.component.scss'],
 })
 export class CreateUpdatePostComponent implements OnInit {
+  account$ = this.storeAccount.select((appstate) => appstate.account.user);
+  post$: Observable<Post>;
+  postTitle: string;
+
   @Input() postId: number;
 
   createUpdatePostForm: FormGroup;
@@ -26,15 +33,31 @@ export class CreateUpdatePostComponent implements OnInit {
     private storeAccount: Store<AccountAppState>
   ) {}
   ngOnInit(): void {
+    this.store
+      .select(selectPost(+this.postId))
+      .pipe(
+        map((post) => {
+          this.initForm(post);
+        })
+      )
+      .subscribe();
+  }
+
+  private initForm(post?: Post) {
     this.createUpdatePostForm = this.formBuilder.group({
-      title: ['', Validators.required],
-      content: ['', Validators.required],
+      title: [post ? post.title : '', Validators.required],
+      content: [post ? post.content : '', Validators.required],
     });
+
+    if (post) {
+      this.postTitle = post.title;
+      this.createUpdatePostForm.get('title').disable();
+      this.createUpdatePostForm.markAsPristine();
+    }
   }
 
   createPost() {
-    this.storeAccount
-      .select((appstate) => appstate.account.user)
+    this.account$
       .pipe(
         map((user) => {
           this.store.dispatch(
@@ -46,10 +69,27 @@ export class CreateUpdatePostComponent implements OnInit {
             })
           );
         })
-      ).subscribe();
+      )
+      .subscribe();
   }
 
   updatePost() {
-    console.log('Updated');
+    this.account$
+      .pipe(
+        map((user) => {
+          this.store.dispatch(
+            updatePost({
+              id: +this.postId,
+              updatePost: {
+                content: this.createUpdatePostForm.get('content').value,
+                title: this.postTitle,
+                userId: user.id,
+                id: +this.postId,
+              },
+            })
+          );
+        })
+      )
+      .subscribe();
   }
 }

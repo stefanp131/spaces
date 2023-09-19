@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, of, switchMap } from 'rxjs';
+import { catchError, map, of, switchMap, tap } from 'rxjs';
 import { PostsService } from 'src/app/_services/post.service';
 import {
   createPost,
@@ -14,6 +14,9 @@ import {
   getPosts,
   getPostsError,
   getPostsSuccess,
+  updatePost,
+  updatePostError,
+  updatePostSuccess,
 } from './my-space.actions';
 
 @Injectable()
@@ -53,6 +56,29 @@ export class MySpaceEffects {
               duration: 5000,
             });
             return of(createPostError({ error }));
+          })
+        )
+      )
+    )
+  );
+
+  updatePost$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(updatePost),
+      switchMap((action) =>
+        this.postsService.updatePost(action.id, action.updatePost).pipe(
+          tap(() => {
+            this.router.navigate(['/my-space']);
+            this.snackBar.open(`Successfully updated post with title: \"${action.updatePost.title}\"!`, 'Dismiss', {
+              duration: 5000,
+            });
+          }),
+          map((post) => updatePostSuccess({ post })),
+          catchError((error) => {
+            this.snackBar.open('Something went wrong!', 'Dismiss', {
+              duration: 5000,
+            });
+            return of(updatePostError({ error }));
           })
         )
       )

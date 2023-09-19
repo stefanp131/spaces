@@ -34,11 +34,11 @@ public class PostController : BaseApiController
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdatePostAsync([FromBody] UpdatePostDto updatePostDto)
+    public async Task<ActionResult<PostDto>> UpdatePostAsync([FromBody] UpdatePostDto updatePostDto)
     {
-        await _postService.UpdatePostAsync(updatePostDto);
+        var postDto = await _postService.UpdatePostAsync(updatePostDto);
         
-        return Ok();
+        return Ok(postDto);
     }
 
     [HttpDelete("{id}")]
