@@ -32,14 +32,12 @@
     <mat-card-title>{{(account$ | async).username | uppercase}}'s Profile</mat-card-title>
     <mat-card-content>
       <button mat-button (click)="toggleReadonly()">Enable edit</button>
-      <div fxLayout="column" fxLayoutAlign="center center">
+      <div>
         <img [src]="imageSrc"
           style="width: 20rem; height: 20rem; margin:1rem auto; object-fit: cover; border-radius: 50%"
-          alt="Profile picture">
+          alt="Profile picture"
+          [matTooltip]="aboutMe">
       </div>
-      <span>About Me:</span>
-      <br>
-      <span> {{aboutMe}} </span>
     </mat-card-content>
   </mat-card>
 </ng-template>

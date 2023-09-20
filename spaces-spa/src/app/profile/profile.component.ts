@@ -60,6 +60,8 @@ export class ProfileComponent implements OnInit {
       profileImage: this.imageSrc,
     };
 
+    this.aboutMe = this.profileForm.get('aboutMe').value;
+
     this.account$
       .pipe(
         switchMap((user) => this.userService.updateProfile(user.id, profile))

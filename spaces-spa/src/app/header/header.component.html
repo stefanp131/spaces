@@ -1,7 +1,7 @@
 <mat-toolbar>
   <div class="toolbar-content" *ngIf="account | async as account;">
     <div class="menu">
-      <div class="welcome" [matTooltip]="'Go to profile'" routerLink="/profile"><img [src]="profileImage$ | async"
+      <div class="welcome" [matTooltip]="'Go to profile'" routerLink="/profile"><img [src]="(profileImage$ | async) || '../../../assets/empty-profile-pic.png'"
           style="width: 5rem; height: 5rem; margin:1rem; object-fit: cover; border-radius: 50%" alt="Profile Image">
         <span>Welcome {{account.username | uppercase}}</span> </div>
       <button mat-raised-button color="primary" *ngIf="account" routerLink="/my-space">My Space</button>
