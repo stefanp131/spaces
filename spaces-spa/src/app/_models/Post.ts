@@ -1,4 +1,5 @@
 import { Comment } from "./Comment";
+import { LikesForPost } from "./LikesForPost";
 
 export interface Post {
   id: number;
@@ -7,4 +8,5 @@ export interface Post {
   comments: Comment[];
   dateCreated: Date;
   dateUpdated: Date;
+  likedByUsers: LikesForPost[];
 }

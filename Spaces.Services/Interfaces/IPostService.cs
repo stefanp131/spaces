@@ -11,4 +11,6 @@ public interface IPostService
     Task<PostDto> CreatePostAsync(CreatePostDto createPostDto);
     Task<PostDto> UpdatePostAsync(UpdatePostDto updatePostDto);
     Task DeletePostAsync(int postId);
+    Task CreateLikeAsync(int sourceUserId, int targetPostId);
+    Task DeleteLikeAsync(int sourceUserId, int targetPostId);
 }

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Spaces.DAL.Data;
@@ -11,9 +12,11 @@ using Spaces.DAL.Data;
 namespace Spaces.DAL.Migrations
 {
     [DbContext(typeof(SpacesContext))]
-    partial class SpacesContextModelSnapshot : ModelSnapshot
+    [Migration("20230920144652_AddLikesForPost")]
+    partial class AddLikesForPost
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

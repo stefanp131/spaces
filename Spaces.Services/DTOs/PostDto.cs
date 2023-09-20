@@ -12,5 +12,7 @@ public class PostDto
     public DateTime DateCreated { get; set; }
     public DateTime DateUpdated { get; set; }
     public List<CommentDto> Comments { get; set; }
+    public List<LikeForPostDto> LikedByUsers { get; set; }
+
     public int UserId { get; set; }
 }

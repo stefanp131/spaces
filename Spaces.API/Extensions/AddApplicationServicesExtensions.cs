@@ -18,6 +18,7 @@ public static class AddApplicationServicesExtensions
         services.AddScoped<IUsersRepository, UserRepository>();
         services.AddScoped<IPostRepository, PostRepository>();
         services.AddScoped<ICommentRepository, CommentRepository>();
+        services.AddScoped<ILikesForPostRepository, LikesForPostRepository>();
         services.AddScoped<IPostService, PostService>();
         services.AddScoped<ICommentService, CommentService>();
         services.AddScoped<IAccountService, AccountService>();
@@ -29,6 +30,7 @@ public static class AddApplicationServicesExtensions
             options.UseNpgsql(config.GetConnectionString("DefaultConnection"));
 
         });
+        
         return services;
     }
 }

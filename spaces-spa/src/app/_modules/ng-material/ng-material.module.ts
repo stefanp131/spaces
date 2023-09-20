@@ -9,6 +9,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [],
@@ -23,6 +25,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatProgressSpinnerModule,
     MatExpansionModule,
     MatIconModule,
+    MatBadgeModule,
+    MatTooltipModule,
   ],
   exports: [
     MatToolbarModule,
@@ -34,6 +38,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatProgressSpinnerModule,
     MatExpansionModule,
     MatIconModule,
+    MatBadgeModule,
+    MatTooltipModule,
   ],
 })
 export class NgMaterialModule {}

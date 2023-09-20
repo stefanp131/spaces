@@ -16,6 +16,8 @@ public class AutoMapperProfiles : Profile
         CreateMap<UpdatePostDto, Post>();
         CreateMap<PostDto, Post>();
         CreateMap<Post, PostDto>();
+        CreateMap<LikeForPost, LikeForPostDto>();
+
     }
 
 }

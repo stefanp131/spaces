@@ -18,7 +18,7 @@ public class PostRepository: IPostRepository
 
     public async Task<List<Post>> GetPostsAsync()
     {
-        return await _context.Posts.ToListAsync();
+        return await _context.Posts.Include(post => post.LikedByUsers).ToListAsync();
     }
 
     public async Task<Post> GetByIdAsync(int postId)

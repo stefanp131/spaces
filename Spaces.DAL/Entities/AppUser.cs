@@ -11,4 +11,5 @@ public class AppUser : IdentityUser<int>
     public ICollection<Follow> FollowedByUsers { get; set; }
     public ICollection<Follow> UsersIFollow { get; set; }
     public ICollection<Post> Posts { get; set; }
+    public ICollection<LikeForPost> PostsILike { get; set; }
 }

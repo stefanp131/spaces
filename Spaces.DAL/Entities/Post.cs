@@ -13,4 +13,5 @@ public class Post
     public ICollection<Comment> Comments { get; set; }
     public int UserId { get; set; }
     public AppUser User { get; set; }
+    public ICollection<LikeForPost> LikedByUsers { get; set; }
 }

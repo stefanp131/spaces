@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Spaces.API.Extensions;
+using Spaces.API.SignalR;
 using Spaces.DAL.Data;
 using Spaces.DAL.Entities;
 
@@ -16,6 +17,7 @@ builder.Services.AddApplicationServices(builder.Configuration);
 builder.Services.AddControllers();
 builder.Services.AddIdentityServices(builder.Configuration);
 builder.Services.AddCors();
+builder.Services.AddSignalR();
 builder.Services.Configure<ForwardedHeadersOptions>(options =>
 {
     options.ForwardedHeaders =
@@ -53,6 +55,7 @@ if (app.Environment.IsDevelopment())
     app.UseEndpoints(endpoints =>
     {
         endpoints.MapControllers();
+        endpoints.MapHub<LikesHub>("hub/likes");
     });
 }
 else
@@ -60,6 +63,7 @@ else
     app.UseEndpoints(endpoints =>
     {
         endpoints.MapControllers();
+        endpoints.MapHub<LikesHub>("hub/likes");
         endpoints.MapFallbackToController("Index", "Fallback");
     });
 }
