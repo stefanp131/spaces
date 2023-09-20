@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, map, merge, switchMap } from 'rxjs';
+import { Observable, delay, map, merge, switchMap } from 'rxjs';
 import { User } from '../_models/User';
 import { logout } from '../account/account-state/account.actions';
 import {
@@ -39,7 +39,10 @@ export class HeaderComponent implements OnInit {
     this.account$ = this.store.select(selectUser);
 
     const profileImageLoad$ = this.account$.pipe(
-      switchMap((user) => this.userService.getProfileById(user.id)), map(profile => profile.profileImage));
+      delay(0),
+      switchMap((user) => this.userService.getProfileById(user.id)),
+      map((profile) => profile.profileImage)
+    );
 
     this.profileImage$ = merge(profileImageUpdate$, profileImageLoad$);
   }
