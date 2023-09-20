@@ -1,4 +1,4 @@
-<div *ngIf="loader.getLoading()" class="cssload-container">
+<div *ngIf="loading$ | async" class="cssload-container">
   <mat-progress-spinner color="accent" mode="indeterminate">
   </mat-progress-spinner>
 </div>

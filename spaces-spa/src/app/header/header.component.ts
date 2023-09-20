@@ -26,7 +26,7 @@ export class HeaderComponent implements OnInit {
     private userService: UserService
   ) {}
 
-  account: Observable<User> = null;
+  account: Observable<User>;
   ngOnInit(): void {
     this.createMergedObservableForProfileImage();
   }
