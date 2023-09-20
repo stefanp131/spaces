@@ -39,7 +39,7 @@ export const updatePostSuccess = createAction(
 );
 
 export const updatePostError = createAction(
-  '[My-Space Update] Create Post Error',
+  '[My-Space Update] Update Post Error',
   props<{ error: string }>()
 );
 

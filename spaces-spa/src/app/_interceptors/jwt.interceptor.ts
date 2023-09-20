@@ -5,7 +5,7 @@ import {
   HttpEvent,
   HttpInterceptor,
 } from '@angular/common/http';
-import { Observable, mergeMap } from 'rxjs';
+import { Observable, first, switchMap } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AccountAppState } from '../account/account-state/account.selectors';
 
@@ -19,7 +19,8 @@ export class JwtInterceptor implements HttpInterceptor {
     return this.store
       .select((appstate) => appstate.account.user)
       .pipe(
-        mergeMap((user) => {
+        first(),
+        switchMap((user) => {
           if (user?.token) {
             req = req.clone({
               setHeaders: { Authorization: 'Bearer ' + user.token },
