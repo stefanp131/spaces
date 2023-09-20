@@ -10,17 +10,17 @@ namespace Spaces.API.Controllers
     [Authorize]
     public class UserController : BaseApiController
     {
-        private readonly IUserService userService;
+        private readonly IUserService _userService;
 
         public UserController(IUserService userService)
         {
-            this.userService = userService;
+            this._userService = userService;
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<UserDto>> GetUserById(int id)
         {
-            var user = await this.userService.GetUserByIdAsync(id);
+            var user = await this._userService.GetUserByIdAsync(id);
             
             if(user == null)
             {
@@ -29,5 +29,22 @@ namespace Spaces.API.Controllers
 
             return Ok(user);
         }
+        
+        [HttpPatch("{id}")]
+        public async Task<ActionResult> UpdateProfile(int id, [FromBody] ProfileDto profile)
+        {
+            await _userService.UpdateProfileAsync(id, profile);
+
+            return Ok();
+        }
+
+        [HttpGet("{id}/profile")]
+        public async Task<ActionResult<ProfileDto>> GetProfile(int id)
+        {
+            var profileDto = await _userService.GetProfileAsync(id);
+
+            return Ok(profileDto);
+        }
+        
     }
 }

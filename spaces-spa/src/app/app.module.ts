@@ -28,6 +28,7 @@ import { mySpaceReducer } from './my-space/my-space-state/my-space.reducers';
 import { MySpaceEffects } from './my-space/my-space-state/my-space.effects';
 import { UpdatePostComponent } from './posts/update-post/update-post.component';
 import { NgxEditorModule } from 'ngx-editor';
+import { ProfileComponent } from './profile/profile.component';
 
 
 @NgModule({
@@ -44,6 +45,7 @@ import { NgxEditorModule } from 'ngx-editor';
     PostComponent,
     CreateUpdatePostComponent,
     UpdatePostComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,

@@ -11,7 +11,6 @@ import { Credentials } from '../_models/Credentials';
 })
 export class AccountService {
   baseUrl = environment.apiUrl;
-  public currentUserSource = new BehaviorSubject<User>(null);
 
   constructor(private http: HttpClient) {}
 
@@ -40,7 +39,6 @@ export class AccountService {
 
   logout() {
     localStorage.removeItem('user');
-    this.currentUserSource.next(null);
   }
 
   getDecodedToken(token) {

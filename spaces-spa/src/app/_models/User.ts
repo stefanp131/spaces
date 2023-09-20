@@ -3,4 +3,6 @@ export interface User {
   roles: string[];
   id: number;
   token: string;
+  profileImage?: string;
+  aboutMe?: string;
 }
