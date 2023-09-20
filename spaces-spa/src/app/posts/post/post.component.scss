@@ -29,3 +29,8 @@ mat-card-footer {
   align-items: center;
   justify-content: space-between;
 }
+
+.content {
+  text-wrap: wrap;
+  overflow-wrap: break-word;
+}
