@@ -2,9 +2,10 @@
 html {
   box-sizing: border-box;
   font-size: 62.5%;
+  color: white;
 }
 
-.background {
+.background-image {
   background-image: url("/assets/headspace.jpg");
   background-position: center center;  
   background-repeat: no-repeat;  
@@ -14,7 +15,7 @@ html {
   height: 100vh;
 } 
 
-.app-content {
+.background-color {
   display: block;
   animation: changeBackgroundColor 10s infinite;
   height: 100%;
