@@ -12,6 +12,11 @@ mat-toolbar {
   justify-content: space-between;
   width: 100%;
 
+  .menu {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
   .account-buttons {
     display: flex;
     gap: 1.5rem;

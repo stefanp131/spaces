@@ -3,16 +3,18 @@
     <mat-icon>playlist_add</mat-icon></mat-expansion-panel-header>
   <mat-panel-description>
     <mat-card> <mat-card-content>
-        <form [formGroup]="createUpdatePostForm" autocomplete="off"
+        <form *ngIf="createUpdatePostForm" [formGroup]="createUpdatePostForm" autocomplete="off"
           (ngSubmit)="createUpdatePostForm.valid && (postId ? updatePost() : createPost())">
           <mat-form-field appearance="outline">
             <mat-label>Title</mat-label>
             <input matInput formControlName="title" type="text" placeholder="Enter post title" />
           </mat-form-field>
-          <mat-form-field appearance="outline">
-            <mat-label>Content</mat-label>
-            <input matInput formControlName="content" type="text" placeholder="Enter post content" />
-          </mat-form-field>
+          <div class="NgxEditor__Wrapper">
+            <ngx-editor-menu [editor]="editor" [toolbar]="toolbar">
+            </ngx-editor-menu>
+            <ngx-editor [editor]="editor" formControlName="content"> </ngx-editor>
+          </div>
+          <br>
           <button color="primary" mat-raised-button [disabled]="!createUpdatePostForm.valid || !createUpdatePostForm.dirty">
             {{ postId ? 'Update' : 'Create' }}
           </button>

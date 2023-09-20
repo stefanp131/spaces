@@ -1,6 +1,7 @@
 <mat-toolbar color="primary">
   <div class="toolbar-content" *ngIf="account | async as account;">
     <div class="menu">
+      <span>Welcome {{account.username | uppercase}}</span>
       <button mat-raised-button color="primary" *ngIf="account" routerLink="/my-space">My Space</button>
     </div>
 

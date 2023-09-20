@@ -27,6 +27,8 @@ import { LoadingInterceptor } from './_interceptors/loading.interceptor';
 import { mySpaceReducer } from './my-space/my-space-state/my-space.reducers';
 import { MySpaceEffects } from './my-space/my-space-state/my-space.effects';
 import { UpdatePostComponent } from './posts/update-post/update-post.component';
+import { NgxEditorModule } from 'ngx-editor';
+
 
 @NgModule({
   declarations: [
@@ -53,6 +55,7 @@ import { UpdatePostComponent } from './posts/update-post/update-post.component';
     StoreModule.forRoot({ account: accountReducer, mySpace: mySpaceReducer }),
     EffectsModule.forRoot([AccountEffects, MySpaceEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
+    NgxEditorModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

@@ -19,6 +19,10 @@ mat-card {
 
     }
   }
+
+  mat-card-content {
+    margin: 1rem 0;
+  }
 }
 mat-card-footer {
   display: flex;

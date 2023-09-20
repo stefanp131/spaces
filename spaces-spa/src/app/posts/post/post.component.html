@@ -6,14 +6,11 @@
       <button mat-fab (click)="delete(post.id)"><mat-icon>delete</mat-icon></button>
     </div>
   </mat-card-title>
-  <mat-card-content>
-    <br>
-    {{post.content}}
-    <br>
-    <br>
+  <mat-card-content [innerHTML]="post.content">
+    
   </mat-card-content>
   <mat-card-footer>
-    <span>Date created: {{post.dateCreated}}</span>
-    <span>Date updated{{post.dateUpdated}}</span>
+    <span>Date created: {{post.dateCreated | date : 'short'}}}</span>
+    <span>Date updated: {{post.dateUpdated  | date : 'short'}}</span>
   </mat-card-footer>
 </mat-card>
