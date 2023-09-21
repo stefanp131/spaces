@@ -29,6 +29,9 @@ import { MySpaceEffects } from './my-space/my-space-state/my-space.effects';
 import { UpdatePostComponent } from './posts/update-post/update-post.component';
 import { NgxEditorModule } from 'ngx-editor';
 import { ProfileComponent } from './profile/profile.component';
+import { CommentComponent } from './comments/comment/comment.component';
+import { CreateCommentComponent } from './comments/create-comment/create-comment.component';
+import { CommentsListComponent } from './comments/comments-list/comments-list.component';
 
 
 @NgModule({
@@ -46,6 +49,9 @@ import { ProfileComponent } from './profile/profile.component';
     CreateUpdatePostComponent,
     UpdatePostComponent,
     ProfileComponent,
+    CommentComponent,
+    CreateCommentComponent,
+    CommentsListComponent,
   ],
   imports: [
     BrowserModule,

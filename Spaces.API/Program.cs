@@ -56,6 +56,8 @@ if (app.Environment.IsDevelopment())
     {
         endpoints.MapControllers();
         endpoints.MapHub<LikesHub>("hub/likes");
+        endpoints.MapHub<CommentsHub>("hub/comments");
+
     });
 }
 else
@@ -64,6 +66,8 @@ else
     {
         endpoints.MapControllers();
         endpoints.MapHub<LikesHub>("hub/likes");
+        endpoints.MapHub<CommentsHub>("hub/comments");
+
         endpoints.MapFallbackToController("Index", "Fallback");
     });
 }

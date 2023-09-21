@@ -1,0 +1,22 @@
+<div class="container">
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>Comment</mat-expansion-panel-header>
+    <mat-panel-description>
+      <form *ngIf="commentFormGroup" [formGroup]="commentFormGroup" autocomplete="off"
+        (ngSubmit)="commentFormGroup.valid && createComment()">
+        <mat-form-field appearance="outline">
+          <mat-label>Title</mat-label>
+          <input matInput formControlName="title" type="text" placeholder="Enter title" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Content</mat-label>
+          <textarea matInput formControlName="content" placeholder="Enter comment" rows="4"></textarea>
+        </mat-form-field>
+        <br>
+        <button color="primary" mat-raised-button [disabled]="!commentFormGroup.valid || !commentFormGroup.dirty">
+          Comment
+        </button>
+      </form>
+    </mat-panel-description>
+  </mat-expansion-panel>
+</div>

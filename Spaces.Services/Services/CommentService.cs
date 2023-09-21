@@ -20,12 +20,14 @@ public class CommentService: ICommentService
         _mapper = mapper;
     }
     
-    public async Task CreateCommentAsync(CreateCommentDto createCommentDto)
+    public async Task<CommentDto> CreateCommentAsync(CreateCommentDto createCommentDto)
     {
         var comment = _mapper.Map<Comment>(createCommentDto);
 
         await _commentRepository.CreateCommentAsync(comment);
         await _unitOfWork.Complete();
+
+        return _mapper.Map<CommentDto>(comment);
     }
 
     public async Task UpdateCommentAsync(UpdateCommentDto updateCommentDto)
