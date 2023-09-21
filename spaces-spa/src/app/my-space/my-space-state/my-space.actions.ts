@@ -1,4 +1,6 @@
 import { createAction, props } from '@ngrx/store';
+import { Comment } from 'src/app/_models/Comment';
+import { CreateComment } from 'src/app/_models/CreateComment';
 import { CreateUpdatePost } from 'src/app/_models/CreateUpdatePost';
 import { Post } from 'src/app/_models/Post';
 
@@ -55,5 +57,35 @@ export const deletePostSuccess = createAction(
 
 export const deletePostError = createAction(
   '[My-Space] Delete Post Error',
+  props<{ error: string }>()
+);
+
+export const createComment = createAction(
+  '[My-Space] Create Comment',
+  props<{ createComment: CreateComment }>()
+);
+
+export const createCommentSuccess = createAction(
+  '[My-Space] Create Comment Success',
+  props<{ comment: Comment }>()
+);
+
+export const createCommentError = createAction(
+  '[My-Space] Create Comment Error',
+  props<{ error: string }>()
+);
+
+export const deleteComment = createAction(
+  '[My-Space] Delete Comment',
+  props<{ commentId: number, postId: number }>()
+);
+
+export const deleteCommentSuccess = createAction(
+  '[My-Space] Delete Comment Success',
+  props<{ commentId: number, postId: number }>()
+);
+
+export const deleteCommentError = createAction(
+  '[My-Space] Delete Comment Error',
   props<{ error: string }>()
 );

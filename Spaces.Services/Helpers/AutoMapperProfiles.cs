@@ -13,7 +13,7 @@ public class AutoMapperProfiles : Profile
         CreateMap<AppUser, ProfileDto>();
         CreateMap<ProfileDto, AppUser>();
         CreateMap<CreateCommentDto, Comment>();
-        CreateMap<UpdateCommentDto, Comment>();
+        CreateMap<Comment, CommentDto>();
         CreateMap<CreatePostDto, Post>();
         CreateMap<UpdatePostDto, Post>();
         CreateMap<PostDto, Post>();

@@ -19,6 +19,6 @@
     </div>
     <br>
     <app-create-comment [postId]="post.id"></app-create-comment>
-    <app-comments-list></app-comments-list>
+    <app-comments-list [comments]="post.comments"></app-comments-list>
   </mat-card-footer>
 </mat-card>

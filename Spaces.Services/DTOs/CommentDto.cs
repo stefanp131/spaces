@@ -8,6 +8,6 @@ public class CommentDto
     public string Title { get; set; }
     public string Content { get; set; }
     public DateTime DateCreated { get; set; }
-    public DateTime DateUpdated { get; set; }
     public int PostId { get; set; }
+    public int UserId { get; set; }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using AutoMapper;
 using Spaces.DAL.Entities;
@@ -23,8 +24,10 @@ public class CommentService: ICommentService
     public async Task<CommentDto> CreateCommentAsync(CreateCommentDto createCommentDto)
     {
         var comment = _mapper.Map<Comment>(createCommentDto);
-
+        comment.DateCreated = DateTime.UtcNow;
+        
         await _commentRepository.CreateCommentAsync(comment);
+
         await _unitOfWork.Complete();
 
         return _mapper.Map<CommentDto>(comment);

@@ -39,12 +39,4 @@ export class CommentsService {
     return this.hubConnection.invoke('DeleteComment', commentId)
       .catch(error => console.log(error));
   }
-
-  setConnection(data: boolean) {
-    this.connection$.next(data);
-  }
-
-  getConnection(): Observable<boolean> {
-    return this.connection$.asObservable();
-  }
 }

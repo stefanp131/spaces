@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, map } from 'rxjs';
 import { Post } from 'src/app/_models/Post';
+import { CommentsService } from 'src/app/_services/comment.service';
 import { LikesService } from 'src/app/_services/likes.service';
 import {
   AccountAppState,
@@ -24,7 +25,8 @@ export class PostsListComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<MySpaceAppState>,
     private storeAccount: Store<AccountAppState>,
-    private likesService: LikesService
+    private likesService: LikesService,
+    private commentService: CommentsService
   ) {}
 
   ngOnInit(): void {
@@ -33,6 +35,7 @@ export class PostsListComponent implements OnInit, OnDestroy {
       .pipe(
         map((user) => {
           this.likesService.createHubConnection(user);
+          this.commentService.createHubConnection(user);
         })
       )
       .subscribe();
@@ -57,5 +60,6 @@ export class PostsListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.likesService.stopHubConnection();
+    this.commentService.stopHubConnection();
   }
 }
