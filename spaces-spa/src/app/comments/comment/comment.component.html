@@ -1,12 +1,18 @@
 <mat-card *ngIf="comment">
   <mat-card-title>
-    <span>{{comment.title}}</span>
-    <div class="action-buttons">      
+    <div>
+      <span>
+        <i>{{comment.createdBy}} wrote...</i>
+        <br>
+      </span>
+      <span>{{comment.title}}</span>
+    </div>
+    <div class="action-buttons">
       <button mat-fab (click)="delete(comment.id)"><mat-icon>delete</mat-icon></button>
     </div>
   </mat-card-title>
   <mat-card-content class="content"> {{comment.content}}
-    
+
   </mat-card-content>
   <mat-card-footer>
     <span>Date created: {{comment.dateCreated | date : 'short'}}</span>

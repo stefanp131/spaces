@@ -30,7 +30,7 @@ public class CommentService: ICommentService
 
         await _unitOfWork.Complete();
 
-        return _mapper.Map<CommentDto>(comment);
+        return _mapper.Map<CommentDto>(await _commentRepository.GetByIdAsync(comment.Id));
     }
 
     public async Task UpdateCommentAsync(UpdateCommentDto updateCommentDto)

@@ -1,4 +1,6 @@
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Spaces.DAL.Data;
 using Spaces.DAL.Entities;
 using Spaces.DAL.Interfaces;
@@ -16,7 +18,10 @@ public class CommentRepository : ICommentRepository
 
     public async Task<Comment> GetByIdAsync(int commentId)
     {
-        return await _context.Comments.FindAsync(commentId);
+        return await _context.Comments
+            .Where(comment => comment.Id == commentId)
+            .Include(comment => comment.User)
+            .FirstAsync();
     }
 
     public async Task CreateCommentAsync(Comment comment)
@@ -31,6 +36,6 @@ public class CommentRepository : ICommentRepository
         if (comment != null)
         {
             _context.Comments.Remove(comment);
-        }    
+        }
     }
 }

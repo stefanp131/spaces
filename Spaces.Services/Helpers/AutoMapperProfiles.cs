@@ -13,13 +13,15 @@ public class AutoMapperProfiles : Profile
         CreateMap<AppUser, ProfileDto>();
         CreateMap<ProfileDto, AppUser>();
         CreateMap<CreateCommentDto, Comment>();
-        CreateMap<Comment, CommentDto>();
+        CreateMap<Comment, CommentDto>().ForMember(
+            d => d.CreatedBy, 
+            o => o.MapFrom((src => src.User.UserName))
+        );
         CreateMap<CreatePostDto, Post>();
         CreateMap<UpdatePostDto, Post>();
         CreateMap<PostDto, Post>();
         CreateMap<Post, PostDto>();
         CreateMap<LikeForPost, LikeForPostDto>();
-
     }
 
 }
