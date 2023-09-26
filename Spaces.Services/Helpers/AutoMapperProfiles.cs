@@ -20,7 +20,10 @@ public class AutoMapperProfiles : Profile
         CreateMap<CreatePostDto, Post>();
         CreateMap<UpdatePostDto, Post>();
         CreateMap<PostDto, Post>();
-        CreateMap<Post, PostDto>();
+        CreateMap<Post, PostDto>().ForMember(
+            d => d.CreatedBy, 
+            o => o.MapFrom((src => src.User.UserName))
+        );;
         CreateMap<LikeForPost, LikeForPostDto>();
     }
 

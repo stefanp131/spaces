@@ -6,7 +6,7 @@ namespace Spaces.Services.Interfaces
 {
     public interface IUserService
     {
-        Task<List<UserDto>> GetAllUsersAsync();
+        Task<List<UserDto>> GetUsersAsync();
         Task<UserDto> GetUserByIdAsync(int id);
         Task UpdateProfileAsync(int id, ProfileDto updateProfile);
         Task<ProfileDto> GetProfileAsync(int id);

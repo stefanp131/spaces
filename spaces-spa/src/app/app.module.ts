@@ -32,6 +32,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { CommentComponent } from './comments/comment/comment.component';
 import { CreateCommentComponent } from './comments/create-comment/create-comment.component';
 import { CommentsListComponent } from './comments/comments-list/comments-list.component';
+import { ourSpaceReducer } from './our-space/our-space-state/our-space.reducers';
+import { OurSpaceEffects } from './our-space/our-space-state/our-space.effects';
 
 
 @NgModule({
@@ -60,8 +62,8 @@ import { CommentsListComponent } from './comments/comments-list/comments-list.co
     NgMaterialModule,
     ReactiveFormsModule,
     HttpClientModule,
-    StoreModule.forRoot({ account: accountReducer, mySpace: mySpaceReducer }),
-    EffectsModule.forRoot([AccountEffects, MySpaceEffects]),
+    StoreModule.forRoot({ account: accountReducer, mySpace: mySpaceReducer, ourSpace: ourSpaceReducer }),
+    EffectsModule.forRoot([AccountEffects, MySpaceEffects, OurSpaceEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
     NgxEditorModule,
   ],

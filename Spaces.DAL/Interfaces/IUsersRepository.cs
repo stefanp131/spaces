@@ -7,5 +7,5 @@ namespace Spaces.DAL.Interfaces;
 public interface IUsersRepository
 {
     Task<AppUser> GetUserByIdAsync(int id);
-    Task<List<AppUser>> GetAllUsersAsync();
+    Task<List<AppUser>> GetUsersAsync();
 }

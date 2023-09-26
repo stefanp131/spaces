@@ -25,9 +25,13 @@ public class UserRepository : IUsersRepository
             .FirstOrDefaultAsync(user => user.Id == id);
     }
 
-    public async Task<List<AppUser>> GetAllUsersAsync()
+    public async Task<List<AppUser>> GetUsersAsync()
     {
         return await _context.Users
+            .Include(user => user.Posts)
+            .ThenInclude(post => post.Comments)
+            .Include(user => user.Posts)
+            .ThenInclude(post => post.LikedByUsers)
             .ToListAsync();
     }
 }

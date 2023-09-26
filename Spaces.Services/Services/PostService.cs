@@ -24,9 +24,9 @@ public class PostService : IPostService
         _mapper = mapper;
     }
 
-    public async Task<List<PostDto>> GetPostsAsync()
+    public async Task<List<PostDto>> GetPostsForCurrentUserAsync(int userId)
     {
-        var posts = await _postRepository.GetPostsAsync();
+        var posts = await _postRepository.GetPostsAsync(userId);
         var postDtos = _mapper.Map<List<PostDto>>(posts);
 
         return postDtos;
@@ -50,7 +50,7 @@ public class PostService : IPostService
 
         await _unitOfWork.Complete();
 
-        return _mapper.Map<PostDto>(post);
+        return _mapper.Map<PostDto>(await _postRepository.GetByIdAsync(post.Id));
     }
 
     public async Task<PostDto> UpdatePostAsync(UpdatePostDto updatePostDto)

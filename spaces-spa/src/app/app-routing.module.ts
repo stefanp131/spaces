@@ -23,6 +23,11 @@ const routes: Routes = [
     canActivate: [() => inject(AuthGuard).canActivate()],
   },
   {
+    path: 'our-space',
+    component: OurSpaceComponent,
+    canActivate: [() => inject(AuthGuard).canActivate()],
+  },
+  {
     path: 'profile',
     component: ProfileComponent,
     canActivate: [() => inject(AuthGuard).canActivate()]

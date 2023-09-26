@@ -10,12 +10,12 @@ import {
   createPost,
   updatePost,
 } from 'src/app/my-space/my-space-state/my-space.actions';
-import {
-  MySpaceAppState,
-  selectPost,
-} from 'src/app/my-space/my-space-state/my-space.selectors';
+import { createPost as createPostOurSpace } from 'src/app/our-space/our-space-state/our-space.actions';
+import { MySpaceAppState } from 'src/app/my-space/my-space-state/my-space.selectors';
 
 import { Validators as NgxEditorValidators } from 'ngx-editor';
+import { Location } from '@angular/common';
+import { OurSpaceAppState } from 'src/app/our-space/our-space-state/our-space.selectors';
 
 @Component({
   selector: 'app-create-update-post',
@@ -42,13 +42,18 @@ export class CreateUpdatePostComponent implements OnInit, OnDestroy {
   ];
 
   createUpdatePostForm: FormGroup;
+  mySpace: boolean;
 
   constructor(
     private formBuilder: FormBuilder,
-    private store: Store<MySpaceAppState>,
+    private mySpaceStore: Store<MySpaceAppState>,
+    private ourSpaceStore: Store<OurSpaceAppState>,
     private storeAccount: Store<AccountAppState>,
-    private postsService: PostsService
-  ) {}
+    private postsService: PostsService,
+    private location: Location
+  ) {
+    this.mySpace = !this.location.path().includes('our-space');
+  }
 
   ngOnInit(): void {
     this.editor = new Editor({ schema: schema });
@@ -104,15 +109,27 @@ export class CreateUpdatePostComponent implements OnInit, OnDestroy {
     this.account$
       .pipe(
         map((user) => {
-          this.store.dispatch(
-            createPost({
-              createPost: {
-                title: this.createUpdatePostForm.get('title').value,
-                content: JSON.stringify(toDoc(content)),
-                userId: user.id,
-              },
-            })
-          );
+          if (this.mySpace) {
+            this.mySpaceStore.dispatch(
+              createPost({
+                createPost: {
+                  title: this.createUpdatePostForm.get('title').value,
+                  content: JSON.stringify(toDoc(content)),
+                  userId: user.id,
+                },
+              })
+            );
+          } else {
+            this.ourSpaceStore.dispatch(
+              createPostOurSpace({
+                createPost: {
+                  title: this.createUpdatePostForm.get('title').value,
+                  content: JSON.stringify(toDoc(content)),
+                  userId: user.id,
+                },
+              })
+            );
+          }
         })
       )
       .subscribe();
@@ -123,7 +140,7 @@ export class CreateUpdatePostComponent implements OnInit, OnDestroy {
     this.account$
       .pipe(
         map((user) => {
-          this.store.dispatch(
+          this.mySpaceStore.dispatch(
             updatePost({
               id: +this.postId,
               updatePost: {

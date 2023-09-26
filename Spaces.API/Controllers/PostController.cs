@@ -1,3 +1,5 @@
+using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,13 +21,15 @@ public class PostController : BaseApiController
     [HttpGet]
     public async Task<IActionResult> GetPostsAsync()
     {
-        var postDtos = await _postService.GetPostsAsync();
+        int userId = 0;
+        var parsed = Int32.TryParse(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value, out userId) ;
+        var postDtos = await _postService.GetPostsForCurrentUserAsync(parsed ? userId : 0);
 
         return Ok(postDtos);
     }
     
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetPostsByIdAsync(int id)
+    public async Task<IActionResult> GetPostByIdAsync(int id)
     {
         var postDto = await _postService.GetPostByIdAsync(id);
 

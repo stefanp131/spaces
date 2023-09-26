@@ -6,7 +6,7 @@ namespace Spaces.DAL.Interfaces;
 
 public interface IPostRepository
 {
-    Task<List<Post>> GetPostsAsync();
+    Task<List<Post>> GetPostsAsync(int userId);
 
     Task<Post> GetByIdAsync(int postId);
 

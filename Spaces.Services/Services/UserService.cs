@@ -25,9 +25,9 @@ public class UserService: IUserService
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<List<UserDto>> GetAllUsersAsync()
+    public async Task<List<UserDto>> GetUsersAsync()
     {
-        var users = await _usersRepository.GetAllUsersAsync();
+        var users = await _usersRepository.GetUsersAsync();
         var userDtos = _mapper.Map<List<UserDto>>(users);
 
         return userDtos;

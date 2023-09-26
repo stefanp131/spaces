@@ -1,6 +1,8 @@
+import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRouteSnapshot } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable, map } from 'rxjs';
+import { Observable, Subscription, map } from 'rxjs';
 import { Post } from 'src/app/_models/Post';
 import { CommentsService } from 'src/app/_services/comment.service';
 import { LikesService } from 'src/app/_services/likes.service';
@@ -13,21 +15,28 @@ import {
   MySpaceAppState,
   selectPosts,
 } from 'src/app/my-space/my-space-state/my-space.selectors';
+import { getPosts as getPostsOurSpace } from 'src/app/our-space/our-space-state/our-space.actions';
+import { OurSpaceAppState, selectPosts as selectPostsOurSpace } from 'src/app/our-space/our-space-state/our-space.selectors';
 
 @Component({
   selector: 'app-posts-list',
   templateUrl: './posts-list.component.html',
   styleUrls: ['./posts-list.component.scss'],
 })
-export class PostsListComponent implements OnInit, OnDestroy {
+export class PostsListComponent implements OnInit {
   postList: Observable<Post[]>;
+  mySpace = true;
 
   constructor(
-    private store: Store<MySpaceAppState>,
+    private ourSpaceStore: Store<OurSpaceAppState>,
+    private mySpaceStore: Store<MySpaceAppState>,
     private storeAccount: Store<AccountAppState>,
     private likesService: LikesService,
-    private commentService: CommentsService
-  ) {}
+    private commentService: CommentsService,
+    private location: Location
+  ) {
+    this.mySpace = !this.location.path().includes('our-space');
+  }
 
   ngOnInit(): void {
     this.storeAccount
@@ -39,8 +48,17 @@ export class PostsListComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe();
-    this.store.dispatch(getPosts());
-    this.postList = this.store.select(selectPosts);
+
+      if(!this.mySpace){
+        this.ourSpaceStore.dispatch(getPostsOurSpace());
+        this.postList = this.ourSpaceStore.select(selectPostsOurSpace);
+
+      } else {
+        this.mySpaceStore.dispatch(getPosts());
+        this.postList = this.mySpaceStore.select(selectPosts);
+
+
+      }
   }
 
   toggleLike(event: any) {
@@ -56,10 +74,5 @@ export class PostsListComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe();
-  }
-
-  ngOnDestroy(): void {
-    this.likesService.stopHubConnection();
-    this.commentService.stopHubConnection();
   }
 }

@@ -5,6 +5,8 @@
           style="width: 5rem; height: 5rem; margin:1rem; object-fit: cover; border-radius: 50%" alt="Profile Image">
         <span>Welcome {{account.username | uppercase}}</span> </div>
       <button mat-raised-button color="primary" *ngIf="account" routerLink="/my-space">My Space</button>
+      <button mat-raised-button color="primary" *ngIf="account" routerLink="/our-space">Our Space</button>
+
     </div>
 
     <div *ngIf="account; else noAccount">

@@ -16,6 +16,14 @@ namespace Spaces.API.Controllers
         {
             this._userService = userService;
         }
+        
+        [HttpGet()]
+        public async Task<ActionResult<UserDto>> GetUsers()
+        {
+            var users = await this._userService.GetUsersAsync();
+
+            return Ok(users);
+        }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<UserDto>> GetUserById(int id)

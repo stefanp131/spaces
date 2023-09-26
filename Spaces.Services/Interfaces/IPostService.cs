@@ -6,7 +6,7 @@ namespace Spaces.Services.Interfaces;
 
 public interface IPostService
 {
-    Task<List<PostDto>> GetPostsAsync();
+    Task<List<PostDto>> GetPostsForCurrentUserAsync(int userId);
     Task<PostDto> GetPostByIdAsync(int id);
     Task<PostDto> CreatePostAsync(CreatePostDto createPostDto);
     Task<PostDto> UpdatePostAsync(UpdatePostDto updatePostDto);

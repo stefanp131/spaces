@@ -9,4 +9,5 @@ export interface Post {
   dateCreated: Date;
   dateUpdated: Date;
   likedByUsers: LikesForPost[];
+  createdBy: string;
 }

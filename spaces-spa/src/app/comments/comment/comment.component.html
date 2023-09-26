@@ -8,7 +8,8 @@
       <span>{{comment.title}}</span>
     </div>
     <div class="action-buttons">
-      <button mat-fab (click)="delete(comment.id)"><mat-icon>delete</mat-icon></button>
+      <button mat-fab *ngIf="comment.createdBy == (user$ | async).username"
+        (click)="delete(comment.id)"><mat-icon>delete</mat-icon></button>
     </div>
   </mat-card-title>
   <mat-card-content class="content"> {{comment.content}}
