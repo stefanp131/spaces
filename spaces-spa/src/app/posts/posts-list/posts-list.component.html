@@ -1,7 +1,7 @@
 <div class="container">
   <div class="posts">
     <ng-container *ngFor="let item of postList | async as list">
-      <app-post [post]="item" (onToggleLike)="toggleLike($event)"></app-post>
+      <app-post [post]="item"></app-post>
     </ng-container>
   </div>
 </div>

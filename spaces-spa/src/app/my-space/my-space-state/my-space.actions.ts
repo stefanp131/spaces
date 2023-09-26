@@ -2,6 +2,7 @@ import { createAction, props } from '@ngrx/store';
 import { Comment } from 'src/app/_models/Comment';
 import { CreateComment } from 'src/app/_models/CreateComment';
 import { CreateUpdatePost } from 'src/app/_models/CreateUpdatePost';
+import { LikesForPost } from 'src/app/_models/LikesForPost';
 import { Post } from 'src/app/_models/Post';
 
 export const getPosts = createAction('[My-Space] Get Posts');
@@ -32,7 +33,7 @@ export const createPostError = createAction(
 
 export const updatePost = createAction(
   '[My-Space Update] Update Post',
-  props<{ id: number, updatePost: CreateUpdatePost }>()
+  props<{ id: number; updatePost: CreateUpdatePost }>()
 );
 
 export const updatePostSuccess = createAction(
@@ -60,6 +61,41 @@ export const deletePostError = createAction(
   props<{ error: string }>()
 );
 
+export const openHubs = createAction('[My-Space] Open Hubs');
+
+export const openHubsSuccess = createAction('[My-Space] Open Hubs Success');
+
+export const OpenHubsError = createAction(
+  '[My-Space] Open Hubs Error',
+  props<{ error: string }>()
+);
+
+export const closeHubs = createAction('[My-Space] Open Hubs Post');
+
+export const closeHubsSuccess = createAction(
+  '[My-Space] Open Hubs Post Success'
+);
+
+export const closeHubsError = createAction(
+  '[My-Space] Open Hubs Error',
+  props<{ error: string }>()
+);
+
+export const toggleLikePost = createAction(
+  '[My-Space] Toggle Like Post',
+  props<{ postId: number, likedByUsers: LikesForPost[] }>()
+);
+
+export const toggleLikePostSuccess = createAction(
+  '[My-Space] Toggle Like Post Success',
+  props<{like: boolean; postId: number; userId: number }>()
+);
+
+export const toggleLikePostError = createAction(
+  '[My-Space] Toggle Like Post Error',
+  props<{ error: string }>()
+);
+
 export const createComment = createAction(
   '[My-Space] Create Comment',
   props<{ createComment: CreateComment }>()
@@ -77,12 +113,12 @@ export const createCommentError = createAction(
 
 export const deleteComment = createAction(
   '[My-Space] Delete Comment',
-  props<{ commentId: number, postId: number }>()
+  props<{ commentId: number; postId: number }>()
 );
 
 export const deleteCommentSuccess = createAction(
   '[My-Space] Delete Comment Success',
-  props<{ commentId: number, postId: number }>()
+  props<{ commentId: number; postId: number }>()
 );
 
 export const deleteCommentError = createAction(

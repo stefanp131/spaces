@@ -2,6 +2,7 @@ import { createAction, props } from "@ngrx/store";
 import { Comment } from "src/app/_models/Comment";
 import { CreateComment } from "src/app/_models/CreateComment";
 import { CreateUpdatePost } from "src/app/_models/CreateUpdatePost";
+import { LikesForPost } from "src/app/_models/LikesForPost";
 import { Post } from "src/app/_models/Post";
 
 export const getPosts = createAction('[Our-Space] Get Posts');
@@ -27,6 +28,21 @@ export const createPostSuccess = createAction(
 
 export const createPostError = createAction(
   '[Our-Space] Create Post Error',
+  props<{ error: string }>()
+);
+
+export const toggleLikePost = createAction(
+  '[Our-Space] Toggle Like Post',
+  props<{ postId: number, likedByUsers: LikesForPost[] }>()
+);
+
+export const toggleLikePostSuccess = createAction(
+  '[Our-Space] Toggle Like Post Success',
+  props<{like: boolean; postId: number; userId: number }>()
+);
+
+export const toggleLikePostError = createAction(
+  '[Our-Space] Toggle Like Post Error',
   props<{ error: string }>()
 );
 

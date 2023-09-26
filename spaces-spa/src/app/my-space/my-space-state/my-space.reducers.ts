@@ -3,6 +3,7 @@ import { Post } from 'src/app/_models/Post';
 import { SpacesStateStatus } from 'src/app/_models/SpacesStateStatus';
 import {
   createComment,
+  createCommentError,
   createCommentSuccess,
   createPost,
   createPostError,
@@ -16,6 +17,9 @@ import {
   getPosts,
   getPostsError,
   getPostsSuccess,
+  toggleLikePost,
+  toggleLikePostError,
+  toggleLikePostSuccess,
   updatePost,
   updatePostError,
   updatePostSuccess,
@@ -98,7 +102,27 @@ export const mySpaceReducer = createReducer(
     ],
     status: SpacesStateStatus.Success,
   })),
-  on(createPostError, (state, { error }) => ({
+  on(createCommentError, (state, { error }) => ({
+    ...state,
+    error: error,
+    status: SpacesStateStatus.Error,
+  })),
+  on(toggleLikePost, (state) => ({
+    ...state,
+    status: SpacesStateStatus.Loading,
+  })),
+  on(toggleLikePostSuccess, (state, { like, userId, postId }) => ({
+    ...state,
+    posts: [
+      ...state.posts.map((listPost) =>
+        like
+          ? returnPostWithDislike(listPost, postId, userId)
+          : returnPostWithLike(listPost, postId, userId)
+      ),
+    ],
+    status: SpacesStateStatus.Success,
+  })),
+  on(toggleLikePostError, (state, { error }) => ({
     ...state,
     error: error,
     status: SpacesStateStatus.Error,
@@ -131,3 +155,37 @@ export const mySpaceReducer = createReducer(
     status: SpacesStateStatus.Error,
   }))
 );
+
+function returnPostWithLike(
+  listPost: Post,
+  postId: number,
+  userId: number
+): Post {
+  return listPost.id === postId
+    ? {
+        ...listPost,
+        likedByUsers: [
+          ...listPost.likedByUsers,
+          { sourceUserId: userId, targetPostId: postId },
+        ],
+      }
+    : listPost;
+}
+
+function returnPostWithDislike(
+  listPost: Post,
+  postId: number,
+  userId: number
+): Post {
+  return listPost.id === postId
+    ? {
+        ...listPost,
+        likedByUsers: [
+          ...listPost.likedByUsers.filter(
+            (like) =>
+              like.sourceUserId !== userId || like.targetPostId !== postId
+          ),
+        ],
+      }
+    : listPost;
+}

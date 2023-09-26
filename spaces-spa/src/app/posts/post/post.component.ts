@@ -7,11 +7,12 @@ import { Post } from 'src/app/_models/Post';
 import { User } from 'src/app/_models/User';
 import {
   AccountAppState,
+  selectLikedByUser,
   selectUser,
 } from 'src/app/account/account-state/account.selectors';
-import { deletePost } from 'src/app/my-space/my-space-state/my-space.actions';
+import { deletePost, toggleLikePost } from 'src/app/my-space/my-space-state/my-space.actions';
 import { MySpaceAppState } from 'src/app/my-space/my-space-state/my-space.selectors';
-import { deletePost as deletePostOurSpace } from 'src/app/our-space/our-space-state/our-space.actions';
+import { deletePost as deletePostOurSpace, toggleLikePost as toggleLikePostOurSpace } from 'src/app/our-space/our-space-state/our-space.actions';
 import { OurSpaceAppState } from 'src/app/our-space/our-space-state/our-space.selectors';
 
 @Component({
@@ -33,7 +34,7 @@ export class PostComponent implements OnInit {
   };
 
   userSelectSubscription: Subscription;
-
+  like$: Observable<boolean>;
   like = false;
   likesCount = 0;
   mySpace: boolean;
@@ -64,17 +65,7 @@ export class PostComponent implements OnInit {
     this.likesCount = this.post.likedByUsers.length;
     this.user$ = this.storeAccount.select(selectUser);
 
-    this.user$
-      .pipe(
-        map((user) => {
-          if (this.post.likedByUsers.length !== 0) {
-            this.like = this.post.likedByUsers.some(
-              (likedByUser) => likedByUser.sourceUserId == user.id
-            );
-          }
-        })
-      )
-      .subscribe();
+    this.like$ = this.storeAccount.select(selectLikedByUser(this.post.likedByUsers))
   }
 
   getHTMLFromValue(post: Post) {
@@ -90,12 +81,17 @@ export class PostComponent implements OnInit {
   }
 
   toggleLike() {
-    this.onToggleLike.emit({ like: this.like, postId: this.post.id });
-    this.like = !this.like;
-    if (this.like) {
-      this.likesCount++;
+
+    if (!this.mySpace) {
+      this.ourSpaceStore.dispatch(
+        toggleLikePostOurSpace({ postId: this.post.id, likedByUsers: this.post.likedByUsers })
+      );
     } else {
-      this.likesCount--;
+      this.mySpaceStore.dispatch(
+        toggleLikePost({ postId: this.post.id, likedByUsers: this.post.likedByUsers })
+      );
     }
+
+    this.like = !this.like;
   }
 }

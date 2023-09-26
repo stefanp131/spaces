@@ -9,7 +9,11 @@ import { UpdatePostComponent } from './posts/update-post/update-post.component';
 import { ProfileComponent } from './profile/profile.component';
 
 const routes: Routes = [
-  { path: '', component: OurSpaceComponent },
+  {
+    path: '',
+    component: OurSpaceComponent,
+    canActivate: [() => inject(AuthGuard).canActivate()],
+  },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   {
@@ -30,9 +34,13 @@ const routes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent,
-    canActivate: [() => inject(AuthGuard).canActivate()]
+    canActivate: [() => inject(AuthGuard).canActivate()],
   },
-  { path: '*', component: OurSpaceComponent },
+  {
+    path: '*',
+    component: OurSpaceComponent,
+    canActivate: [() => inject(AuthGuard).canActivate()],
+  },
 ];
 
 @NgModule({

@@ -28,24 +28,9 @@ export class HeaderComponent implements OnInit {
 
   account: Observable<User>;
   ngOnInit(): void {
-    this.createMergedObservableForProfileImage();
-  }
-
-  private createMergedObservableForProfileImage() {
-    const profileImageUpdate$ = this.accountService.get();
-
-    this.account = this.store.select((appstate) => appstate.account.user);
-
     this.account$ = this.store.select(selectUser);
-
-    const profileImageLoad$ = this.account$.pipe(
-      delay(0),
-      switchMap((user) => this.userService.getProfileById(user.id)),
-      map((profile) => profile.profileImage)
-    );
-
-    this.profileImage$ = merge(profileImageUpdate$, profileImageLoad$);
   }
+
 
   logOut() {
     this.store.dispatch(logout());

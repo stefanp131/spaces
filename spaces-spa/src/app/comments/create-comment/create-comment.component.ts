@@ -45,32 +45,24 @@ export class CreateCommentComponent implements OnInit {
   }
 
   createComment() {
-    this.user$
-      .pipe(
-        map((user) => {
-          if (this.mySpace) {
-            this.mySpaceStore.dispatch(
-              createComment({
-                createComment: {
-                  ...this.commentFormGroup.value,
-                  postId: +this.postId,
-                  userId: +user.id,
-                },
-              })
-            );
-          } else {
-            this.ourSpaceStore.dispatch(
-              createCommentOurSpace({
-                createComment: {
-                  ...this.commentFormGroup.value,
-                  postId: +this.postId,
-                  userId: +user.id,
-                },
-              })
-            );
-          }
+    if (this.mySpace) {
+      this.mySpaceStore.dispatch(
+        createComment({
+          createComment: {
+            ...this.commentFormGroup.value,
+            postId: +this.postId,
+          },
         })
-      )
-      .subscribe();
+      );
+    } else {
+      this.ourSpaceStore.dispatch(
+        createCommentOurSpace({
+          createComment: {
+            ...this.commentFormGroup.value,
+            postId: +this.postId,
+          },
+        })
+      );
+    }
   }
 }

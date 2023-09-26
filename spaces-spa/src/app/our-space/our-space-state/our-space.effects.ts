@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, from, map, of, switchMap, tap } from 'rxjs';
+import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
+import { catchError, from, map, of, switchMap, tap, withLatestFrom } from 'rxjs';
 import { PostsService } from 'src/app/_services/post.service';
 import {
   createComment,
@@ -20,6 +20,9 @@ import {
   getPosts,
   getPostsError,
   getPostsSuccess,
+  toggleLikePost,
+  toggleLikePostError,
+  toggleLikePostSuccess,
   updatePost,
   updatePostError,
   updatePostSuccess,
@@ -27,7 +30,9 @@ import {
 import { CommentsService } from 'src/app/_services/comment.service';
 import { Comment } from 'src/app/_models/Comment';
 import { UserService } from 'src/app/_services/user.service';
-import { User } from 'src/app/_models/User';
+import { LikesService } from 'src/app/_services/likes.service';
+import { AccountAppState, selectLikedByUser, selectUser } from 'src/app/account/account-state/account.selectors';
+import { Store } from '@ngrx/store';
 
 @Injectable()
 export class OurSpaceEffects {
@@ -37,8 +42,9 @@ export class OurSpaceEffects {
     private userService: UserService,
     private snackBar: MatSnackBar,
     private router: Router,
-    private commentService: CommentsService
-  ) {}
+    private likesService: LikesService,
+    private commentService: CommentsService,
+    private accountStore: Store<AccountAppState>  ) {}
 
   getPosts$ = createEffect(() =>
     this.actions$.pipe(
@@ -74,6 +80,29 @@ export class OurSpaceEffects {
           })
         )
       )
+    )
+  );
+
+
+  toggleLikePost$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(toggleLikePost),
+      concatLatestFrom((action) => [this.accountStore.select(selectUser), this.accountStore.select(selectLikedByUser(action.likedByUsers))]),
+      map(([action, user, like]) => {
+        if (like) {
+          this.likesService.dislike(+user.id, action.postId);
+        } else {
+          this.likesService.like(+user.id, action.postId);
+        }
+        return toggleLikePostSuccess({
+          like: like,
+          userId: +user.id,
+          postId: action.postId,
+        });
+      }),
+      catchError((error) => {
+        return of(toggleLikePostError({ error }));
+      })
     )
   );
 
