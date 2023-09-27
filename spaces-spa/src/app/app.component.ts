@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { AccountService } from './_services/account.service';
 import { Store } from '@ngrx/store';
 import { Token } from './_models/Token';
-import { autoLogin, loginSuccess } from './account/account-state/account.actions';
-import { AccountAppState } from './account/account-state/account.selectors';
+import { autoLogin } from './account/account-state/account.actions';
+import { AppState } from './app-state';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +13,7 @@ import { AccountAppState } from './account/account-state/account.selectors';
 export class AppComponent {
   constructor(
     private accountService: AccountService,
-    private store: Store<AccountAppState>
+    private store: Store<AppState>
   ) {
     const token: Token = JSON.parse(localStorage.getItem('token'));
     if (token) {

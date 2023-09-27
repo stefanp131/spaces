@@ -2,17 +2,10 @@ import { Location } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { Observable, map } from 'rxjs';
-import { User } from 'src/app/_models/User';
-import {
-  AccountAppState,
-  selectUser,
-} from 'src/app/account/account-state/account.selectors';
 import { createComment } from 'src/app/my-space/my-space-state/my-space.actions';
 import { createComment as createCommentOurSpace } from 'src/app/our-space/our-space-state/our-space.actions';
 
-import { MySpaceAppState } from 'src/app/my-space/my-space-state/my-space.selectors';
-import { OurSpaceAppState } from 'src/app/our-space/our-space-state/our-space.selectors';
+import { AppState } from 'src/app/app-state';
 
 @Component({
   selector: 'app-create-comment',
@@ -23,13 +16,10 @@ export class CreateCommentComponent implements OnInit {
   @Input() postId: number;
   commentFormGroup: FormGroup;
   mySpace: boolean;
-  user$: Observable<User>;
 
   constructor(
     private formBuilder: FormBuilder,
-    private mySpaceStore: Store<MySpaceAppState>,
-    private ourSpaceStore: Store<OurSpaceAppState>,
-    private storeAccount: Store<AccountAppState>,
+    private store: Store<AppState>,
     private location: Location
   ) {
     this.mySpace = !this.location.path().includes('our-space');
@@ -40,13 +30,11 @@ export class CreateCommentComponent implements OnInit {
       title: ['', Validators.required],
       content: ['', Validators.required],
     });
-
-    this.user$ = this.storeAccount.select(selectUser);
   }
 
   createComment() {
     if (this.mySpace) {
-      this.mySpaceStore.dispatch(
+      this.store.dispatch(
         createComment({
           createComment: {
             ...this.commentFormGroup.value,
@@ -55,7 +43,7 @@ export class CreateCommentComponent implements OnInit {
         })
       );
     } else {
-      this.ourSpaceStore.dispatch(
+      this.store.dispatch(
         createCommentOurSpace({
           createComment: {
             ...this.commentFormGroup.value,

@@ -31,8 +31,9 @@ import { CommentsService } from 'src/app/_services/comment.service';
 import { Comment } from 'src/app/_models/Comment';
 import { UserService } from 'src/app/_services/user.service';
 import { LikesService } from 'src/app/_services/likes.service';
-import { AccountAppState, selectLikedByUser, selectUser } from 'src/app/account/account-state/account.selectors';
+import { selectLikedByUser, selectUser } from 'src/app/account/account-state/account.selectors';
 import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/app-state';
 
 @Injectable()
 export class OurSpaceEffects {
@@ -44,7 +45,7 @@ export class OurSpaceEffects {
     private router: Router,
     private likesService: LikesService,
     private commentService: CommentsService,
-    private accountStore: Store<AccountAppState>  ) {}
+    private store: Store<AppState>  ) {}
 
   getPosts$ = createEffect(() =>
     this.actions$.pipe(
@@ -69,7 +70,7 @@ export class OurSpaceEffects {
   createPost$ = createEffect(() =>
     this.actions$.pipe(
       ofType(createPost),
-      withLatestFrom(this.accountStore.select(selectUser)),
+      withLatestFrom(this.store.select(selectUser)),
       map(([action, user]) => ({
         ...action,
         createPost: { ...action.createPost, userId: +user.id },
@@ -92,7 +93,7 @@ export class OurSpaceEffects {
   toggleLikePost$ = createEffect(() =>
     this.actions$.pipe(
       ofType(toggleLikePost),
-      concatLatestFrom((action) => [this.accountStore.select(selectUser), this.accountStore.select(selectLikedByUser(action.likedByUsers))]),
+      concatLatestFrom((action) => [this.store.select(selectUser), this.store.select(selectLikedByUser(action.likedByUsers))]),
       map(([action, user, like]) => {
         if (like) {
           this.likesService.dislike(+user.id, action.postId);
@@ -114,7 +115,7 @@ export class OurSpaceEffects {
   updatePost$ = createEffect(() =>
     this.actions$.pipe(
       ofType(updatePost),
-      withLatestFrom(this.accountStore.select(selectUser)),
+      withLatestFrom(this.store.select(selectUser)),
       map(([action, user]) => ({
         ...action,
         updatePost: { ...action.updatePost, userId: +user.id },

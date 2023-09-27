@@ -7,17 +7,18 @@ import {
 } from '@angular/common/http';
 import { Observable, first, switchMap } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { AccountAppState } from '../account/account-state/account.selectors';
+import { AppState } from '../app-state';
+import { selectUser } from '../account/account-state/account.selectors';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
-  constructor(private store: Store<AccountAppState>) {}
+  constructor(private store: Store<AppState>) {}
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     return this.store
-      .select((appstate) => appstate.account.user)
+      .select(selectUser)
       .pipe(
         first(),
         switchMap((user) => {

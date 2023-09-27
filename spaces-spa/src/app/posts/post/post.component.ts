@@ -1,19 +1,28 @@
 import { Location } from '@angular/common';
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { toHTML } from 'ngx-editor';
-import { Observable, Subscription, map } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Post } from 'src/app/_models/Post';
 import { User } from 'src/app/_models/User';
 import {
-  AccountAppState,
-  selectLikedByUser,
-  selectUser,
+  selectLikedByUser, selectUser,
 } from 'src/app/account/account-state/account.selectors';
-import { deletePost, toggleLikePost } from 'src/app/my-space/my-space-state/my-space.actions';
-import { MySpaceAppState } from 'src/app/my-space/my-space-state/my-space.selectors';
-import { deletePost as deletePostOurSpace, toggleLikePost as toggleLikePostOurSpace } from 'src/app/our-space/our-space-state/our-space.actions';
-import { OurSpaceAppState } from 'src/app/our-space/our-space-state/our-space.selectors';
+import { AppState } from 'src/app/app-state';
+import {
+  deletePost,
+  toggleLikePost,
+} from 'src/app/my-space/my-space-state/my-space.actions';
+import {
+  deletePost as deletePostOurSpace,
+  toggleLikePost as toggleLikePostOurSpace,
+} from 'src/app/our-space/our-space-state/our-space.actions';
 
 @Component({
   selector: 'app-post',
@@ -52,20 +61,17 @@ export class PostComponent implements OnInit {
   get post(): Post {
     return this._post;
   }
-  constructor(
-    private mySpaceStore: Store<MySpaceAppState>,
-    private ourSpaceStore: Store<OurSpaceAppState>,
-    private storeAccount: Store<AccountAppState>,
-    private location: Location
-  ) {
+  constructor(private store: Store<AppState>, private location: Location) {
     this.mySpace = !this.location.path().includes('our-space');
   }
 
   ngOnInit(): void {
     this.likesCount = this.post.likedByUsers.length;
-    this.user$ = this.storeAccount.select(selectUser);
 
-    this.like$ = this.storeAccount.select(selectLikedByUser(this.post.likedByUsers))
+    this.user$ = this.store.select(selectUser);
+
+
+    this.like$ = this.store.select(selectLikedByUser(this.post.likedByUsers));
   }
 
   getHTMLFromValue(post: Post) {
@@ -74,21 +80,26 @@ export class PostComponent implements OnInit {
 
   delete(postId: number) {
     if (this.mySpace) {
-      this.mySpaceStore.dispatch(deletePost({ postId }));
+      this.store.dispatch(deletePost({ postId }));
     } else {
-      this.ourSpaceStore.dispatch(deletePostOurSpace({ postId }));
+      this.store.dispatch(deletePostOurSpace({ postId }));
     }
   }
 
   toggleLike() {
-
     if (!this.mySpace) {
-      this.ourSpaceStore.dispatch(
-        toggleLikePostOurSpace({ postId: this.post.id, likedByUsers: this.post.likedByUsers })
+      this.store.dispatch(
+        toggleLikePostOurSpace({
+          postId: this.post.id,
+          likedByUsers: this.post.likedByUsers,
+        })
       );
     } else {
-      this.mySpaceStore.dispatch(
-        toggleLikePost({ postId: this.post.id, likedByUsers: this.post.likedByUsers })
+      this.store.dispatch(
+        toggleLikePost({
+          postId: this.post.id,
+          likedByUsers: this.post.likedByUsers,
+        })
       );
     }
 

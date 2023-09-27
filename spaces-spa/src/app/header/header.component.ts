@@ -1,14 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, delay, map, merge, switchMap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { User } from '../_models/User';
 import { logout } from '../account/account-state/account.actions';
-import {
-  AccountAppState,
+import {  
   selectUser,
 } from '../account/account-state/account.selectors';
-import { HeaderService as ProfileImageService } from '../_services/profile-image.service';
-import { UserService } from '../_services/user.service';
+import { AppState } from '../app-state';
 
 @Component({
   selector: 'app-header',
@@ -21,9 +19,7 @@ export class HeaderComponent implements OnInit {
   imageSrc: string;
 
   constructor(
-    public store: Store<AccountAppState>,
-    private accountService: ProfileImageService,
-    private userService: UserService
+    public store: Store<AppState>,
   ) {}
 
   account: Observable<User>;

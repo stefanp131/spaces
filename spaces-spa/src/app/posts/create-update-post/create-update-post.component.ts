@@ -5,17 +5,16 @@ import { Editor, Toolbar, schema, toDoc } from 'ngx-editor';
 import { Observable, map } from 'rxjs';
 import { Post } from 'src/app/_models/Post';
 import { PostsService } from 'src/app/_services/post.service';
-import { AccountAppState } from 'src/app/account/account-state/account.selectors';
 import {
   createPost,
   updatePost,
 } from 'src/app/my-space/my-space-state/my-space.actions';
 import { createPost as createPostOurSpace } from 'src/app/our-space/our-space-state/our-space.actions';
-import { MySpaceAppState } from 'src/app/my-space/my-space-state/my-space.selectors';
 
 import { Validators as NgxEditorValidators } from 'ngx-editor';
 import { Location } from '@angular/common';
-import { OurSpaceAppState } from 'src/app/our-space/our-space-state/our-space.selectors';
+import { AppState } from 'src/app/app-state';
+import { selectUser } from 'src/app/account/account-state/account.selectors';
 
 @Component({
   selector: 'app-create-update-post',
@@ -23,7 +22,6 @@ import { OurSpaceAppState } from 'src/app/our-space/our-space-state/our-space.se
   styleUrls: ['./create-update-post.component.scss'],
 })
 export class CreateUpdatePostComponent implements OnInit, OnDestroy {
-  account$ = this.storeAccount.select((appstate) => appstate.account.user);
   post$: Observable<Post>;
   postTitle: string;
 
@@ -46,9 +44,7 @@ export class CreateUpdatePostComponent implements OnInit, OnDestroy {
 
   constructor(
     private formBuilder: FormBuilder,
-    private mySpaceStore: Store<MySpaceAppState>,
-    private ourSpaceStore: Store<OurSpaceAppState>,
-    private storeAccount: Store<AccountAppState>,
+    private store: Store<AppState>,
     private postsService: PostsService,
     private location: Location
   ) {
@@ -107,7 +103,7 @@ export class CreateUpdatePostComponent implements OnInit, OnDestroy {
   createPost() {
     const content = this.createUpdatePostForm.get('content').value;
     if (this.mySpace) {
-      this.mySpaceStore.dispatch(
+      this.store.dispatch(
         createPost({
           createPost: {
             title: this.createUpdatePostForm.get('title').value,
@@ -116,7 +112,7 @@ export class CreateUpdatePostComponent implements OnInit, OnDestroy {
         })
       );
     } else {
-      this.ourSpaceStore.dispatch(
+      this.store.dispatch(
         createPostOurSpace({
           createPost: {
             title: this.createUpdatePostForm.get('title').value,
@@ -129,7 +125,7 @@ export class CreateUpdatePostComponent implements OnInit, OnDestroy {
 
   updatePost() {
     const content = this.createUpdatePostForm.get('content').value;
-    this.mySpaceStore.dispatch(
+    this.store.dispatch(
       updatePost({
         id: +this.postId,
         updatePost: {

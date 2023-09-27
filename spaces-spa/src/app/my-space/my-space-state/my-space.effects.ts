@@ -45,11 +45,11 @@ import { CommentsService } from 'src/app/_services/comment.service';
 import { Comment } from 'src/app/_models/Comment';
 import { Store } from '@ngrx/store';
 import {
-  AccountAppState,
   selectLikedByUser,
   selectUser,
 } from 'src/app/account/account-state/account.selectors';
 import { LikesService } from 'src/app/_services/likes.service';
+import { AppState } from 'src/app/app-state';
 
 @Injectable()
 export class MySpaceEffects {
@@ -61,13 +61,13 @@ export class MySpaceEffects {
     private likesService: LikesService,
 
     private commentService: CommentsService,
-    private accountStore: Store<AccountAppState>
+    private store: Store<AppState>
   ) {}
 
   openHubs$ = createEffect(() =>
     this.actions$.pipe(
       ofType(openHubs),
-      withLatestFrom(this.accountStore.select(selectUser)),
+      withLatestFrom(this.store.select(selectUser)),
       map(([action, user]) => {
         this.likesService.createHubConnection(user);
         this.commentService.createHubConnection(user);
@@ -98,7 +98,7 @@ export class MySpaceEffects {
   toggleLikePost$ = createEffect(() =>
     this.actions$.pipe(
       ofType(toggleLikePost),
-      concatLatestFrom((action) => [this.accountStore.select(selectUser), this.accountStore.select(selectLikedByUser(action.likedByUsers))]),
+      concatLatestFrom((action) => [this.store.select(selectUser), this.store.select(selectLikedByUser(action.likedByUsers))]),
       map(([action, user, like]) => {
         if (like) {
           this.likesService.dislike(+user.id, action.postId);
@@ -137,7 +137,7 @@ export class MySpaceEffects {
   createPost$ = createEffect(() =>
     this.actions$.pipe(
       ofType(createPost),
-      withLatestFrom(this.accountStore.select(selectUser)),
+      withLatestFrom(this.store.select(selectUser)),
       map(([action, user]) => ({
         ...action,
         createPost: { ...action.createPost, userId: +user.id },
@@ -159,7 +159,7 @@ export class MySpaceEffects {
   updatePost$ = createEffect(() =>
     this.actions$.pipe(
       ofType(updatePost),
-      withLatestFrom(this.accountStore.select(selectUser)),
+      withLatestFrom(this.store.select(selectUser)),
       map(([action, user]) => ({
         ...action,
         updatePost: { ...action.updatePost, userId: +user.id },
@@ -208,7 +208,7 @@ export class MySpaceEffects {
   addComment$ = createEffect(() =>
     this.actions$.pipe(
       ofType(createComment),
-      withLatestFrom(this.accountStore.select(selectUser)),
+      withLatestFrom(this.store.select(selectUser)),
       map(([action, user]) => ({
         ...action,
         createComment: { ...action.createComment, userId: +user.id },
