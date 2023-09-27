@@ -69,6 +69,11 @@ export class OurSpaceEffects {
   createPost$ = createEffect(() =>
     this.actions$.pipe(
       ofType(createPost),
+      withLatestFrom(this.accountStore.select(selectUser)),
+      map(([action, user]) => ({
+        ...action,
+        createPost: { ...action.createPost, userId: +user.id },
+      })),
       switchMap((action) =>
         this.postsService.createPost(action.createPost).pipe(
           map((post) => createPostSuccess({ post })),
@@ -109,6 +114,11 @@ export class OurSpaceEffects {
   updatePost$ = createEffect(() =>
     this.actions$.pipe(
       ofType(updatePost),
+      withLatestFrom(this.accountStore.select(selectUser)),
+      map(([action, user]) => ({
+        ...action,
+        updatePost: { ...action.updatePost, userId: +user.id },
+      })),
       switchMap((action) =>
         this.postsService.updatePost(action.id, action.updatePost).pipe(
           tap(() => {

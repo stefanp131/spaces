@@ -106,53 +106,38 @@ export class CreateUpdatePostComponent implements OnInit, OnDestroy {
 
   createPost() {
     const content = this.createUpdatePostForm.get('content').value;
-    this.account$
-      .pipe(
-        map((user) => {
-          if (this.mySpace) {
-            this.mySpaceStore.dispatch(
-              createPost({
-                createPost: {
-                  title: this.createUpdatePostForm.get('title').value,
-                  content: JSON.stringify(toDoc(content)),
-                  userId: user.id,
-                },
-              })
-            );
-          } else {
-            this.ourSpaceStore.dispatch(
-              createPostOurSpace({
-                createPost: {
-                  title: this.createUpdatePostForm.get('title').value,
-                  content: JSON.stringify(toDoc(content)),
-                  userId: user.id,
-                },
-              })
-            );
-          }
+    if (this.mySpace) {
+      this.mySpaceStore.dispatch(
+        createPost({
+          createPost: {
+            title: this.createUpdatePostForm.get('title').value,
+            content: JSON.stringify(toDoc(content)),
+          },
         })
-      )
-      .subscribe();
+      );
+    } else {
+      this.ourSpaceStore.dispatch(
+        createPostOurSpace({
+          createPost: {
+            title: this.createUpdatePostForm.get('title').value,
+            content: JSON.stringify(toDoc(content)),
+          },
+        })
+      );
+    }
   }
 
   updatePost() {
     const content = this.createUpdatePostForm.get('content').value;
-    this.account$
-      .pipe(
-        map((user) => {
-          this.mySpaceStore.dispatch(
-            updatePost({
-              id: +this.postId,
-              updatePost: {
-                content: JSON.stringify(content),
-                title: this.postTitle,
-                userId: user.id,
-                id: +this.postId,
-              },
-            })
-          );
-        })
-      )
-      .subscribe();
+    this.mySpaceStore.dispatch(
+      updatePost({
+        id: +this.postId,
+        updatePost: {
+          content: JSON.stringify(content),
+          title: this.postTitle,
+          id: +this.postId,
+        },
+      })
+    );
   }
 }

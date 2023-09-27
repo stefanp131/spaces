@@ -137,7 +137,12 @@ export class MySpaceEffects {
   createPost$ = createEffect(() =>
     this.actions$.pipe(
       ofType(createPost),
-      switchMap((action) =>
+      withLatestFrom(this.accountStore.select(selectUser)),
+      map(([action, user]) => ({
+        ...action,
+        createPost: { ...action.createPost, userId: +user.id },
+      })),
+      switchMap(action =>
         this.postsService.createPost(action.createPost).pipe(
           map((post) => createPostSuccess({ post })),
           catchError((error) => {
@@ -154,6 +159,11 @@ export class MySpaceEffects {
   updatePost$ = createEffect(() =>
     this.actions$.pipe(
       ofType(updatePost),
+      withLatestFrom(this.accountStore.select(selectUser)),
+      map(([action, user]) => ({
+        ...action,
+        updatePost: { ...action.updatePost, userId: +user.id },
+      })),
       switchMap((action) =>
         this.postsService.updatePost(action.id, action.updatePost).pipe(
           tap(() => {

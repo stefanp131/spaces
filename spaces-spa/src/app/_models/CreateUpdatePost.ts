@@ -1,6 +1,6 @@
 export interface CreateUpdatePost {
   title: string;
   content: string;
-  userId: number;
+  userId?: number;
   id?: number;
 }
