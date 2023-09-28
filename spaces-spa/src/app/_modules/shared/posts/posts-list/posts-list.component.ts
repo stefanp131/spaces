@@ -3,11 +3,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Post } from 'src/app/_models/Post';
-import { AppState } from 'src/app/app-state';
+import { AppState, closeHubs, openHubs } from 'src/app/app-state';
 import {
-  closeHubs,
   getPosts,
-  openHubs,
 } from 'src/app/my-space/my-space-state/my-space.actions';
 
 import {

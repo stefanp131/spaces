@@ -14,7 +14,6 @@ import { createPost as createPostOurSpace } from 'src/app/our-space/our-space-st
 import { Validators as NgxEditorValidators } from 'ngx-editor';
 import { Location } from '@angular/common';
 import { AppState } from 'src/app/app-state';
-import { selectUser } from 'src/app/account/account-state/account.selectors';
 
 @Component({
   selector: 'app-create-update-post',

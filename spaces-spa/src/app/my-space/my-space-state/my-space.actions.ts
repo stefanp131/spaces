@@ -61,26 +61,6 @@ export const deletePostError = createAction(
   props<{ error: string }>()
 );
 
-export const openHubs = createAction('[My-Space] Open Hubs');
-
-export const openHubsSuccess = createAction('[My-Space] Open Hubs Success');
-
-export const OpenHubsError = createAction(
-  '[My-Space] Open Hubs Error',
-  props<{ error: string }>()
-);
-
-export const closeHubs = createAction('[My-Space] Open Hubs Post');
-
-export const closeHubsSuccess = createAction(
-  '[My-Space] Open Hubs Post Success'
-);
-
-export const closeHubsError = createAction(
-  '[My-Space] Open Hubs Error',
-  props<{ error: string }>()
-);
-
 export const toggleLikePost = createAction(
   '[My-Space] Toggle Like Post',
   props<{ postId: number, likedByUsers: LikesForPost[] }>()

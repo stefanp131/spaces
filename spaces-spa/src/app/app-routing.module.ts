@@ -1,34 +1,27 @@
 import { NgModule, inject } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { OurSpaceComponent } from './our-space/our-space.component';
 import { LoginComponent } from './account/login/login.component';
 import { RegisterComponent } from './account/register/register.component';
-import { MySpaceComponent } from './my-space/my-space.component';
 import { AuthGuard } from './_guards/auth.guard';
-import { UpdatePostComponent } from './posts/update-post/update-post.component';
 import { ProfileComponent } from './profile/profile.component';
+import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: OurSpaceComponent,
+    component: HomeComponent,
     canActivate: [() => inject(AuthGuard).canActivate()],
   },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   {
     path: 'my-space',
-    component: MySpaceComponent,
-    canActivate: [() => inject(AuthGuard).canActivate()],
-  },
-  {
-    path: 'my-space/:id',
-    component: UpdatePostComponent,
+    loadChildren: () => import('./my-space/my-space/my-space.module').then(m => m.MySpaceModule),
     canActivate: [() => inject(AuthGuard).canActivate()],
   },
   {
     path: 'our-space',
-    component: OurSpaceComponent,
+    loadChildren: () => import('./our-space/our-space/our-space.module').then(m => m.OurSpaceModule),
     canActivate: [() => inject(AuthGuard).canActivate()],
   },
   {
@@ -38,7 +31,7 @@ const routes: Routes = [
   },
   {
     path: '*',
-    component: OurSpaceComponent,
+    component: HomeComponent,
     canActivate: [() => inject(AuthGuard).canActivate()],
   },
 ];

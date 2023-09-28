@@ -13,7 +13,6 @@ import {
 } from 'rxjs';
 import { PostsService } from 'src/app/_services/post.service';
 import {
-  OpenHubsError as openHubsError,
   createComment,
   createCommentError,
   createCommentSuccess,
@@ -29,14 +28,11 @@ import {
   getPosts,
   getPostsError,
   getPostsSuccess,
-  openHubs,
-  openHubsSuccess,
+
   updatePost,
   updatePostError,
   updatePostSuccess,
-  closeHubs,
-  closeHubsSuccess,
-  closeHubsError,
+
   toggleLikePost,
   toggleLikePostSuccess,
   toggleLikePostError,
@@ -49,7 +45,7 @@ import {
   selectUser,
 } from 'src/app/account/account-state/account.selectors';
 import { LikesService } from 'src/app/_services/likes.service';
-import { AppState } from 'src/app/app-state';
+import { AppState, closeHubs, closeHubsError, closeHubsSuccess, openHubs, openHubsError, openHubsSuccess } from 'src/app/app-state';
 
 @Injectable()
 export class MySpaceEffects {
