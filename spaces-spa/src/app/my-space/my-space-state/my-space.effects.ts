@@ -45,7 +45,7 @@ import {
   selectUser,
 } from 'src/app/account/account-state/account.selectors';
 import { LikesService } from 'src/app/_services/likes.service';
-import { AppState, closeHubs, closeHubsError, closeHubsSuccess, openHubs, openHubsError, openHubsSuccess } from 'src/app/app-state';
+import { AppState } from 'src/app/app-state';
 
 @Injectable()
 export class MySpaceEffects {
@@ -55,41 +55,9 @@ export class MySpaceEffects {
     private snackBar: MatSnackBar,
     private router: Router,
     private likesService: LikesService,
-
     private commentService: CommentsService,
     private store: Store<AppState>
-  ) {}
-
-  openHubs$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(openHubs),
-      withLatestFrom(this.store.select(selectUser)),
-      map(([action, user]) => {
-        this.likesService.createHubConnection(user);
-        this.commentService.createHubConnection(user);
-
-        return openHubsSuccess();
-      }),
-      catchError((error) => {
-        return of(openHubsError({ error }));
-      })
-    )
-  );
-
-  closeHubs$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(closeHubs),
-      map(() => {
-        this.likesService.stopHubConnection();
-        this.commentService.stopHubConnection();
-
-        return closeHubsSuccess();
-      }),
-      catchError((error) => {
-        return of(closeHubsError({ error }));
-      })
-    )
-  );
+  ) {} 
 
   toggleLikePost$ = createEffect(() =>
     this.actions$.pipe(

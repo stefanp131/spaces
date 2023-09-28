@@ -19,12 +19,8 @@ import { LoaderComponent } from './loader/loader/loader.component';
 import { AccountEffects } from './account/account-state/account.effects';
 import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 import { LoadingInterceptor } from './_interceptors/loading.interceptor';
-import { MySpaceEffects } from './my-space/my-space-state/my-space.effects';
-import { OurSpaceEffects } from './our-space/our-space-state/our-space.effects';
 import { HomeComponent } from './home/home.component';
-import { MySpaceComponent } from './my-space/my-space.component';
-import { OurSpaceModule } from './our-space/our-space/our-space.module';
-import { MySpaceModule } from './my-space/my-space/my-space.module';
+import { AppEffects } from './app.effects';
 
 
 @NgModule({
@@ -45,7 +41,7 @@ import { MySpaceModule } from './my-space/my-space/my-space.module';
     ReactiveFormsModule,
     HttpClientModule,
     StoreModule.forRoot({ account: accountReducer }),
-    EffectsModule.forRoot([AccountEffects]),
+    EffectsModule.forRoot([AccountEffects, AppEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
   ],
   providers: [
