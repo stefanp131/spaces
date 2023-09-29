@@ -189,6 +189,11 @@ export class OurSpaceEffects {
   addComment$ = createEffect(() =>
     this.actions$.pipe(
       ofType(createComment),
+      withLatestFrom(this.store.select(selectUser)),
+      map(([action, user]) => ({
+        ...action,
+        createComment: { ...action.createComment, userId: +user.id },
+      })),
       switchMap((action) =>
         from(this.commentService.createComment(action.createComment)).pipe(
           map((comment: Comment) =>

@@ -27,7 +27,10 @@ public class CommentsHub : Hub
     
     public async Task<CommentDto> CreateComment(CreateCommentDto createCommentDto)
     {
-        return await _commentService.CreateCommentAsync(createCommentDto);
+        var comment = await _commentService.CreateCommentAsync(createCommentDto);
+        await Clients.Others.SendAsync("CommentCreated", comment);
+
+        return comment;
     }
     
     
