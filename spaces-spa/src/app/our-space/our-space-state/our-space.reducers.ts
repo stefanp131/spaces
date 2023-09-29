@@ -17,6 +17,9 @@ import {
   getPosts,
   getPostsError,
   getPostsSuccess,
+  toggleLikeComment,
+  toggleLikeCommentError,
+  toggleLikeCommentSuccess,
   toggleLikePost,
   toggleLikePostError,
   toggleLikePostSuccess,
@@ -24,6 +27,7 @@ import {
   updatePostError,
   updatePostSuccess,
 } from './our-space.actions';
+import { Comment } from 'src/app/_models/Comment';
 
 export interface OurSpaceState {
   posts: Post[];
@@ -106,9 +110,39 @@ export const ourSpaceReducer = createReducer(
     ...state,
     error: error,
     status: SpacesStateStatus.Error,
+  })),  
+  on(toggleLikeComment, (state) => ({
+    ...state,
+    status: SpacesStateStatus.Loading,
   })),
-  
-
+  on(
+    toggleLikeCommentSuccess,
+    (state, { like, commentId, userId, postId }) => ({
+      ...state,
+      posts: [
+        ...state.posts.map((listPost) =>
+          listPost.id === postId
+            ? {
+                ...listPost,
+                comments: [
+                  ...listPost.comments.map((comment) =>
+                    like
+                      ? returnCommentWithDislike(comment, commentId, userId)
+                      : returnCommentWithLike(comment, commentId, userId)
+                  ),
+                ],
+              }
+            : listPost
+        ),
+      ],
+      status: SpacesStateStatus.Success,
+    })
+  ),
+  on(toggleLikeCommentError, (state, { error }) => ({
+    ...state,
+    error: error,
+    status: SpacesStateStatus.Error,
+  })),
   on(toggleLikePost, (state) => ({
     ...state,
     status: SpacesStateStatus.Loading,
@@ -191,4 +225,38 @@ function returnPostWithDislike(
         ],
       }
     : listPost;
+}
+
+function returnCommentWithLike(
+  listComment: Comment,
+  commentId: number,
+  userId: number
+): Comment {
+  return listComment.id === commentId
+    ? {
+        ...listComment,
+        likedByUsers: [
+          ...listComment.likedByUsers,
+          { sourceUserId: userId, targetCommentId: commentId },
+        ],
+      }
+    : listComment;
+}
+
+function returnCommentWithDislike(
+  listComment: Comment,
+  commentId: number,
+  userId: number
+): Comment {
+  return listComment.id === commentId
+    ? {
+        ...listComment,
+        likedByUsers: [
+          ...listComment.likedByUsers.filter(
+            (like) =>
+              like.sourceUserId !== userId || like.targetCommentId !== commentId
+          ),
+        ],
+      }
+    : listComment;
 }

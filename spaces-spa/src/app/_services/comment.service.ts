@@ -39,4 +39,14 @@ export class CommentsService {
     return this.hubConnection.invoke('DeleteComment', commentId)
       .catch(error => console.log(error));
   }
+  
+  async like(sourceUserId: number, targetCommentId: number) {
+    return this.hubConnection.invoke('CreateCommentLike', +sourceUserId, targetCommentId)
+      .catch(error => console.log(error));
+  }
+
+  async dislike(sourceUserId: number, targetCommentId: number) {
+    return this.hubConnection.invoke('DeleteCommentLike', +sourceUserId, targetCommentId)
+      .catch(error => console.log(error));
+  }
 }

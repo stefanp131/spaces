@@ -24,6 +24,8 @@ public class PostRepository: IPostRepository
             .Include(post => post.LikedByUsers)
             .Include(post => post.Comments)
                 .ThenInclude(comment => comment.User )
+            .Include(post => post.Comments)
+                .ThenInclude(comment => comment.LikedByUsers)  
             .Include(post => post.User)
             .ToListAsync();
     }

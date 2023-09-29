@@ -13,6 +13,8 @@ public class SpacesContext : IdentityDbContext<AppUser, AppRole, int, IdentityUs
     public DbSet<Comment> Comments { get; set; }
 
     public DbSet<LikeForPost> LikesForPosts { get; set; }
+    public DbSet<LikeForComment> LikesForComments { get; set; }
+
 
     public SpacesContext(DbContextOptions options) : base(options)
     {
@@ -59,6 +61,18 @@ public class SpacesContext : IdentityDbContext<AppUser, AppRole, int, IdentityUs
             .HasOne(s => s.TargetPost)
             .WithMany(l => l.LikedByUsers)
             .HasForeignKey(s => s.TargetPostId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        builder.Entity<LikeForComment>()
+            .HasOne(s => s.SourceUser)
+            .WithMany(l => l.CommentsILike)
+            .HasForeignKey(s => s.SourceUserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Entity<LikeForComment>()
+            .HasOne(s => s.TargetComment)
+            .WithMany(l => l.LikedByUsers)
+            .HasForeignKey(s => s.TargetCommentId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

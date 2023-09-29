@@ -1,3 +1,5 @@
+import { LikesForComment } from "./LikesForComment";
+
 export interface Comment {
   id: number;
   title: string;
@@ -6,4 +8,5 @@ export interface Comment {
   dateCreated: Date;
   postId: number;
   userId: number;
+  likedByUsers: LikesForComment[];
 }

@@ -6,12 +6,12 @@ using Spaces.Services.Interfaces;
 
 namespace Spaces.API.SignalR;
 
-public class LikesHub : Hub
+public class PostsHub : Hub
 {
     private readonly IPostService _postService;
     private readonly IUnitOfWork _unitOfWork;
 
-    public LikesHub(IPostService postService, IUnitOfWork unitOfWork)
+    public PostsHub(IPostService postService, IUnitOfWork unitOfWork)
     {
         _postService = postService;
         _unitOfWork = unitOfWork;
@@ -27,16 +27,14 @@ public class LikesHub : Hub
         await base.OnDisconnectedAsync(exception);
     }
 
-    public async Task CreateLike(int sourceUserId, int targetPostId)
+    public async Task CreatePostLike(int sourceUserId, int targetPostId)
     {
         await _postService.CreateLikeAsync(sourceUserId, targetPostId);
-        await _unitOfWork.Complete();
     }
     
     
-    public async Task DeleteLike(int sourceUserId, int targetPostId)
+    public async Task DeletePostLike(int sourceUserId, int targetPostId)
     {
         await _postService.DeleteLikeAsync(sourceUserId, targetPostId);
-        await _unitOfWork.Complete();
     }
 }

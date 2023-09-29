@@ -2,6 +2,7 @@ import { createAction, props } from "@ngrx/store";
 import { Comment } from "src/app/_models/Comment";
 import { CreateComment } from "src/app/_models/CreateComment";
 import { CreateUpdatePost } from "src/app/_models/CreateUpdatePost";
+import { LikesForComment } from "src/app/_models/LikesForComment";
 import { LikesForPost } from "src/app/_models/LikesForPost";
 import { Post } from "src/app/_models/Post";
 
@@ -88,6 +89,21 @@ export const createCommentSuccess = createAction(
 
 export const createCommentError = createAction(
   '[Our-Space] Create Comment Error',
+  props<{ error: string }>()
+);
+
+export const toggleLikeComment = createAction(
+  '[Our-Space] Toggle Like Comment',
+  props<{ commentId: number, likedByUsers: LikesForComment[], postId: number,}>()
+);
+
+export const toggleLikeCommentSuccess = createAction(
+  '[Our-Space] Toggle Like Comment Success',
+  props<{like: boolean; commentId: number; userId: number, postId: number }>()
+);
+
+export const toggleLikeCommentError = createAction(
+  '[Our-Space] Toggle Like Comment Error',
   props<{ error: string }>()
 );
 

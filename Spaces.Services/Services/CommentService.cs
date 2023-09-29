@@ -12,12 +12,14 @@ public class CommentService: ICommentService
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly ICommentRepository _commentRepository;
+    private readonly ILikesRepository _likesRepository;
     private readonly IMapper _mapper;
 
-    public CommentService(IUnitOfWork unitOfWork, ICommentRepository commentRepository, IMapper mapper)
+    public CommentService(IUnitOfWork unitOfWork, ICommentRepository commentRepository, ILikesRepository likesRepository, IMapper mapper)
     {
         _unitOfWork = unitOfWork;
         _commentRepository = commentRepository;
+        _likesRepository = likesRepository;
         _mapper = mapper;
     }
     
@@ -45,6 +47,19 @@ public class CommentService: ICommentService
     public async Task DeleteCommentAsync(int commentId)
     {
         await _commentRepository.DeleteCommentByIdAsync(commentId);
+        await _unitOfWork.Complete();
+    }
+    
+    
+    public async Task CreateLikeAsync(int sourceUserId, int targetCommentId)
+    {
+        await _likesRepository.CreateLikeForCommentAsync(sourceUserId, targetCommentId);
+        await _unitOfWork.Complete();
+    }
+
+    public async Task DeleteLikeAsync(int sourceUserId, int targetCommentId)
+    {
+        await _likesRepository.DeleteLikeForCommentAsync(sourceUserId, targetCommentId);
         await _unitOfWork.Complete();
     }
 }

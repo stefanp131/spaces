@@ -1,4 +1,5 @@
 import { createSelector } from '@ngrx/store';
+import { LikesForComment } from 'src/app/_models/LikesForComment';
 import { LikesForPost } from 'src/app/_models/LikesForPost';
 import { User } from 'src/app/_models/User';
 import { AppState } from 'src/app/app-state';
@@ -13,7 +14,14 @@ export const selectUser = createSelector(
   (state: AccountState) => state.user
 );
 
-export const selectLikedByUser = (likedByUsers: LikesForPost[]) =>
+export const selectPostsLikedByUser = (likedByUsers: LikesForPost[]) =>
+  createSelector(selectSpaces, (state: AccountState) =>
+    likedByUsers.some(
+      (likedByUser) => likedByUser.sourceUserId == state.user.id
+    )
+  );
+
+  export const selectCommentsLikedByUser = (likedByUsers: LikesForComment[]) =>
   createSelector(selectSpaces, (state: AccountState) =>
     likedByUsers.some(
       (likedByUser) => likedByUser.sourceUserId == state.user.id

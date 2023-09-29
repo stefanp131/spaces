@@ -13,14 +13,14 @@ public class PostService : IPostService
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IPostRepository _postRepository;
-    private readonly ILikesForPostRepository _likesForPostRepository;
+    private readonly ILikesRepository _likesRepository;
     private readonly IMapper _mapper;
 
-    public PostService(IUnitOfWork unitOfWork, IPostRepository postRepository, ILikesForPostRepository likesForPostRepository, IMapper mapper)
+    public PostService(IUnitOfWork unitOfWork, IPostRepository postRepository, ILikesRepository likesRepository, IMapper mapper)
     {
         _unitOfWork = unitOfWork;
         _postRepository = postRepository;
-        _likesForPostRepository = likesForPostRepository;
+        _likesRepository = likesRepository;
         _mapper = mapper;
     }
 
@@ -74,13 +74,13 @@ public class PostService : IPostService
     
     public async Task CreateLikeAsync(int sourceUserId, int targetPostId)
     {
-        await _likesForPostRepository.CreateLikeAsync(sourceUserId, targetPostId);
+        await _likesRepository.CreateLikeForPostAsync(sourceUserId, targetPostId);
         await _unitOfWork.Complete();
     }
 
     public async Task DeleteLikeAsync(int sourceUserId, int targetPostId)
     {
-        await _likesForPostRepository.DeleteLikeAsync(sourceUserId, targetPostId);
+        await _likesRepository.DeleteLikeForPostAsync(sourceUserId, targetPostId);
         await _unitOfWork.Complete();
     }
 }

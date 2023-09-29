@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Spaces.DAL.Entities;
 
@@ -13,4 +14,5 @@ public class Comment
     public Post Post { get; set; }
     public int UserId { get; set; }
     public AppUser User { get; set; }
+    public ICollection<LikeForComment> LikedByUsers { get; set; }
 }

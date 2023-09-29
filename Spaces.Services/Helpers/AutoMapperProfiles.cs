@@ -25,6 +25,8 @@ public class AutoMapperProfiles : Profile
             o => o.MapFrom((src => src.User.UserName))
         );;
         CreateMap<LikeForPost, LikeForPostDto>();
+        CreateMap<LikeForComment, LikeForCommentDto>();
+
     }
 
 }

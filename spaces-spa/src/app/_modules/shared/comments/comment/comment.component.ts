@@ -4,9 +4,9 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Comment } from 'src/app/_models/Comment';
 import { User } from 'src/app/_models/User';
-import { selectUser } from 'src/app/account/account-state/account.selectors';
-import { deleteComment } from 'src/app/my-space/my-space-state/my-space.actions';
-import { deleteComment as deleteCommentOurSpace } from 'src/app/our-space/our-space-state/our-space.actions';
+import { selectCommentsLikedByUser, selectUser } from 'src/app/account/account-state/account.selectors';
+import { deleteComment, toggleLikeComment } from 'src/app/my-space/my-space-state/my-space.actions';
+import { deleteComment as deleteCommentOurSpace, toggleLikeComment as toggleLikeCommentOurSpace } from 'src/app/our-space/our-space-state/our-space.actions';
 
 import { AppState } from 'src/app/app-state';
 
@@ -20,6 +20,8 @@ export class CommentComponent implements OnInit {
   user$: Observable<User>;
 
   mySpace: boolean;
+  likesCount: number;
+  like$: Observable<boolean>;
 
   constructor(
     private store: Store<AppState>,
@@ -29,7 +31,9 @@ export class CommentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.user$ = this.store.select(selectUser);    
+    this.likesCount = this.comment.likedByUsers.length;
+    this.user$ = this.store.select(selectUser); 
+    this.like$ = this.store.select(selectCommentsLikedByUser(this.comment.likedByUsers));   
   }
 
   delete(commentId: number) {
@@ -42,6 +46,25 @@ export class CommentComponent implements OnInit {
         deleteCommentOurSpace({ commentId: commentId, postId: this.comment.postId })
       );
     }
+  }
 
+  toggleLike() {
+    if (!this.mySpace) {
+      this.store.dispatch(
+        toggleLikeCommentOurSpace({
+          postId: this.comment.postId,
+          commentId: this.comment.id,
+          likedByUsers: this.comment.likedByUsers,
+        })
+      );
+    } else {
+      this.store.dispatch(
+        toggleLikeComment({
+          postId: this.comment.postId,
+          commentId: this.comment.id,
+          likedByUsers: this.comment.likedByUsers,
+        })
+      );
+    } 
   }
 }

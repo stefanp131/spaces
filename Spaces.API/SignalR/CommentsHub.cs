@@ -35,4 +35,15 @@ public class CommentsHub : Hub
     {
         await _commentService.DeleteCommentAsync(commentId);
     }
+    
+    public async Task CreateCommentLike(int sourceUserId, int targetCommentId)
+    {
+        await _commentService.CreateLikeAsync(sourceUserId, targetCommentId);
+    }
+    
+    
+    public async Task DeleteCommentLike(int sourceUserId, int targetCommentId)
+    {
+        await _commentService.DeleteLikeAsync(sourceUserId, targetCommentId);
+    }
 }

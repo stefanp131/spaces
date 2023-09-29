@@ -20,6 +20,9 @@ import {
   getPosts,
   getPostsError,
   getPostsSuccess,
+  toggleLikeComment,
+  toggleLikeCommentError,
+  toggleLikeCommentSuccess,
   toggleLikePost,
   toggleLikePostError,
   toggleLikePostSuccess,
@@ -30,8 +33,7 @@ import {
 import { CommentsService } from 'src/app/_services/comment.service';
 import { Comment } from 'src/app/_models/Comment';
 import { UserService } from 'src/app/_services/user.service';
-import { LikesService } from 'src/app/_services/likes.service';
-import { selectLikedByUser, selectUser } from 'src/app/account/account-state/account.selectors';
+import { selectCommentsLikedByUser, selectPostsLikedByUser, selectUser } from 'src/app/account/account-state/account.selectors';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app-state';
 
@@ -43,7 +45,7 @@ export class OurSpaceEffects {
     private userService: UserService,
     private snackBar: MatSnackBar,
     private router: Router,
-    private likesService: LikesService,
+    private postService: PostsService,
     private commentService: CommentsService,
     private store: Store<AppState>  ) {}
 
@@ -93,12 +95,12 @@ export class OurSpaceEffects {
   toggleLikePost$ = createEffect(() =>
     this.actions$.pipe(
       ofType(toggleLikePost),
-      concatLatestFrom((action) => [this.store.select(selectUser), this.store.select(selectLikedByUser(action.likedByUsers))]),
+      concatLatestFrom((action) => [this.store.select(selectUser), this.store.select(selectPostsLikedByUser(action.likedByUsers))]),
       map(([action, user, like]) => {
         if (like) {
-          this.likesService.dislike(+user.id, action.postId);
+          this.postService.dislike(+user.id, action.postId);
         } else {
-          this.likesService.like(+user.id, action.postId);
+          this.postService.like(+user.id, action.postId);
         }
         return toggleLikePostSuccess({
           like: like,
@@ -110,7 +112,30 @@ export class OurSpaceEffects {
         return of(toggleLikePostError({ error }));
       })
     )
-  );
+  );  
+
+  toggleLikeCommentt$ = createEffect(() =>
+  this.actions$.pipe(
+    ofType(toggleLikeComment),
+    concatLatestFrom((action) => [this.store.select(selectUser), this.store.select(selectCommentsLikedByUser(action.likedByUsers))]),
+    map(([action, user, like]) => {
+      if (like) {
+        this.commentService.dislike(+user.id, action.commentId);
+      } else {
+        this.commentService.like(+user.id, action.commentId);
+      }
+      return toggleLikeCommentSuccess({
+        like: like,
+        userId: +user.id,
+        commentId: action.commentId,
+        postId: action.postId
+      });
+    }),
+    catchError((error) => {
+      return of(toggleLikeCommentError({ error }));
+    })
+  )
+);
 
   updatePost$ = createEffect(() =>
     this.actions$.pipe(

@@ -29,9 +29,10 @@ public class UserRepository : IUsersRepository
     {
         return await _context.Users
             .Include(user => user.Posts)
-            .ThenInclude(post => post.Comments)
+                .ThenInclude(post => post.Comments)
+                .ThenInclude(comment => comment.LikedByUsers)
             .Include(user => user.Posts)
-            .ThenInclude(post => post.LikedByUsers)
+                .ThenInclude(post => post.LikedByUsers)
             .ToListAsync();
     }
 }

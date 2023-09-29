@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Spaces.Services.DTOs;
 
@@ -11,4 +12,5 @@ public class CommentDto
     public DateTime DateCreated { get; set; }
     public int PostId { get; set; }
     public int UserId { get; set; }
+    public List<LikeForCommentDto> LikedByUsers { get; set; } = new List<LikeForCommentDto>();
 }

@@ -12,7 +12,7 @@ import { Observable, Subscription } from 'rxjs';
 import { Post } from 'src/app/_models/Post';
 import { User } from 'src/app/_models/User';
 import {
-  selectLikedByUser, selectUser,
+  selectPostsLikedByUser, selectUser,
 } from 'src/app/account/account-state/account.selectors';
 import { AppState } from 'src/app/app-state';
 import {
@@ -44,7 +44,6 @@ export class PostComponent implements OnInit {
 
   userSelectSubscription: Subscription;
   like$: Observable<boolean>;
-  like = false;
   likesCount = 0;
   mySpace: boolean;
 
@@ -71,7 +70,7 @@ export class PostComponent implements OnInit {
     this.user$ = this.store.select(selectUser);
 
 
-    this.like$ = this.store.select(selectLikedByUser(this.post.likedByUsers));
+    this.like$ = this.store.select(selectPostsLikedByUser(this.post.likedByUsers));
   }
 
   getHTMLFromValue(post: Post) {
@@ -101,8 +100,6 @@ export class PostComponent implements OnInit {
           likedByUsers: this.post.likedByUsers,
         })
       );
-    }
-
-    this.like = !this.like;
+    }    
   }
 }

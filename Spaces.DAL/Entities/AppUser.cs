@@ -13,4 +13,6 @@ public class AppUser : IdentityUser<int>
     public ICollection<Post> Posts { get; set; }
     public ICollection<Comment> Comments { get; set; }
     public ICollection<LikeForPost> PostsILike { get; set; }
+    public ICollection<LikeForComment> CommentsILike { get; set; }
+
 }
