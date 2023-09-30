@@ -1,5 +1,6 @@
 <div class="container">
   <div class="posts">
+    <mat-card><mat-card-content><h1><b>{{mySpace ? "My Space" : "Our Space"}}</b></h1></mat-card-content></mat-card>
     <ng-container *ngFor="let item of postList | async as list">
       <app-post [post]="item"></app-post>
     </ng-container>

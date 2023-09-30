@@ -9,12 +9,12 @@ import { SharedModule } from 'src/app/_modules/shared/shared.module';
 import { RouterModule, Routes } from '@angular/router';
 import { UpdatePostComponent } from 'src/app/_modules/shared/posts/update-post/update-post.component';
 import { AuthGuard } from 'src/app/_guards/auth.guard';
-import { MainComponent } from 'src/app/_modules/shared/posts/main/main.component';
+import { NgMaterialModule } from 'src/app/_modules/ng-material/ng-material.module';
 
 const routes: Routes = [
   {
     path: '',
-    component: MainComponent,
+    component: MySpaceComponent,
     canActivate: [() => inject(AuthGuard).canActivate()],
   },
   {
@@ -29,10 +29,11 @@ const routes: Routes = [
   imports: [
     CommonModule,
     SharedModule,
+    NgMaterialModule,
     RouterModule.forChild(routes),
     StoreModule.forFeature('mySpace', mySpaceReducer),
     EffectsModule.forFeature([MySpaceEffects]),
   ],
-  exports: [MySpaceComponent],
+  exports: [MySpaceComponent, RouterModule],
 })
 export class MySpaceModule {}

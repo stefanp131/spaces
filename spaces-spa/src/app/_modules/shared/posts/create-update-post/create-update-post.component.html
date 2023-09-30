@@ -1,6 +1,8 @@
 <div class="container">
-  <mat-expansion-panel *ngIf="!postId; else edit">
-    <mat-expansion-panel-header> Create post &nbsp;
+  <mat-expansion-panel *ngIf="!postId; else edit" #panel>
+    <mat-expansion-panel-header> 
+      <div class="section" [ngClass]="{'expanded': panel.expanded, 'fade': !panel.expanded}"><span><b>{{mySpace ? "My Space" : "Our Space"}}</b></span></div> 
+      Create post &nbsp;
       <mat-icon>playlist_add</mat-icon></mat-expansion-panel-header>
     <mat-panel-description>
       <ng-template [ngTemplateOutlet]="edit"></ng-template>

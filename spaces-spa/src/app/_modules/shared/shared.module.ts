@@ -13,7 +13,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxEditorModule } from 'ngx-editor';
 import { RouterModule } from '@angular/router';
-import { MainComponent } from './posts/main/main.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +24,6 @@ import { MainComponent } from './posts/main/main.component';
     CommentComponent,
     CreateCommentComponent,
     CommentsListComponent,
-    MainComponent,
   ],
   imports: [
     CommonModule,

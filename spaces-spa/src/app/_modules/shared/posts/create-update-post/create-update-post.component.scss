@@ -1,4 +1,4 @@
-.container{
+.container {
   width: 80rem;
 }
 
@@ -10,6 +10,22 @@ mat-expansion-panel {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: relative;
+
+    .section {
+      position: absolute;
+      top: 1.4rem;
+      left: 2rem;
+    }
+
+    .expanded {
+      margin-top: 1rem;
+      transition: all .3s ease;
+    }
+
+    .fade {
+      transition: all .3s ease;
+    }
   }
 
   mat-panel-description {
