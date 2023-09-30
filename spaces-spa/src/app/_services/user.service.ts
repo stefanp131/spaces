@@ -27,7 +27,7 @@ export class UserService {
     return this.http.patch(`${this.baseUrl}user/${id}`, profile);
   }
   
-  getProfileById(id: number): Observable<User> {
-    return this.http.get<User>(`${this.baseUrl}user/${id}/profile`);
+  getProfileById(id: number): Observable<Profile> {
+    return this.http.get<Profile>(`${this.baseUrl}user/${id}/profile`);
   }
 }

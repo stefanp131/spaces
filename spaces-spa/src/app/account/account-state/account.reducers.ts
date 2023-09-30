@@ -2,6 +2,8 @@ import { createReducer, on } from '@ngrx/store';
 import { User } from '../../_models/User';
 import {
   autoLogin,
+  getUserProfile,
+  getUserProfileSuccess,
   login,
   loginError,
   loginSuccess,
@@ -11,6 +13,9 @@ import {
   register,
   registerError,
   registerSuccess,
+  updateUserProfile,
+  updateUserProfileError,
+  updateUserProfileSuccess
 } from './account.actions';
 import { SpacesStateStatus } from 'src/app/_models/SpacesStateStatus';
 
@@ -71,6 +76,36 @@ export const accountReducer = createReducer(
     status: SpacesStateStatus.Success,
   })),
   on(registerError, (state, { error }) => ({
+    ...state,
+    error: error,
+    status: SpacesStateStatus.Error,
+  })),
+
+  on(getUserProfile, (state) => ({
+    ...state,
+    status: SpacesStateStatus.Loading,
+  })),
+  on(getUserProfileSuccess, (state, { profile }) => ({
+    ...state,
+    user: { ...state.user, aboutMe: profile.aboutMe},
+    status: SpacesStateStatus.Success,
+  })),
+  on(registerError, (state, { error }) => ({
+    ...state,
+    error: error,
+    status: SpacesStateStatus.Error,
+  })),
+
+  on(updateUserProfile, (state) => ({
+    ...state,
+    status: SpacesStateStatus.Loading,
+  })),
+  on(updateUserProfileSuccess, (state, { profile }) => ({
+    ...state,
+    user: { ...state.user, aboutMe: profile.aboutMe},
+    status: SpacesStateStatus.Success,
+  })),
+  on(updateUserProfileError, (state, { error }) => ({
     ...state,
     error: error,
     status: SpacesStateStatus.Error,

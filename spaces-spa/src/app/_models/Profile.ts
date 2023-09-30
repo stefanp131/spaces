@@ -1,4 +1,4 @@
 export interface Profile {
-  profileImage: string;
+  profileImage?: string;
   aboutMe: string;
 }

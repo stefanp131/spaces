@@ -1,0 +1,17 @@
+<div class="container">
+  <mat-card>
+    <mat-card-title>{{(account$ | async).username | uppercase}}'s Profile</mat-card-title>
+    <mat-card-content>
+      <form class="form-content" *ngIf="profileForm" [formGroup]="profileForm"
+        (ngSubmit)="this.profileForm.dirty && updateProfile()">
+        <mat-form-field>
+          <mat-label>About Me ({{profileForm.get('aboutMe').value.length}}/500)</mat-label>
+          <textarea maxlength="500" matInput formControlName="aboutMe"
+            [placeholder]="'Insert description about yourself...'" rows="4"></textarea>
+        </mat-form-field>
+        <button mat-raised-button [disabled]="profileForm.pristine">Update
+          Profile</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

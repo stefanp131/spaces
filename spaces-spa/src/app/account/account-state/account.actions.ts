@@ -1,6 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { User } from '../../_models/User';
 import { Credentials } from 'src/app/_models/Credentials';
+import { Profile } from 'src/app/_models/Profile';
 
 export const login = createAction(
   '[Login Page] Login',
@@ -29,8 +30,6 @@ export const logoutError = createAction(
   props<{ error: string }>()
 );
 
-
-
 export const register = createAction(
   '[Register Page] Register',
   props<{ model: Credentials }>()
@@ -43,5 +42,32 @@ export const registerSuccess = createAction(
 
 export const registerError = createAction(
   '[Register Page] Register Error',
+  props<{ error: string }>()
+);
+
+export const getUserProfile = createAction('[Profile Page] Get Profile');
+
+export const getUserProfileSuccess = createAction(
+  '[Profile Page] Get Profile Success',
+  props<{ profile: Profile }>()
+);
+
+export const getUserProfileError = createAction(
+  '[Profile Page] Get Profile Error',
+  props<{ error: string }>()
+);
+
+export const updateUserProfile = createAction(
+  '[Profile Page] Update Profile',
+  props<{ profile: Profile }>()
+);
+
+export const updateUserProfileSuccess = createAction(
+  '[Profile Page] Update Profile Success',
+  props<{ profile: Profile }>()
+);
+
+export const updateUserProfileError = createAction(
+  '[Profile Page] Update Profile Error',
   props<{ error: string }>()
 );
