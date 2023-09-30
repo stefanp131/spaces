@@ -14,9 +14,11 @@ import {
   deletePost,
   deletePostError,
   deletePostSuccess,
-  getPosts,
-  getPostsError,
-  getPostsSuccess,
+  getPostsAndUsers,
+  getPostsAndUsersError,
+  getPostsAndUsersSuccess,
+  toggleFollowUser,
+  toggleFollowUserSuccess,
   toggleLikeComment,
   toggleLikeCommentError,
   toggleLikeCommentSuccess,
@@ -28,32 +30,67 @@ import {
   updatePostSuccess,
 } from './our-space.actions';
 import { Comment } from 'src/app/_models/Comment';
+import { User } from 'src/app/_models/User';
+import { FollowedUsers } from 'src/app/_models/FollowedUsers';
 
 export interface OurSpaceState {
   posts: Post[];
+  users: User[];
   error: string;
   status: SpacesStateStatus;
 }
 
 export const initialState: OurSpaceState = {
   posts: [],
+  users: [],
   error: null,
   status: SpacesStateStatus.Pending,
 };
 
 export const ourSpaceReducer = createReducer(
   initialState,
-  on(getPosts, (state) => ({ ...state, status: SpacesStateStatus.Loading })),
-  on(getPostsSuccess, (state, { posts }) => ({
+  on(getPostsAndUsers, (state) => ({
     ...state,
+    status: SpacesStateStatus.Loading,
+  })),
+  on(getPostsAndUsersSuccess, (state, { users, posts }) => ({
+    ...state,
+    users: users,
     posts: posts,
     status: SpacesStateStatus.Success,
   })),
-  on(getPostsError, (state, { error }) => ({
+  on(getPostsAndUsersError, (state, { error }) => ({
     ...state,
     error: error,
     status: SpacesStateStatus.Error,
   })),
+
+  on(toggleFollowUser, (state) => ({
+    ...state,
+    status: SpacesStateStatus.Loading,
+  })),
+  on(toggleFollowUserSuccess, (state, { follow, sourceId, targetId }) => ({
+    ...state,
+    users: [
+      ...state.users.map((user) =>
+        user.id === targetId
+          ? {
+              ...user,
+              followedByUsers: !follow
+                ? removeFollow(user, sourceId, targetId)
+                : addFollow(user, sourceId, targetId),
+            }
+          : user
+      ),
+    ],
+    status: SpacesStateStatus.Success,
+  })),
+  on(getPostsAndUsersError, (state, { error }) => ({
+    ...state,
+    error: error,
+    status: SpacesStateStatus.Error,
+  })),
+
   on(createPost, (state) => ({ ...state, status: SpacesStateStatus.Loading })),
   on(createPostSuccess, (state, { post }) => ({
     ...state,
@@ -110,7 +147,7 @@ export const ourSpaceReducer = createReducer(
     ...state,
     error: error,
     status: SpacesStateStatus.Error,
-  })),  
+  })),
   on(toggleLikeComment, (state) => ({
     ...state,
     status: SpacesStateStatus.Loading,
@@ -192,6 +229,28 @@ export const ourSpaceReducer = createReducer(
   }))
 );
 
+function addFollow(
+  user: User,
+  sourceId: number,
+  targetId: number
+): FollowedUsers[] {
+  return [
+    ...user.followedByUsers,
+    { sourceUserId: sourceId, targetUserId: targetId },
+  ];
+}
+
+function removeFollow(
+  user: User,
+  sourceId: number,
+  targetId: number
+): FollowedUsers[] {
+  return user.followedByUsers.filter(
+    (followedUser) =>
+      followedUser.sourceUserId !== sourceId ||
+      followedUser.targetUserId !== targetId
+  );
+}
 
 function returnPostWithLike(
   listPost: Post,

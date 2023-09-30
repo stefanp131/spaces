@@ -1,19 +1,35 @@
-import { createAction, props } from "@ngrx/store";
-import { Comment } from "src/app/_models/Comment";
-import { CreateComment } from "src/app/_models/CreateComment";
-import { CreateUpdatePost } from "src/app/_models/CreateUpdatePost";
-import { LikesForComment } from "src/app/_models/LikesForComment";
-import { LikesForPost } from "src/app/_models/LikesForPost";
-import { Post } from "src/app/_models/Post";
+import { createAction, props } from '@ngrx/store';
+import { Comment } from 'src/app/_models/Comment';
+import { CreateComment } from 'src/app/_models/CreateComment';
+import { CreateUpdatePost } from 'src/app/_models/CreateUpdatePost';
+import { LikesForComment } from 'src/app/_models/LikesForComment';
+import { LikesForPost } from 'src/app/_models/LikesForPost';
+import { Post } from 'src/app/_models/Post';
+import { User } from 'src/app/_models/User';
 
-export const getPosts = createAction('[Our-Space] Get Posts');
-export const getPostsSuccess = createAction(
-  '[Our-Space] Get Posts Success',
-  props<{ posts: Post[] }>()
+export const getPostsAndUsers = createAction('[Our-Space] Get Posts And Users');
+export const getPostsAndUsersSuccess = createAction(
+  '[Our-Space] Get Posts And Users Success',
+  props<{ users: User[]; posts: Post[] }>()
 );
 
-export const getPostsError = createAction(
-  '[Our-Space] Get Posts Error',
+export const getPostsAndUsersError = createAction(
+  '[Our-Space] Get Posts And Users Error',
+  props<{ error: string }>()
+);
+
+export const toggleFollowUser = createAction(
+  '[Our-Space] Toggle Follow User',
+  props<{ follow: boolean; targetId: number }>()
+);
+
+export const toggleFollowUserSuccess = createAction(
+  '[Our-Space] Toggle Follow User Success',
+  props<{ follow: boolean; sourceId: number; targetId: number }>()
+);
+
+export const toggleFollowUserError = createAction(
+  '[Our-Space] Toggle Follow User Error',
   props<{ error: string }>()
 );
 
@@ -34,12 +50,12 @@ export const createPostError = createAction(
 
 export const toggleLikePost = createAction(
   '[Our-Space] Toggle Like Post',
-  props<{ postId: number, likedByUsers: LikesForPost[] }>()
+  props<{ postId: number; likedByUsers: LikesForPost[] }>()
 );
 
 export const toggleLikePostSuccess = createAction(
   '[Our-Space] Toggle Like Post Success',
-  props<{like: boolean; postId: number; userId: number }>()
+  props<{ like: boolean; postId: number; userId: number }>()
 );
 
 export const toggleLikePostError = createAction(
@@ -49,7 +65,7 @@ export const toggleLikePostError = createAction(
 
 export const updatePost = createAction(
   '[Our-Space Update] Update Post',
-  props<{ id: number, updatePost: CreateUpdatePost }>()
+  props<{ id: number; updatePost: CreateUpdatePost }>()
 );
 
 export const updatePostSuccess = createAction(
@@ -94,12 +110,16 @@ export const createCommentError = createAction(
 
 export const toggleLikeComment = createAction(
   '[Our-Space] Toggle Like Comment',
-  props<{ commentId: number, likedByUsers: LikesForComment[], postId: number,}>()
+  props<{
+    commentId: number;
+    likedByUsers: LikesForComment[];
+    postId: number;
+  }>()
 );
 
 export const toggleLikeCommentSuccess = createAction(
   '[Our-Space] Toggle Like Comment Success',
-  props<{like: boolean; commentId: number; userId: number, postId: number }>()
+  props<{ like: boolean; commentId: number; userId: number; postId: number }>()
 );
 
 export const toggleLikeCommentError = createAction(
@@ -109,12 +129,12 @@ export const toggleLikeCommentError = createAction(
 
 export const deleteComment = createAction(
   '[Our-Space] Delete Comment',
-  props<{ commentId: number, postId: number }>()
+  props<{ commentId: number; postId: number }>()
 );
 
 export const deleteCommentSuccess = createAction(
   '[Our-Space] Delete Comment Success',
-  props<{ commentId: number, postId: number }>()
+  props<{ commentId: number; postId: number }>()
 );
 
 export const deleteCommentError = createAction(

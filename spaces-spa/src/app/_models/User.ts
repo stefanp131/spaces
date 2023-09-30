@@ -1,3 +1,4 @@
+import { FollowedUsers } from "./FollowedUsers";
 import { Post } from "./Post";
 
 export interface User {
@@ -8,4 +9,7 @@ export interface User {
   profileImage?: string;
   aboutMe?: string;
   posts?: Post[];
+  followedByUsers?: FollowedUsers[];
+  followedUsers?: FollowedUsers[];
+  followed?: boolean;
 }

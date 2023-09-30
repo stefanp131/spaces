@@ -11,7 +11,7 @@ import {
 import {
   selectPosts,
 } from 'src/app/my-space/my-space-state/my-space.selectors';
-import { getPosts as getPostsOurSpace } from 'src/app/our-space/our-space-state/our-space.actions';
+import { getPostsAndUsers } from 'src/app/our-space/our-space-state/our-space.actions';
 import {
   selectPosts as selectPostsOurSpace,
 } from 'src/app/our-space/our-space-state/our-space.selectors';
@@ -39,7 +39,7 @@ export class PostsListComponent implements OnInit, OnDestroy {
     this.store.dispatch(openHubs());
 
     if (!this.mySpace) {
-      this.store.dispatch(getPostsOurSpace());
+      this.store.dispatch(getPostsAndUsers());
       this.postList = this.store.select(selectPostsOurSpace);
     } else {
       this.store.dispatch(getPosts());

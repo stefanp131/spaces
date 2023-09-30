@@ -33,6 +33,30 @@ public class UserRepository : IUsersRepository
                 .ThenInclude(comment => comment.LikedByUsers)
             .Include(user => user.Posts)
                 .ThenInclude(post => post.LikedByUsers)
+            .Include(user => user.FollowedByUsers)
+            .Include(user => user.FollowedUsers)
+            .AsNoTracking()
+            .AsSplitQuery()
             .ToListAsync();
+    }
+    
+    public async Task CreateFollowerAsync(int sourceUserId, int targetUserId)
+    {
+        await _context.Followers.AddAsync(new Follow()
+        {
+            SourceUserId = sourceUserId,
+            TargetUserId = targetUserId
+        });
+    }
+
+    public async Task DeleteFollowerAsync(int sourceUserId, int targetUserId)
+    {
+        var follow =  await _context.Followers.FirstOrDefaultAsync(follow => 
+            follow.SourceUserId == sourceUserId && follow.TargetUserId == targetUserId);
+
+        if (follow != null)
+        {
+            _context.Followers.Remove(follow);
+        }
     }
 }

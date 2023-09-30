@@ -11,10 +11,9 @@ public class SpacesContext : IdentityDbContext<AppUser, AppRole, int, IdentityUs
 {
     public DbSet<Post> Posts { get; set; }
     public DbSet<Comment> Comments { get; set; }
-
     public DbSet<LikeForPost> LikesForPosts { get; set; }
     public DbSet<LikeForComment> LikesForComments { get; set; }
-
+    public DbSet<Follow> Followers { get; set; }
 
     public SpacesContext(DbContextOptions options) : base(options)
     {
@@ -41,7 +40,7 @@ public class SpacesContext : IdentityDbContext<AppUser, AppRole, int, IdentityUs
         
         builder.Entity<Follow>()
             .HasOne(s => s.SourceUser)
-            .WithMany(l => l.UsersIFollow)
+            .WithMany(l => l.FollowedUsers)
             .HasForeignKey(s => s.SourceUserId)
             .OnDelete(DeleteBehavior.Cascade);
 

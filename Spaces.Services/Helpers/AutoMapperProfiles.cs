@@ -26,7 +26,7 @@ public class AutoMapperProfiles : Profile
         );;
         CreateMap<LikeForPost, LikeForPostDto>();
         CreateMap<LikeForComment, LikeForCommentDto>();
-
+        CreateMap<Follow, FollowDto>();
     }
 
 }

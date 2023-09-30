@@ -54,5 +54,21 @@ namespace Spaces.API.Controllers
             return Ok(profileDto);
         }
         
+        [HttpPost("{id}/follow")]
+        public async Task<IActionResult> Follow([FromBody] FollowDto followDto)
+        {
+             await _userService.CreateFollowerAsync(followDto.SourceUserId, followDto.TargetUserId);
+
+            return Ok();
+        }
+        
+        [HttpPost("{id}/unfollow")]
+        public async Task<IActionResult> Unfollow([FromBody] FollowDto followDto)
+        {
+            await _userService.DeleteFollowerAsync(followDto.SourceUserId, followDto.TargetUserId);
+
+            return Ok();
+        }
+        
     }
 }

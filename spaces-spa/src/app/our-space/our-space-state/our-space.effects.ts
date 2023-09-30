@@ -2,7 +2,15 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
-import { catchError, from, map, of, switchMap, tap, withLatestFrom } from 'rxjs';
+import {
+  catchError,
+  from,
+  map,
+  of,
+  switchMap,
+  tap,
+  withLatestFrom,
+} from 'rxjs';
 import { PostsService } from 'src/app/_services/post.service';
 import {
   createComment,
@@ -17,9 +25,12 @@ import {
   deletePost,
   deletePostError,
   deletePostSuccess,
-  getPosts,
-  getPostsError,
-  getPostsSuccess,
+  getPostsAndUsers,
+  getPostsAndUsersError,
+  getPostsAndUsersSuccess,
+  toggleFollowUser,
+  toggleFollowUserError,
+  toggleFollowUserSuccess,
   toggleLikeComment,
   toggleLikeCommentError,
   toggleLikeCommentSuccess,
@@ -33,7 +44,11 @@ import {
 import { CommentsService } from 'src/app/_services/comment.service';
 import { Comment } from 'src/app/_models/Comment';
 import { UserService } from 'src/app/_services/user.service';
-import { selectCommentsLikedByUser, selectPostsLikedByUser, selectUser } from 'src/app/account/account-state/account.selectors';
+import {
+  selectCommentsLikedByUser,
+  selectPostsLikedByUser,
+  selectUser,
+} from 'src/app/account/account-state/account.selectors';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app-state';
 
@@ -47,22 +62,34 @@ export class OurSpaceEffects {
     private router: Router,
     private postService: PostsService,
     private commentService: CommentsService,
-    private store: Store<AppState>  ) {}
+    private store: Store<AppState>
+  ) {}
 
-  getPosts$ = createEffect(() =>
+  getPostsAndUsers$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(getPosts),
-      switchMap(() =>
+      ofType(getPostsAndUsers),
+      withLatestFrom(this.store.select(selectUser)),
+      switchMap(([action, user]) =>
         this.userService.getUsers().pipe(
           map((users) => {
-            const posts = users.flatMap((user) => user.posts);
-            return getPostsSuccess({ posts: posts });
+            const accountUser = users.find(
+              (listUser) => +user.id === listUser.id
+            );
+            const followedByUsersFlatMap = accountUser.followedUsers.flatMap(
+              (obj) => obj.targetUserId
+            );
+            const followedByUsers = users.filter((listUser) =>
+              followedByUsersFlatMap.includes(listUser.id)
+            );
+
+            const posts = followedByUsers.flatMap((listUser) => listUser.posts);
+            return getPostsAndUsersSuccess({ users: users, posts: posts });
           }),
           catchError((error) => {
             this.snackBar.open('Something went wrong!', 'Dismiss', {
               duration: 5000,
             });
-            return of(getPostsError({ error }));
+            return of(getPostsAndUsersError({ error }));
           })
         )
       )
@@ -91,11 +118,13 @@ export class OurSpaceEffects {
     )
   );
 
-
   toggleLikePost$ = createEffect(() =>
     this.actions$.pipe(
       ofType(toggleLikePost),
-      concatLatestFrom((action) => [this.store.select(selectUser), this.store.select(selectPostsLikedByUser(action.likedByUsers))]),
+      concatLatestFrom((action) => [
+        this.store.select(selectUser),
+        this.store.select(selectPostsLikedByUser(action.likedByUsers)),
+      ]),
       map(([action, user, like]) => {
         if (like) {
           this.postService.dislike(+user.id, action.postId);
@@ -112,30 +141,74 @@ export class OurSpaceEffects {
         return of(toggleLikePostError({ error }));
       })
     )
-  );  
+  );
+
+  toggleFollow$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(toggleFollowUser),
+      withLatestFrom(this.store.select(selectUser)),
+      switchMap(([action, user]) =>
+        !action.follow
+          ? this.userService
+              .unfollow({
+                sourceUserId: +user.id,
+                targetUserId: +action.targetId,
+              })
+              .pipe(
+                map(() =>
+                  toggleFollowUserSuccess({
+                    follow: action.follow,
+                    sourceId: +user.id,
+                    targetId: +action.targetId,
+                  })
+                )
+              )
+          : this.userService
+              .follow({
+                sourceUserId: +user.id,
+                targetUserId: +action.targetId,
+              })
+              .pipe(
+                map(() =>
+                  toggleFollowUserSuccess({
+                    follow: action.follow,
+                    sourceId: +user.id,
+                    targetId: +action.targetId,
+                  })
+                )
+              )
+      ),
+      catchError((error) => {
+        return of(toggleFollowUserError({ error }));
+      })
+    )
+  );
 
   toggleLikeCommentt$ = createEffect(() =>
-  this.actions$.pipe(
-    ofType(toggleLikeComment),
-    concatLatestFrom((action) => [this.store.select(selectUser), this.store.select(selectCommentsLikedByUser(action.likedByUsers))]),
-    map(([action, user, like]) => {
-      if (like) {
-        this.commentService.dislike(+user.id, action.commentId);
-      } else {
-        this.commentService.like(+user.id, action.commentId);
-      }
-      return toggleLikeCommentSuccess({
-        like: like,
-        userId: +user.id,
-        commentId: action.commentId,
-        postId: action.postId
-      });
-    }),
-    catchError((error) => {
-      return of(toggleLikeCommentError({ error }));
-    })
-  )
-);
+    this.actions$.pipe(
+      ofType(toggleLikeComment),
+      concatLatestFrom((action) => [
+        this.store.select(selectUser),
+        this.store.select(selectCommentsLikedByUser(action.likedByUsers)),
+      ]),
+      map(([action, user, like]) => {
+        if (like) {
+          this.commentService.dislike(+user.id, action.commentId);
+        } else {
+          this.commentService.like(+user.id, action.commentId);
+        }
+        return toggleLikeCommentSuccess({
+          like: like,
+          userId: +user.id,
+          commentId: action.commentId,
+          postId: action.postId,
+        });
+      }),
+      catchError((error) => {
+        return of(toggleLikeCommentError({ error }));
+      })
+    )
+  );
 
   updatePost$ = createEffect(() =>
     this.actions$.pipe(

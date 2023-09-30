@@ -8,6 +8,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { SharedModule } from 'src/app/_modules/shared/shared.module';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from 'src/app/_guards/auth.guard';
+import { NgMaterialModule } from 'src/app/_modules/ng-material/ng-material.module';
 const routes: Routes = [
   {
     path: '',
@@ -20,6 +21,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     SharedModule,
+    NgMaterialModule,
     StoreModule.forFeature('ourSpace', ourSpaceReducer),
     EffectsModule.forFeature([OurSpaceEffects]),
     RouterModule.forChild(routes),

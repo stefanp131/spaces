@@ -56,4 +56,16 @@ public class UserService: IUserService
 
         return profileDto;
     }
+
+    public async Task CreateFollowerAsync(int sourceUserId, int targetUserId)
+    {
+        await _usersRepository.CreateFollowerAsync(sourceUserId, targetUserId);
+        await _unitOfWork.Complete();
+    }
+
+    public async Task DeleteFollowerAsync(int sourceUserId, int targetUserId)
+    {
+        await _usersRepository.DeleteFollowerAsync(sourceUserId, targetUserId);
+        await _unitOfWork.Complete();
+    }
 }

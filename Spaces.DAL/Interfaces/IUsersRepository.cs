@@ -8,4 +8,6 @@ public interface IUsersRepository
 {
     Task<AppUser> GetUserByIdAsync(int id);
     Task<List<AppUser>> GetUsersAsync();
+    Task CreateFollowerAsync(int sourceUserId, int targetUserId);
+    Task DeleteFollowerAsync(int sourceUserId, int targetUserId);
 }
