@@ -55,7 +55,7 @@ namespace Spaces.API.Controllers
         }
         
         [HttpGet("{id}/followed")]
-        public async Task<ActionResult<FollowDto>> GetFollowedUsers(int id)
+        public async Task<ActionResult<List<FollowDto>>> GetFollowedUsers(int id)
         {
             var followedUsers = await _userService.GetFollowedUsersAsync(id);
 
@@ -66,7 +66,7 @@ namespace Spaces.API.Controllers
         }
         
         [HttpGet("{id}/followedby")]
-        public async Task<ActionResult<FollowDto>> GetFollowedByUsers(int id)
+        public async Task<ActionResult<List<FollowDto>>> GetFollowedByUsers(int id)
         {
             var followedByUsers = await _userService.GetFollowedByUsersAsync(id);
 
