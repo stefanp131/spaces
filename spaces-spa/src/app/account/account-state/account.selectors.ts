@@ -6,23 +6,47 @@ import { AppState } from 'src/app/app-state';
 
 export interface AccountState {
   user: User;
+  users: User[];
 }
 
-export const selectSpaces = (state: AppState) => state.account;
+export const selectAccount = (state: AppState) => state.account;
 export const selectUser = createSelector(
-  selectSpaces,
+  selectAccount,
   (state: AccountState) => state.user
 );
 
+export const selectUsers = createSelector(
+  selectAccount,
+  (state: AccountState) => state.users
+);
+
+export const selectUserWithFollowers = createSelector(
+  selectUser,
+  selectUsers,
+  (user, users) => [
+    ...users.map((listUser) => {
+
+
+      return {
+        ...listUser,
+        followed:
+          listUser.followedByUsers.find(
+            (followedByUser) => followedByUser.sourceUserId === +user.id
+          ) !== undefined,
+      };
+    })
+  ]
+);
+
 export const selectPostsLikedByUser = (likedByUsers: LikesForPost[]) =>
-  createSelector(selectSpaces, (state: AccountState) =>
+  createSelector(selectAccount, (state: AccountState) =>
     likedByUsers.some(
       (likedByUser) => likedByUser.sourceUserId == state.user.id
     )
   );
 
-  export const selectCommentsLikedByUser = (likedByUsers: LikesForComment[]) =>
-  createSelector(selectSpaces, (state: AccountState) =>
+export const selectCommentsLikedByUser = (likedByUsers: LikesForComment[]) =>
+  createSelector(selectAccount, (state: AccountState) =>
     likedByUsers.some(
       (likedByUser) => likedByUser.sourceUserId == state.user.id
     )

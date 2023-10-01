@@ -1,17 +1,40 @@
 <div class="container">
-  <mat-card>
+  <mat-card class="profile">
     <mat-card-title>{{(account$ | async).username | uppercase}}'s Profile</mat-card-title>
     <mat-card-content>
       <form class="form-content" *ngIf="profileForm" [formGroup]="profileForm"
         (ngSubmit)="this.profileForm.dirty && updateProfile()">
         <mat-form-field>
-          <mat-label>About Me ({{profileForm.get('aboutMe').value.length}}/500)</mat-label>
+          <mat-label>About Me ({{profileForm.get('aboutMe').value ? profileForm.get('aboutMe').value.length : 0}}/500)</mat-label>
           <textarea maxlength="500" matInput formControlName="aboutMe"
             [placeholder]="'Insert description about yourself...'" rows="4"></textarea>
         </mat-form-field>
         <button mat-raised-button [disabled]="profileForm.pristine">Update
           Profile</button>
       </form>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="search">
+    <mat-card-content><form class="form-content" *ngIf="searchForm" [formGroup]="searchForm"
+      (ngSubmit)="this.searchForm.dirty && search()">
+      <mat-form-field>
+        <mat-label>Search</mat-label>
+        <input matInput formControlName="search"
+          [placeholder]="'Search by username'">
+      </mat-form-field>
+      <button mat-raised-button [disabled]="searchForm.pristine">Search</button>
+    </form></mat-card-content>
+    
+  </mat-card>
+
+  <mat-card class="users">
+    <mat-card-title>Check/uncheck to follow/unfollow users</mat-card-title>
+    <mat-card-content>
+      <span *ngIf="(users$ | async).length === 0 as users">No users yet! Search in order to find users!</span>
+      <mat-card *ngFor="let user of (users$ | async) as users">
+        <mat-card-content *ngIf="users.length > 0"><mat-checkbox (change)="toggleFollow($event, user.id)" [checked]="user.followed" [matTooltip]="user.aboutMe">{{user.username}}</mat-checkbox></mat-card-content>
+      </mat-card>
     </mat-card-content>
   </mat-card>
 </div>

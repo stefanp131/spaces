@@ -28,9 +28,6 @@ import {
   getPostsAndUsers,
   getPostsAndUsersError,
   getPostsAndUsersSuccess,
-  toggleFollowUser,
-  toggleFollowUserError,
-  toggleFollowUserSuccess,
   toggleLikeComment,
   toggleLikeCommentError,
   toggleLikeCommentSuccess,
@@ -70,20 +67,15 @@ export class OurSpaceEffects {
       ofType(getPostsAndUsers),
       withLatestFrom(this.store.select(selectUser)),
       switchMap(([action, user]) =>
-        this.userService.getUsers().pipe(
-          map((users) => {
-            const accountUser = users.find(
-              (listUser) => +user.id === listUser.id
-            );
-            const followedByUsersFlatMap = accountUser.followedUsers.flatMap(
-              (obj) => obj.targetUserId
-            );
-            const followedByUsers = users.filter((listUser) =>
-              followedByUsersFlatMap.includes(listUser.id)
+        this.userService.getFollowedUsers(+user.id).pipe(
+          map((followedUsers) => {
+
+            const followedUsersFlatMap = followedUsers.flatMap(
+              (obj) => obj.targetUser
             );
 
-            const posts = followedByUsers.flatMap((listUser) => listUser.posts);
-            return getPostsAndUsersSuccess({ users: users, posts: posts });
+            const posts = followedUsersFlatMap.flatMap((listUser) => listUser.posts);
+            return getPostsAndUsersSuccess({ users: followedUsersFlatMap, posts: posts });
           }),
           catchError((error) => {
             this.snackBar.open('Something went wrong!', 'Dismiss', {
@@ -139,47 +131,6 @@ export class OurSpaceEffects {
       }),
       catchError((error) => {
         return of(toggleLikePostError({ error }));
-      })
-    )
-  );
-
-  toggleFollow$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(toggleFollowUser),
-      withLatestFrom(this.store.select(selectUser)),
-      switchMap(([action, user]) =>
-        !action.follow
-          ? this.userService
-              .unfollow({
-                sourceUserId: +user.id,
-                targetUserId: +action.targetId,
-              })
-              .pipe(
-                map(() =>
-                  toggleFollowUserSuccess({
-                    follow: action.follow,
-                    sourceId: +user.id,
-                    targetId: +action.targetId,
-                  })
-                )
-              )
-          : this.userService
-              .follow({
-                sourceUserId: +user.id,
-                targetUserId: +action.targetId,
-              })
-              .pipe(
-                map(() =>
-                  toggleFollowUserSuccess({
-                    follow: action.follow,
-                    sourceId: +user.id,
-                    targetId: +action.targetId,
-                  })
-                )
-              )
-      ),
-      catchError((error) => {
-        return of(toggleFollowUserError({ error }));
       })
     )
   );

@@ -1,11 +1,2 @@
-<div class="container">
-  <mat-card>
-    <mat-card-subtitle>Select users you follow:</mat-card-subtitle>
-    <mat-card-content>
-      <mat-button-toggle-group multiple>
-        <mat-button-toggle (change)="toggleFollow($event, user.id)" *ngFor="let user of users$ | async as users" [value]="user.id" [checked]="user.followed" [matTooltip]="user.aboutMe">{{user.username}}</mat-button-toggle>
-      </mat-button-toggle-group>
-    </mat-card-content>
-  </mat-card></div>
 <app-create-update-post></app-create-update-post>
 <app-posts-list></app-posts-list>

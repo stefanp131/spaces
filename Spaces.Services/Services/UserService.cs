@@ -25,9 +25,9 @@ public class UserService: IUserService
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<List<UserDto>> GetUsersAsync()
+    public async Task<List<UserDto>> GetUsersAsync(string searchTerm)
     {
-        var users = await _usersRepository.GetUsersAsync();
+        var users = await _usersRepository.GetUsersAsync(searchTerm);
         var userDtos = _mapper.Map<List<UserDto>>(users);
 
         return userDtos;
@@ -67,5 +67,29 @@ public class UserService: IUserService
     {
         await _usersRepository.DeleteFollowerAsync(sourceUserId, targetUserId);
         await _unitOfWork.Complete();
+    }
+
+    public async Task<List<FollowDto>> GetFollowedUsersAsync(int id)
+    {
+        var followedUsers = await _usersRepository.GetFollowedUsersAsync(id);
+
+        if (followedUsers == null)
+        {
+            return null;
+        }
+
+        return _mapper.Map<List<FollowDto>>(followedUsers);
+    }
+
+    public async Task<List<FollowDto>> GetFollowedByUsersAsync(int id)
+    {
+        var followedByUsers = await _usersRepository.GetFollowedByUsersAsync(id);
+
+        if (followedByUsers == null)
+        {
+            return null;
+        }
+
+        return _mapper.Map<List<FollowDto>>(followedByUsers);    
     }
 }

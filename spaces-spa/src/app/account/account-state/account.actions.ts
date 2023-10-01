@@ -71,3 +71,35 @@ export const updateUserProfileError = createAction(
   '[Profile Page] Update Profile Error',
   props<{ error: string }>()
 );
+
+export const getUsersBySearchTerm = createAction(
+  '[Profile Page] Get Users By SearchTerm',
+  props<{ searchTerm: string }>()
+);
+
+export const getUsersBySearchTermSuccess = createAction(
+  '[Profile Page] Get Users By SearchTerm Success',
+  props<{ users: User[] }>()
+);
+
+export const getUsersBySearchTermError = createAction(
+  '[Profile Page] Get Users By SearchTerm Error',
+  props<{ error: string }>()
+);
+
+
+export const toggleFollowUser = createAction(
+  '[Profile Page] Toggle Follow User',
+  props<{ follow: boolean; targetId: number }>()
+);
+
+export const toggleFollowUserSuccess = createAction(
+  '[Profile Page] Toggle Follow User Success',
+  props<{ follow: boolean; sourceId: number; targetId: number }>()
+);
+
+export const toggleFollowUserError = createAction(
+  '[Profile Page] Toggle Follow User Error',
+  props<{ error: string }>()
+);
+

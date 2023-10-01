@@ -1,6 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { selectUser } from '../account/account-state/account.selectors';
+import {
+  selectUser,
+  selectUserWithFollowers,
+} from '../account/account-state/account.selectors';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../_services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -8,7 +11,12 @@ import { Observable, Subject, map, switchMap, takeUntil } from 'rxjs';
 import { Profile } from '../_models/Profile';
 import { User } from '../_models/User';
 import { AppState } from '../app-state';
-import { getUserProfile, updateUserProfile } from '../account/account-state/account.actions';
+import {
+  getUserProfile,
+  getUsersBySearchTerm,
+  toggleFollowUser,
+  updateUserProfile,
+} from '../account/account-state/account.actions';
 
 @Component({
   selector: 'app-profile',
@@ -17,9 +25,11 @@ import { getUserProfile, updateUserProfile } from '../account/account-state/acco
 })
 export class ProfileComponent implements OnInit, OnDestroy {
   profileForm: FormGroup;
+  searchForm: FormGroup;
   aboutMe: string;
   destroy$ = new Subject<void>();
   account$: Observable<User>;
+  users$: Observable<User[]>;
 
   constructor(
     private store: Store<AppState>,
@@ -33,9 +43,15 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.account$ = this.store.select(selectUser);
-
     this.store.dispatch(getUserProfile());
+    this.store.dispatch(getUsersBySearchTerm({ searchTerm: undefined }));
+
+    this.account$ = this.store.select(selectUser);
+    this.users$ = this.store.select(selectUserWithFollowers);
+
+    this.searchForm = this.formBuilder.group({
+      search: [''],
+    });
 
     this.store
       .select(selectUser)
@@ -48,13 +64,21 @@ export class ProfileComponent implements OnInit, OnDestroy {
       );
   }
 
-  private getProfileAndInitForm() {}
+  toggleFollow(event: any, targetId: number) {
+    this.store.dispatch(
+      toggleFollowUser({ follow: event['checked'], targetId })
+    );
+  }
+
+  public search() {
+    this.store.dispatch(getUsersBySearchTerm({searchTerm: this.searchForm.get('search').value}));
+  }
 
   public updateProfile() {
     const profile: Profile = {
       ...this.profileForm.value,
     };
 
-    this.store.dispatch(updateUserProfile({profile: this.profileForm.value}))
+    this.store.dispatch(updateUserProfile({ profile: this.profileForm.value }));
   }
 }

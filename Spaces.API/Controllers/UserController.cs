@@ -18,9 +18,9 @@ namespace Spaces.API.Controllers
         }
         
         [HttpGet()]
-        public async Task<ActionResult<UserDto>> GetUsers()
+        public async Task<ActionResult<UserDto>> GetUsers([FromQuery] string searchTerm)
         {
-            var users = await this._userService.GetUsersAsync();
+            var users = await this._userService.GetUsersAsync(searchTerm);
 
             return Ok(users);
         }
@@ -52,6 +52,28 @@ namespace Spaces.API.Controllers
             var profileDto = await _userService.GetProfileAsync(id);
 
             return Ok(profileDto);
+        }
+        
+        [HttpGet("{id}/followed")]
+        public async Task<ActionResult<FollowDto>> GetFollowedUsers(int id)
+        {
+            var followedUsers = await _userService.GetFollowedUsersAsync(id);
+
+            if(followedUsers == null)
+                return NotFound();
+
+            return Ok(followedUsers);
+        }
+        
+        [HttpGet("{id}/followedby")]
+        public async Task<ActionResult<FollowDto>> GetFollowedByUsers(int id)
+        {
+            var followedByUsers = await _userService.GetFollowedByUsersAsync(id);
+
+            if(followedByUsers == null)
+                return NotFound();
+
+            return Ok(followedByUsers);
         }
         
         [HttpPost("{id}/follow")]

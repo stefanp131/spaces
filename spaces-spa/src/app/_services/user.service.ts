@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
@@ -14,8 +14,13 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(`${this.baseUrl}user`);
+  getUsers(searchTerm?: string): Observable<User[]> {
+    let params = new HttpParams();
+
+    if (searchTerm) {
+      params = params.append('searchTerm', searchTerm);
+    }
+    return this.http.get<User[]>(`${this.baseUrl}user`, { params });
   }
 
   getUserById(id: number): Observable<User> {
@@ -28,6 +33,14 @@ export class UserService {
 
   getProfileById(id: number): Observable<Profile> {
     return this.http.get<Profile>(`${this.baseUrl}user/${id}/profile`);
+  }
+
+  getFollowedUsers(id: number): Observable<FollowedUsers[]> {
+    return this.http.get<FollowedUsers[]>(`${this.baseUrl}user/${id}/followed`);
+  }
+
+  getFollowedByUsers(id: number): Observable<FollowedUsers[]> {
+    return this.http.get<FollowedUsers[]>(`${this.baseUrl}user/${id}/followedby`);
   }
 
   follow(followedUser: FollowedUsers) {

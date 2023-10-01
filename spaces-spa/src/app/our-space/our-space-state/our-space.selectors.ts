@@ -29,31 +29,6 @@ export const selectUsers = createSelector(
   (state: OurSpaceState) => state.users
 );
 
-const getUserFeatureState = (state: AppState) => state.account;
-const getOurSpaceFeature = (state: AppState) => state.ourSpace;
-
-export const selectUserWithFollowers = createSelector(
-  getOurSpaceFeature,
-  getUserFeatureState,
-  (state, account) => [
-    ...state.users.map((listUser) => {
-
-
-      const kk = {
-        ...listUser,
-        followed:
-          listUser.followedByUsers.find(
-            (followedByUser) => followedByUser.sourceUserId === +account.user.id
-          ) !== undefined,
-      };
-
-      console.log(kk);
-
-      return kk;
-    }).filter(listUser => listUser.id !== +account.user.id),
-  ]
-);
-
 export const selectPost = (id: number) =>
   createSelector(selectOurSpace, (state: OurSpaceState) =>
     state.posts.find((post) => post.id === id)

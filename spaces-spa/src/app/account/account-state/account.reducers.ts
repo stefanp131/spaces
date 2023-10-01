@@ -4,6 +4,9 @@ import {
   autoLogin,
   getUserProfile,
   getUserProfileSuccess,
+  getUsersBySearchTerm,
+  getUsersBySearchTermError,
+  getUsersBySearchTermSuccess,
   login,
   loginError,
   loginSuccess,
@@ -21,12 +24,14 @@ import { SpacesStateStatus } from 'src/app/_models/SpacesStateStatus';
 
 export interface AccountState {
   user: User;
+  users: User[];
   error: string;
   status: SpacesStateStatus;
 }
 
 export const initialState: AccountState = {
   user: null,
+  users: [],
   error: null,
   status: SpacesStateStatus.Pending,
 };
@@ -106,6 +111,21 @@ export const accountReducer = createReducer(
     status: SpacesStateStatus.Success,
   })),
   on(updateUserProfileError, (state, { error }) => ({
+    ...state,
+    error: error,
+    status: SpacesStateStatus.Error,
+  })),
+
+  on(getUsersBySearchTerm, (state) => ({
+    ...state,
+    status: SpacesStateStatus.Loading,
+  })),
+  on(getUsersBySearchTermSuccess, (state, { users }) => ({
+    ...state,
+    users: users,
+    status: SpacesStateStatus.Success,
+  })),
+  on(getUsersBySearchTermError, (state, { error }) => ({
     ...state,
     error: error,
     status: SpacesStateStatus.Error,

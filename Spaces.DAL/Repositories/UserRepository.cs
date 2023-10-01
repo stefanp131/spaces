@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -25,9 +27,10 @@ public class UserRepository : IUsersRepository
             .FirstOrDefaultAsync(user => user.Id == id);
     }
 
-    public async Task<List<AppUser>> GetUsersAsync()
+    public async Task<List<AppUser>> GetUsersAsync(string searchTerm)
     {
         return await _context.Users
+            .Where(user => user.UserName.Contains(searchTerm))
             .Include(user => user.Posts)
                 .ThenInclude(post => post.Comments)
                 .ThenInclude(comment => comment.LikedByUsers)
@@ -40,6 +43,32 @@ public class UserRepository : IUsersRepository
             .ToListAsync();
     }
     
+    public async Task<List<Follow>> GetFollowedUsersAsync(int id)
+    {
+        var followers = await _context.Followers
+            .Where(follow => follow.SourceUserId == id)
+            .Include(follow => follow.TargetUser)
+            .ThenInclude(appUser => appUser.Posts)
+            .ThenInclude(post => post.LikedByUsers)
+            .Include(follow => follow.TargetUser)
+            .ThenInclude(appUser => appUser.Posts)
+            .ThenInclude(post => post.Comments)
+            .ThenInclude(comment => comment.LikedByUsers).ToListAsync();
+            
+        if (followers == null)
+        {
+            return null;
+        }
+
+        return followers;
+    }
+
+    public async Task<List<Follow>> GetFollowedByUsersAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
+
+
     public async Task CreateFollowerAsync(int sourceUserId, int targetUserId)
     {
         await _context.Followers.AddAsync(new Follow()

@@ -18,21 +18,6 @@ export const getPostsAndUsersError = createAction(
   props<{ error: string }>()
 );
 
-export const toggleFollowUser = createAction(
-  '[Our-Space] Toggle Follow User',
-  props<{ follow: boolean; targetId: number }>()
-);
-
-export const toggleFollowUserSuccess = createAction(
-  '[Our-Space] Toggle Follow User Success',
-  props<{ follow: boolean; sourceId: number; targetId: number }>()
-);
-
-export const toggleFollowUserError = createAction(
-  '[Our-Space] Toggle Follow User Error',
-  props<{ error: string }>()
-);
-
 export const createPost = createAction(
   '[Our-Space] Create Post',
   props<{ createPost: CreateUpdatePost }>()

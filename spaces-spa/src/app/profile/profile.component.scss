@@ -1,4 +1,4 @@
-mat-card {
+.profile, .search {
   margin: 1rem;
   padding: 1rem;
   width: 60rem;
@@ -37,6 +37,10 @@ form {
       width: 100%;
       resize: vertical;
     }
+
+    input{
+      width: 100%;
+    }
   }
 }
 
@@ -46,4 +50,36 @@ form {
   justify-content: center;
   align-items: center;
   gap: 1rem;
+}
+
+.users {
+  margin: 1rem;
+  padding: 1rem;
+  width: 60rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  mat-card-title {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  mat-card-content {
+    font-size: 2rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 1rem;
+
+    mat-card {
+      width: 100%;
+
+    }
+  }
 }

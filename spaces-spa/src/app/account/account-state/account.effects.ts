@@ -4,6 +4,9 @@ import {
   getUserProfile,
   getUserProfileError,
   getUserProfileSuccess,
+  getUsersBySearchTerm,
+  getUsersBySearchTermError,
+  getUsersBySearchTermSuccess,
   login,
   loginError,
   loginSuccess,
@@ -13,6 +16,9 @@ import {
   register,
   registerError,
   registerSuccess,
+  toggleFollowUser,
+  toggleFollowUserError,
+  toggleFollowUserSuccess,
   updateUserProfile,
   updateUserProfileError,
   updateUserProfileSuccess,
@@ -118,6 +124,20 @@ export class AccountEffects {
     )
   );
 
+  getUsersBySearchTerm$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(getUsersBySearchTerm),
+      switchMap((action) =>
+        this.userService.getUsers(action.searchTerm).pipe(
+          map((users) => getUsersBySearchTermSuccess({ users })),
+          catchError((error) => {
+            return of(getUsersBySearchTermError({ error }));
+          })
+        )
+      )
+    )
+  );
+
   updateUserProfile$ = createEffect(() =>
     this.actions$.pipe(
       ofType(updateUserProfile),
@@ -130,6 +150,47 @@ export class AccountEffects {
           })
         )
       )
+    )
+  );
+
+  toggleFollow$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(toggleFollowUser),
+      withLatestFrom(this.store.select(selectUser)),
+      switchMap(([action, user]) =>
+        !action.follow
+          ? this.userService
+              .unfollow({
+                sourceUserId: +user.id,
+                targetUserId: +action.targetId,
+              })
+              .pipe(
+                map(() =>
+                  toggleFollowUserSuccess({
+                    follow: action.follow,
+                    sourceId: +user.id,
+                    targetId: +action.targetId,
+                  })
+                )
+              )
+          : this.userService
+              .follow({
+                sourceUserId: +user.id,
+                targetUserId: +action.targetId,
+              })
+              .pipe(
+                map(() =>
+                  toggleFollowUserSuccess({
+                    follow: action.follow,
+                    sourceId: +user.id,
+                    targetId: +action.targetId,
+                  })
+                )
+              )
+      ),
+      catchError((error) => {
+        return of(toggleFollowUserError({ error }));
+      })
     )
   );
 }

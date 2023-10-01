@@ -17,8 +17,6 @@ import {
   getPostsAndUsers,
   getPostsAndUsersError,
   getPostsAndUsersSuccess,
-  toggleFollowUser,
-  toggleFollowUserSuccess,
   toggleLikeComment,
   toggleLikeCommentError,
   toggleLikeCommentSuccess,
@@ -57,32 +55,6 @@ export const ourSpaceReducer = createReducer(
     ...state,
     users: users,
     posts: posts,
-    status: SpacesStateStatus.Success,
-  })),
-  on(getPostsAndUsersError, (state, { error }) => ({
-    ...state,
-    error: error,
-    status: SpacesStateStatus.Error,
-  })),
-
-  on(toggleFollowUser, (state) => ({
-    ...state,
-    status: SpacesStateStatus.Loading,
-  })),
-  on(toggleFollowUserSuccess, (state, { follow, sourceId, targetId }) => ({
-    ...state,
-    users: [
-      ...state.users.map((user) =>
-        user.id === targetId
-          ? {
-              ...user,
-              followedByUsers: !follow
-                ? removeFollow(user, sourceId, targetId)
-                : addFollow(user, sourceId, targetId),
-            }
-          : user
-      ),
-    ],
     status: SpacesStateStatus.Success,
   })),
   on(getPostsAndUsersError, (state, { error }) => ({

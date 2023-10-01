@@ -7,7 +7,9 @@ namespace Spaces.DAL.Interfaces;
 public interface IUsersRepository
 {
     Task<AppUser> GetUserByIdAsync(int id);
-    Task<List<AppUser>> GetUsersAsync();
+    Task<List<AppUser>> GetUsersAsync(string searchTerm);
     Task CreateFollowerAsync(int sourceUserId, int targetUserId);
     Task DeleteFollowerAsync(int sourceUserId, int targetUserId);
+    Task<List<Follow>> GetFollowedUsersAsync(int id);
+    Task<List<Follow>> GetFollowedByUsersAsync(int id);
 }
