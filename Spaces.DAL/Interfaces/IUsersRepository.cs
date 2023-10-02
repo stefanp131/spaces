@@ -10,6 +10,6 @@ public interface IUsersRepository
     Task<List<AppUser>> GetUsersAsync(string searchTerm);
     Task CreateFollowerAsync(int sourceUserId, int targetUserId);
     Task DeleteFollowerAsync(int sourceUserId, int targetUserId);
-    Task<List<Follow>> GetFollowedUsersAsync(int id);
+    Task<List<AppUser>> GetFollowedUsersAsync(int id);
     Task<List<Follow>> GetFollowedByUsersAsync(int id);
 }

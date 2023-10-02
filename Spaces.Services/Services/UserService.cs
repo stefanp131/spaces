@@ -69,7 +69,7 @@ public class UserService: IUserService
         await _unitOfWork.Complete();
     }
 
-    public async Task<List<FollowDto>> GetFollowedUsersAsync(int id)
+    public async Task<List<UserDto>> GetFollowedUsersAsync(int id)
     {
         var followedUsers = await _usersRepository.GetFollowedUsersAsync(id);
 
@@ -78,7 +78,7 @@ public class UserService: IUserService
             return null;
         }
 
-        return _mapper.Map<List<FollowDto>>(followedUsers);
+        return _mapper.Map<List<UserDto>>(followedUsers);
     }
 
     public async Task<List<FollowDto>> GetFollowedByUsersAsync(int id)

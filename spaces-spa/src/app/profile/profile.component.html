@@ -1,6 +1,6 @@
-<div class="container">
+<div class="container" *ngIf="account$ | async as account">
   <mat-card class="profile">
-    <mat-card-title>{{(account$ | async).username | uppercase}}'s Profile</mat-card-title>
+    <mat-card-title>{{account.username | uppercase}}'s Profile</mat-card-title>
     <mat-card-content>
       <form class="form-content" *ngIf="profileForm" [formGroup]="profileForm"
         (ngSubmit)="this.profileForm.dirty && updateProfile()">
@@ -12,6 +12,15 @@
         <button mat-raised-button [disabled]="profileForm.pristine">Update
           Profile</button>
       </form>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="users">
+    <mat-card-title>Check/uncheck to follow/unfollow users</mat-card-title>
+    <mat-card-content>
+      <mat-card *ngFor="let user of (followedUsers$ | async) as followedUsers">
+        <mat-card-content *ngIf="followedUsers.length > 0"><mat-checkbox (change)="toggleFollow($event, user.id)" [checked]="user.followed" [matTooltip]="user.aboutMe">{{user.username}}</mat-checkbox></mat-card-content>
+      </mat-card>
     </mat-card-content>
   </mat-card>
 
@@ -28,13 +37,23 @@
     
   </mat-card>
 
-  <mat-card class="users">
+  <mat-card class="users" *ngIf="users$ | async as users; else noUsers">
     <mat-card-title>Check/uncheck to follow/unfollow users</mat-card-title>
     <mat-card-content>
-      <span *ngIf="(users$ | async).length === 0 as users">No users yet! Search in order to find users!</span>
-      <mat-card *ngFor="let user of (users$ | async) as users">
+      <span *ngIf="users.length === 0">No users yet! Search in order to find users!</span>
+      <mat-card *ngFor="let user of users">
         <mat-card-content *ngIf="users.length > 0"><mat-checkbox (change)="toggleFollow($event, user.id)" [checked]="user.followed" [matTooltip]="user.aboutMe">{{user.username}}</mat-checkbox></mat-card-content>
       </mat-card>
     </mat-card-content>
   </mat-card>
 </div>
+
+<ng-template #noUsers>
+  <mat-card class="users" *ngIf="users$ | async as users;">
+    <mat-card-title>Check/uncheck to follow/unfollow users</mat-card-title>
+    <mat-card-content>
+      <span *ngIf="users.length === 0 ">No users yet! Search in order to find users!</span>
+      
+    </mat-card-content>
+  </mat-card>
+</ng-template>

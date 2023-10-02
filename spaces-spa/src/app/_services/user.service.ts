@@ -35,13 +35,13 @@ export class UserService {
     return this.http.get<Profile>(`${this.baseUrl}user/${id}/profile`);
   }
 
-  getFollowedUsers(id: number): Observable<FollowedUsers[]> {
-    return this.http.get<FollowedUsers[]>(`${this.baseUrl}user/${id}/followed`);
+  getFollowedUsers(id: number): Observable<User[]> {
+    return this.http.get<User[]>(`${this.baseUrl}user/${id}/followed`);
   }
 
-  getFollowedByUsers(id: number): Observable<FollowedUsers[]> {
-    return this.http.get<FollowedUsers[]>(`${this.baseUrl}user/${id}/followedby`);
-  }
+  // getFollowedByUsers(id: number): Observable<FollowedUsers[]> {
+  //   return this.http.get<FollowedUsers[]>(`${this.baseUrl}user/${id}/followedby`);
+  // }
 
   follow(followedUser: FollowedUsers) {
     return this.http.post(

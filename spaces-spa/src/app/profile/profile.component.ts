@@ -2,7 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
   selectUser,
-  selectUserWithFollowers,
+  selectSearchUsersForUser,
+  selectFollowedUsers,
+  selectFollowersForUser,
 } from '../account/account-state/account.selectors';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../_services/user.service';
@@ -12,6 +14,7 @@ import { Profile } from '../_models/Profile';
 import { User } from '../_models/User';
 import { AppState } from '../app-state';
 import {
+  getFollowedUsers,
   getUserProfile,
   getUsersBySearchTerm,
   toggleFollowUser,
@@ -30,6 +33,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   destroy$ = new Subject<void>();
   account$: Observable<User>;
   users$: Observable<User[]>;
+  followedUsers$: Observable<User[]>;
 
   constructor(
     private store: Store<AppState>,
@@ -44,10 +48,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store.dispatch(getUserProfile());
-    this.store.dispatch(getUsersBySearchTerm({ searchTerm: undefined }));
+    this.store.dispatch(getFollowedUsers());
 
     this.account$ = this.store.select(selectUser);
-    this.users$ = this.store.select(selectUserWithFollowers);
+    this.followedUsers$ = this.store.select(selectFollowersForUser);
+    this.users$ = this.store.select(selectSearchUsersForUser);
 
     this.searchForm = this.formBuilder.group({
       search: [''],
@@ -71,7 +76,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   public search() {
-    this.store.dispatch(getUsersBySearchTerm({searchTerm: this.searchForm.get('search').value}));
+    this.store.dispatch(getUsersBySearchTerm({searchTerm: this.searchForm.get('search').value}))
   }
 
   public updateProfile() {

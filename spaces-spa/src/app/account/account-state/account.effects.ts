@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
+  getFollowedUsers,
+  getFollowedUsersError,
+  getFollowedUsersSuccess,
   getUserProfile,
   getUserProfileError,
   getUserProfileSuccess,
@@ -132,6 +135,23 @@ export class AccountEffects {
           map((users) => getUsersBySearchTermSuccess({ users })),
           catchError((error) => {
             return of(getUsersBySearchTermError({ error }));
+          })
+        )
+      )
+    )
+  );
+
+  getFollowedUsersTerm$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(getFollowedUsers),
+      withLatestFrom(this.store.select(selectUser)),
+      switchMap(([action, user]) =>
+        this.userService.getFollowedUsers(+user.id).pipe(
+          map((followedUsers) => {            
+            return getFollowedUsersSuccess({ users: followedUsers });
+          }),
+          catchError((error) => {
+            return of(getFollowedUsersError({ error }));
           })
         )
       )

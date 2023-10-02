@@ -70,12 +70,8 @@ export class OurSpaceEffects {
         this.userService.getFollowedUsers(+user.id).pipe(
           map((followedUsers) => {
 
-            const followedUsersFlatMap = followedUsers.flatMap(
-              (obj) => obj.targetUser
-            );
-
-            const posts = followedUsersFlatMap.flatMap((listUser) => listUser.posts);
-            return getPostsAndUsersSuccess({ users: followedUsersFlatMap, posts: posts });
+            const posts = followedUsers.flatMap((listUser) => listUser.posts);
+            return getPostsAndUsersSuccess({ users: followedUsers, posts: posts });
           }),
           catchError((error) => {
             this.snackBar.open('Something went wrong!', 'Dismiss', {

@@ -12,7 +12,7 @@ namespace Spaces.Services.Interfaces
         Task<ProfileDto> GetProfileAsync(int id);
         Task CreateFollowerAsync(int sourceUserId, int targetUserId);
         Task DeleteFollowerAsync(int sourceUserId, int targetUserId);
-        Task<List<FollowDto>> GetFollowedUsersAsync(int id);
+        Task<List<UserDto>> GetFollowedUsersAsync(int id);
         Task<List<FollowDto>> GetFollowedByUsersAsync(int id);
     }
 }

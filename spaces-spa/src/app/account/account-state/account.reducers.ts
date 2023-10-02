@@ -2,6 +2,9 @@ import { createReducer, on } from '@ngrx/store';
 import { User } from '../../_models/User';
 import {
   autoLogin,
+  getFollowedUsers,
+  getFollowedUsersError,
+  getFollowedUsersSuccess,
   getUserProfile,
   getUserProfileSuccess,
   getUsersBySearchTerm,
@@ -16,22 +19,28 @@ import {
   register,
   registerError,
   registerSuccess,
+  toggleFollowUser,
+  toggleFollowUserError,
+  toggleFollowUserSuccess,
   updateUserProfile,
   updateUserProfileError,
-  updateUserProfileSuccess
+  updateUserProfileSuccess,
 } from './account.actions';
 import { SpacesStateStatus } from 'src/app/_models/SpacesStateStatus';
+import { FollowedUsers } from 'src/app/_models/FollowedUsers';
 
 export interface AccountState {
   user: User;
-  users: User[];
+  searchUsers: User[];
+  followUsers: User[];
   error: string;
   status: SpacesStateStatus;
 }
 
 export const initialState: AccountState = {
   user: null,
-  users: [],
+  searchUsers: [],
+  followUsers: [],
   error: null,
   status: SpacesStateStatus.Pending,
 };
@@ -92,7 +101,7 @@ export const accountReducer = createReducer(
   })),
   on(getUserProfileSuccess, (state, { profile }) => ({
     ...state,
-    user: { ...state.user, aboutMe: profile.aboutMe},
+    user: { ...state.user, aboutMe: profile.aboutMe },
     status: SpacesStateStatus.Success,
   })),
   on(registerError, (state, { error }) => ({
@@ -107,7 +116,7 @@ export const accountReducer = createReducer(
   })),
   on(updateUserProfileSuccess, (state, { profile }) => ({
     ...state,
-    user: { ...state.user, aboutMe: profile.aboutMe},
+    user: { ...state.user, aboutMe: profile.aboutMe },
     status: SpacesStateStatus.Success,
   })),
   on(updateUserProfileError, (state, { error }) => ({
@@ -122,12 +131,86 @@ export const accountReducer = createReducer(
   })),
   on(getUsersBySearchTermSuccess, (state, { users }) => ({
     ...state,
-    users: users,
+    searchUsers: users,
     status: SpacesStateStatus.Success,
   })),
   on(getUsersBySearchTermError, (state, { error }) => ({
     ...state,
     error: error,
     status: SpacesStateStatus.Error,
+  })),
+  on(toggleFollowUser, (state) => ({
+    ...state,
+    status: SpacesStateStatus.Loading,
+  })),
+  on(toggleFollowUserSuccess, (state, { follow, sourceId, targetId }) => ({
+    ...state,
+    followUsers: [
+      ...state.followUsers.map((listUser) =>
+        listUser.id === targetId
+          ? {
+              ...listUser,
+              followedByUsers: !follow
+                ? removeFollow(listUser, sourceId, targetId)
+                : addFollow(listUser, sourceId, targetId),
+            }
+          : listUser
+      ),
+    ],
+    searchUsers: [
+      ...state.searchUsers.map((user) =>
+        user.id === targetId
+          ? {
+              ...user,
+              followedByUsers: !follow
+                ? removeFollow(user, sourceId, targetId)
+                : addFollow(user, sourceId, targetId),
+            }
+          : user
+      ),
+    ],
+    status: SpacesStateStatus.Success,
+  })),
+  on(toggleFollowUserError, (state, { error }) => ({
+    ...state,
+    error: error,
+    status: SpacesStateStatus.Error,
+  })),
+  on(getFollowedUsers, (state) => ({
+    ...state,
+    status: SpacesStateStatus.Loading,
+  })),
+  on(getFollowedUsersSuccess, (state, { users }) => ({
+    ...state,
+    followUsers: users,
+    status: SpacesStateStatus.Success,
+  })),
+  on(getFollowedUsersError, (state, { error }) => ({
+    ...state,
+    error: error,
+    status: SpacesStateStatus.Error,
   }))
 );
+
+function addFollow(
+  user: User,
+  sourceId: number,
+  targetId: number
+): FollowedUsers[] {
+  return [
+    ...user.followedByUsers,
+    { sourceUserId: sourceId, targetUserId: targetId },
+  ];
+}
+
+function removeFollow(
+  user: User,
+  sourceId: number,
+  targetId: number
+): FollowedUsers[] {
+  return user.followedByUsers.filter(
+    (followedUser) =>
+      followedUser.sourceUserId !== sourceId ||
+      followedUser.targetUserId !== targetId
+  );
+}

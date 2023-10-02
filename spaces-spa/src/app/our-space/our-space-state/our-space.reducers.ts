@@ -201,29 +201,6 @@ export const ourSpaceReducer = createReducer(
   }))
 );
 
-function addFollow(
-  user: User,
-  sourceId: number,
-  targetId: number
-): FollowedUsers[] {
-  return [
-    ...user.followedByUsers,
-    { sourceUserId: sourceId, targetUserId: targetId },
-  ];
-}
-
-function removeFollow(
-  user: User,
-  sourceId: number,
-  targetId: number
-): FollowedUsers[] {
-  return user.followedByUsers.filter(
-    (followedUser) =>
-      followedUser.sourceUserId !== sourceId ||
-      followedUser.targetUserId !== targetId
-  );
-}
-
 function returnPostWithLike(
   listPost: Post,
   postId: number,

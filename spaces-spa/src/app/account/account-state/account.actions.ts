@@ -57,6 +57,17 @@ export const getUserProfileError = createAction(
   props<{ error: string }>()
 );
 
+export const getFollowedUsers = createAction('[Profile Page] Get Followed Users');
+export const getFollowedUsersSuccess = createAction(
+  '[Profile Page] Get Followed Users Success',
+  props<{ users: User[]; }>()
+);
+
+export const getFollowedUsersError = createAction(
+  '[Profile Page] Get Followed Users Succes',
+  props<{ error: string }>()
+);
+
 export const updateUserProfile = createAction(
   '[Profile Page] Update Profile',
   props<{ profile: Profile }>()

@@ -37,13 +37,13 @@ public class UserRepository : IUsersRepository
             .Include(user => user.Posts)
                 .ThenInclude(post => post.LikedByUsers)
             .Include(user => user.FollowedByUsers)
-            .Include(user => user.FollowedUsers)
+            .ThenInclude(follow => follow.SourceUser)
             .AsNoTracking()
             .AsSplitQuery()
             .ToListAsync();
     }
     
-    public async Task<List<Follow>> GetFollowedUsersAsync(int id)
+    public async Task<List<AppUser>> GetFollowedUsersAsync(int id)
     {
         var followers = await _context.Followers
             .Where(follow => follow.SourceUserId == id)
@@ -53,7 +53,12 @@ public class UserRepository : IUsersRepository
             .Include(follow => follow.TargetUser)
             .ThenInclude(appUser => appUser.Posts)
             .ThenInclude(post => post.Comments)
-            .ThenInclude(comment => comment.LikedByUsers).ToListAsync();
+            .ThenInclude(comment => comment.LikedByUsers)
+            .Include(follow => follow.TargetUser )
+            .ThenInclude(user => user.FollowedUsers)
+            .Include(follow => follow.TargetUser )
+            .ThenInclude(user => user.FollowedByUsers)
+            .Select(follow => follow.TargetUser).ToListAsync();
             
         if (followers == null)
         {
