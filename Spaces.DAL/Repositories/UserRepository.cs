@@ -54,13 +54,17 @@ public class UserRepository : IUsersRepository
             .ThenInclude(appUser => appUser.Posts)
             .ThenInclude(post => post.Comments)
             .ThenInclude(comment => comment.LikedByUsers)
+            .Include(follow => follow.TargetUser)
+            .ThenInclude(appUser => appUser.Posts)
+            .ThenInclude(post => post.Comments)
+            .ThenInclude(comment => comment.User)
             .Include(follow => follow.TargetUser )
             .ThenInclude(user => user.FollowedUsers)
             .Include(follow => follow.TargetUser )
             .ThenInclude(user => user.FollowedByUsers)
             .Select(follow => follow.TargetUser).ToListAsync();
             
-        if (followers == null)
+        if (!followers.Any())
         {
             return null;
         }
