@@ -25,19 +25,21 @@ Here is a sample of what the application can do:
 
 <pre>Adding a post:
 
+</pre>
 ![Alt text](addapost.gif)
 
 
 
 
-Adding a comment:
+<pre>Adding a comment:
 
+</pre>
 ![Alt text](addcomment.gif)
 
 
 
 
-Adding a follower:
+<pre>Adding a follower:
 
-![Alt text](addfollower.gif)
 </pre>
+![Alt text](addfollower.gif)
