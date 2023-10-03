@@ -12,7 +12,7 @@ The project is a social app and has the following features:
 - you can edit or delete your posts/comments.
 - also there is a like feature for posts/comments.
 ---------------------------------------------
-- you can see who viewed your profile.
+- you can see who viewed your profile.*
 - you can send messages in real time*.
 - notifications in real time*.
 ----------------------------------------------
@@ -23,11 +23,20 @@ Also on FE it was built with Angular 15 - Angular material, NGRX, RxJS, HTML 5, 
 
 Here is a sample of what the application cand do:
 
+
+
+
 Adding a post:
 ![Alt text](addapost.gif)
 
+
+
+
 Adding a comment:
 ![Alt text](addcomment.gif)
+
+
+
 
 Adding a follower:
 ![Alt text](addfollower.gif)
