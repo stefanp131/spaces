@@ -21,22 +21,23 @@ Also on FE it was built with Angular 15 - Angular material, NGRX, RxJS, HTML 5, 
 
 *To be done in near future.
 
-Here is a sample of what the application cand do:
+Here is a sample of what the application can do:
 
+<pre>Adding a post:
 
-
-
-Adding a post:
 ![Alt text](addapost.gif)
 
 
 
 
 Adding a comment:
+
 ![Alt text](addcomment.gif)
 
 
 
 
 Adding a follower:
+
 ![Alt text](addfollower.gif)
+</pre>
