@@ -37,23 +37,7 @@ namespace Spaces.API.Controllers
 
             return Ok(user);
         }
-        
-        [HttpPatch("{id}")]
-        public async Task<ActionResult> UpdateProfile(int id, [FromBody] ProfileDto profile)
-        {
-            await _userService.UpdateProfileAsync(id, profile);
-
-            return Ok();
-        }
-
-        [HttpGet("{id}/profile")]
-        public async Task<ActionResult<ProfileDto>> GetProfile(int id)
-        {
-            var profileDto = await _userService.GetProfileAsync(id);
-
-            return Ok(profileDto);
-        }
-        
+       
         [HttpGet("{id}/followed")]
         public async Task<ActionResult<List<UserDto>>> GetFollowedUsers(int id)
         {

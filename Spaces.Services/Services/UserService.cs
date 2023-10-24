@@ -13,14 +13,12 @@ namespace Spaces.Services.Services;
 public class UserService: IUserService
 {
     private readonly IUsersRepository _usersRepository;
-    private readonly UserManager<AppUser> _userManager;
     private readonly IMapper _mapper;
     private readonly IUnitOfWork _unitOfWork;
 
-    public UserService(IUsersRepository usersRepository,UserManager<AppUser> userManager, IMapper mapper, IUnitOfWork unitOfWork)
+    public UserService(IUsersRepository usersRepository, IMapper mapper, IUnitOfWork unitOfWork)
     {
         _usersRepository = usersRepository;
-        _userManager = userManager;
         _mapper = mapper;
         _unitOfWork = unitOfWork;
     }
@@ -40,22 +38,6 @@ public class UserService: IUserService
 
         return userDto;
     }
-    
-    public async Task UpdateProfileAsync(int id, ProfileDto updateProfile)
-    {
-        var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == id);
-        _mapper.Map(updateProfile, user);
-
-        await _unitOfWork.Complete();
-    }
-
-    public async Task<ProfileDto> GetProfileAsync(int id)
-    {
-        var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == id);
-        var profileDto = _mapper.Map<ProfileDto>(user);
-
-        return profileDto;
-    }
 
     public async Task CreateFollowerAsync(int sourceUserId, int targetUserId)
     {
@@ -73,23 +55,13 @@ public class UserService: IUserService
     {
         var followedUsers = await _usersRepository.GetFollowedUsersAsync(id);
 
-        if (followedUsers == null)
-        {
-            return null;
-        }
-
-        return _mapper.Map<List<UserDto>>(followedUsers);
+        return followedUsers == null ? null : _mapper.Map<List<UserDto>>(followedUsers);
     }
 
     public async Task<List<FollowDto>> GetFollowedByUsersAsync(int id)
     {
         var followedByUsers = await _usersRepository.GetFollowedByUsersAsync(id);
 
-        if (followedByUsers == null)
-        {
-            return null;
-        }
-
-        return _mapper.Map<List<FollowDto>>(followedByUsers);    
+        return followedByUsers == null ? null : _mapper.Map<List<FollowDto>>(followedByUsers);
     }
 }

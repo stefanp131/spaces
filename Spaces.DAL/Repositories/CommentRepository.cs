@@ -20,8 +20,8 @@ public class CommentRepository : ICommentRepository
     {
         return await _context.Comments
             .Where(comment => comment.Id == commentId)
-            .Include(comment => comment.User)
-            .Include(comment => comment.LikedByUsers)
+            .Include("User")
+            .Include("LikedByUsers")
             .FirstAsync();
     }
 
