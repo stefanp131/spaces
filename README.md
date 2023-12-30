@@ -1,45 +1,64 @@
-This personal project is in PROGRESS.
+# Feature Highlights
 
-The project is a social app and has the following features:
+The project embodies a sophisticated social application, incorporating a diverse range of features to elevate user interaction and engagement. Here's an in-depth overview of its key functionalities:
 
-- authentication & authorization.
-- ability to create posts with a rich text editor
-- you can comment to other people posts in realtime using websockets(SignalR).
-- ability to create a profile page.
-- you can follow users. 
-- your posts are displayed in MySpaces, and the posts of the users you follow are displayed in OurSpaces.
-- you can search for users.
-- you can edit or delete your posts/comments.
-- also there is a like feature for posts/comments.
----------------------------------------------
-- you can see who viewed your profile.*
-- you can send messages in real time*.
-- notifications in real time*.
-----------------------------------------------
-The project was built with .NET 7 - Web API, ASP.NET Identity, EF Core, SignalR POSTGRES. 
-Also on FE it was built with Angular 15 - Angular material, NGRX, RxJS, HTML 5, SCSS.
+## 1. Authentication & Authorization
+- A secure and seamless login system ensuring user privacy and data protection.
 
-*To be done in near future.
+## 2. Rich Text Editor for Post Creation
+- Empowering users to express themselves creatively with a feature-rich text editor when crafting posts.
 
-Here is a sample of what the application can do:
+## 3. Real-time Commenting with Websockets (SignalR)
+- Foster dynamic conversations by enabling real-time comments on posts through the cutting-edge SignalR websockets technology.
 
-<pre>Adding a post:
+## 4. Profile Page Creation
+- Personalize your presence on the platform with the ability to create and customize your own profile page.
+
+## 5. User Following
+- Establish meaningful connections by following other users, enhancing the sense of community within the platform.
+
+## 6. Customized Content Display
+- Tailor your content experience with posts showcased in "MySpaces," while also staying updated with the posts from users you follow in "OurSpaces."
+
+## 7. User Search Functionality
+- Easily discover and connect with other users through a convenient search feature.
+
+## 8. Post and Comment Management
+- Maintain control over your content by editing or deleting both posts and comments as needed.
+
+## 9. Like Feature
+- Express appreciation for content with a like feature, fostering positive interactions among users.
+
+## 10. Profile View Tracking
+- Stay informed about your audience by tracking who views your profile, adding an intriguing layer to user engagement.
+
+## 11. Real-time Messaging
+- Facilitate instant and meaningful conversations with other users through a real-time messaging system.
+
+## 12. Real-time Notifications
+- Stay in the loop with immediate notifications, ensuring users are promptly informed about relevant activities within the platform.
+
+## Technical Details
+
+### Backend
+- Developed using the latest .NET 7 - Web API, incorporating ASP.NET Identity for secure authentication, EF Core for efficient data management, and SignalR POSTGRES for real-time communication.
+
+### Frontend
+- Crafted with Angular 15, featuring Angular Material for a sleek and responsive UI, NGRX for state management, RxJS for reactive programming, and utilizing HTML 5 and SCSS to enhance the overall user experience.
+
+This innovative blend of cutting-edge technologies ensures a seamless and enjoyable social networking experience, combining security, functionality, and aesthetics to create a platform that stands out in the digital landscape.
+
+<pre>Quick sample of adding a post:
 
 </pre>
 ![Alt text](addapost.gif)
 
-
-
-
-<pre>Adding a comment:
+<pre>Quick sample of adding a comment:
 
 </pre>
 ![Alt text](addcomment.gif)
 
-
-
-
-<pre>Adding a follower:
+<pre>Quick sample of adding a follower:
 
 </pre>
 ![Alt text](addfollower.gif)
