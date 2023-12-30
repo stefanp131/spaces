@@ -41,7 +41,7 @@ The project embodies a sophisticated social application, incorporating a diverse
 ## Technical Details
 
 ### Backend
-- Developed using the latest .NET 7 - Web API, incorporating ASP.NET Identity for secure authentication, EF Core for efficient data management, and SignalR POSTGRES for real-time communication.
+- Developed using the latest .NET 7 - Web API, incorporating ASP.NET Identity for secure authentication, POSTGRES and EF Core for efficient data management, and SignalR for real-time communication.
 
 ### Frontend
 - Crafted with Angular 15, featuring Angular Material for a sleek and responsive UI, NGRX for state management, RxJS for reactive programming, and utilizing HTML 5 and SCSS to enhance the overall user experience.
