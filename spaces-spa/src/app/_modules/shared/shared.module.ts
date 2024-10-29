@@ -9,39 +9,33 @@ import { CreateUpdatePostComponent } from './posts/create-update-post/create-upd
 import { PostComponent } from './posts/post/post.component';
 import { PostsListComponent } from './posts/posts-list/posts-list.component';
 import { UpdatePostComponent } from './posts/update-post/update-post.component';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxEditorModule } from 'ngx-editor';
 import { RouterModule } from '@angular/router';
 
-@NgModule({
-  declarations: [
-    PostsListComponent,
-    PostComponent,
-    CreateUpdatePostComponent,
-    UpdatePostComponent,
-    ProfileComponent,
-    CommentComponent,
-    CreateCommentComponent,
-    CommentsListComponent,
-  ],
-  imports: [
-    CommonModule,
-    NgMaterialModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    NgxEditorModule,
-    RouterModule
-  ],
-  exports: [
-    PostsListComponent,
-    PostComponent,
-    CreateUpdatePostComponent,
-    UpdatePostComponent,
-    ProfileComponent,
-    CommentComponent,
-    CreateCommentComponent,
-    CommentsListComponent,
-  ],
-})
+@NgModule({ declarations: [
+        PostsListComponent,
+        PostComponent,
+        CreateUpdatePostComponent,
+        UpdatePostComponent,
+        ProfileComponent,
+        CommentComponent,
+        CreateCommentComponent,
+        CommentsListComponent,
+    ],
+    exports: [
+        PostsListComponent,
+        PostComponent,
+        CreateUpdatePostComponent,
+        UpdatePostComponent,
+        ProfileComponent,
+        CommentComponent,
+        CreateCommentComponent,
+        CommentsListComponent,
+    ], imports: [CommonModule,
+        NgMaterialModule,
+        ReactiveFormsModule,
+        NgxEditorModule,
+        RouterModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class SharedModule {}
