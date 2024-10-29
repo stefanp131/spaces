@@ -42,7 +42,7 @@ import { AppEffects } from './app.effects';
     HttpClientModule,
     StoreModule.forRoot({ account: accountReducer }),
     EffectsModule.forRoot([AccountEffects, AppEffects]),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() , connectInZone: true}),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
