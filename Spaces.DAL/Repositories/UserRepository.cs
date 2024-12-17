@@ -58,7 +58,7 @@ public class UserRepository : IUsersRepository
             
         if (!followers.Any())
         {
-            return null;
+            return new List<AppUser>();
         }
 
         return followers;

@@ -43,9 +43,6 @@ namespace Spaces.API.Controllers
         {
             var followedUsers = await _userService.GetFollowedUsersAsync(id);
 
-            if(followedUsers == null)
-                return NotFound();
-
             return Ok(followedUsers);
         }
         

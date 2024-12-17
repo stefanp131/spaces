@@ -17,20 +17,24 @@ import {
 } from 'src/app/our-space/our-space-state/our-space.selectors';
 
 @Component({
-    selector: 'app-posts-list',
-    templateUrl: './posts-list.component.html',
-    styleUrls: ['./posts-list.component.scss'],
-    standalone: false
+  selector: 'app-posts-list',
+  templateUrl: './posts-list.component.html',
+  styleUrls: ['./posts-list.component.scss'],
+  standalone: false
 })
 export class PostsListComponent implements OnInit, OnDestroy {
   postList: Observable<Post[]>;
-  mySpace = true;
+  mySpace = false;
+  ourSpace = false;
+
 
   constructor(
-    private store: Store<AppState>,    
+    private store: Store<AppState>,
     private location: Location
   ) {
-    this.mySpace = !this.location.path().includes('our-space');
+    this.mySpace = this.location.path().includes('my-space');
+    this.ourSpace = this.location.path().includes('our-space');
+
   }
   ngOnDestroy(): void {
     this.store.dispatch(closeHubs());
@@ -39,12 +43,14 @@ export class PostsListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.store.dispatch(openHubs());
 
-    if (!this.mySpace) {
+    if (this.ourSpace) {
       this.store.dispatch(getPostsAndUsers());
       this.postList = this.store.select(selectPostsOurSpace);
-    } else {
+    }
+
+    if (this.mySpace) {
       this.store.dispatch(getPosts());
       this.postList = this.store.select(selectPosts);
     }
-  }  
+  }
 }

@@ -55,7 +55,7 @@ public class UserService: IUserService
     {
         var followedUsers = await _usersRepository.GetFollowedUsersAsync(id);
 
-        return followedUsers == null ? null : _mapper.Map<List<UserDto>>(followedUsers);
+        return _mapper.Map<List<UserDto>>(followedUsers);
     }
 
     public async Task<List<FollowDto>> GetFollowedByUsersAsync(int id)
