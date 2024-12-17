@@ -17,9 +17,10 @@ import {
 } from 'src/app/our-space/our-space-state/our-space.selectors';
 
 @Component({
-  selector: 'app-posts-list',
-  templateUrl: './posts-list.component.html',
-  styleUrls: ['./posts-list.component.scss'],
+    selector: 'app-posts-list',
+    templateUrl: './posts-list.component.html',
+    styleUrls: ['./posts-list.component.scss'],
+    standalone: false
 })
 export class PostsListComponent implements OnInit, OnDestroy {
   postList: Observable<Post[]>;

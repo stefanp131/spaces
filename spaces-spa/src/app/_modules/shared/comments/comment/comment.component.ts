@@ -11,9 +11,10 @@ import { deleteComment as deleteCommentOurSpace, toggleLikeComment as toggleLike
 import { AppState } from 'src/app/app-state';
 
 @Component({
-  selector: 'app-comment',
-  templateUrl: './comment.component.html',
-  styleUrls: ['./comment.component.scss'],
+    selector: 'app-comment',
+    templateUrl: './comment.component.html',
+    styleUrls: ['./comment.component.scss'],
+    standalone: false
 })
 export class CommentComponent implements OnInit {
   @Input() comment: Comment;

@@ -5,9 +5,10 @@ import { login } from 'src/app/account/account-state/account.actions';
 import { AppState } from 'src/app/app-state';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss'],
+    standalone: false
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;

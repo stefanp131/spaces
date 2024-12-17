@@ -5,9 +5,10 @@ import { register } from 'src/app/account/account-state/account.actions';
 import { AppState } from 'src/app/app-state';
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss'],
+    selector: 'app-register',
+    templateUrl: './register.component.html',
+    styleUrls: ['./register.component.scss'],
+    standalone: false
 })
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;

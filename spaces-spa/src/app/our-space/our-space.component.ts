@@ -5,9 +5,10 @@ import { User } from '../_models/User';
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'app-our-space',
-  templateUrl: './our-space.component.html',
-  styleUrls: ['./our-space.component.scss'],
+    selector: 'app-our-space',
+    templateUrl: './our-space.component.html',
+    styleUrls: ['./our-space.component.scss'],
+    standalone: false
 })
 export class OurSpaceComponent implements OnInit {
   user$: Observable<User>;

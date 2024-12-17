@@ -8,9 +8,10 @@ import { createComment as createCommentOurSpace } from 'src/app/our-space/our-sp
 import { AppState } from 'src/app/app-state';
 
 @Component({
-  selector: 'app-create-comment',
-  templateUrl: './create-comment.component.html',
-  styleUrls: ['./create-comment.component.scss'],
+    selector: 'app-create-comment',
+    templateUrl: './create-comment.component.html',
+    styleUrls: ['./create-comment.component.scss'],
+    standalone: false
 })
 export class CreateCommentComponent implements OnInit {
   @Input() postId: number;

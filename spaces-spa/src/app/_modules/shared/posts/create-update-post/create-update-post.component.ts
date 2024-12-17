@@ -16,9 +16,10 @@ import { Location } from '@angular/common';
 import { AppState } from 'src/app/app-state';
 
 @Component({
-  selector: 'app-create-update-post',
-  templateUrl: './create-update-post.component.html',
-  styleUrls: ['./create-update-post.component.scss'],
+    selector: 'app-create-update-post',
+    templateUrl: './create-update-post.component.html',
+    styleUrls: ['./create-update-post.component.scss'],
+    standalone: false
 })
 export class CreateUpdatePostComponent implements OnInit, OnDestroy {
   post$: Observable<Post>;

@@ -25,9 +25,10 @@ import {
 } from 'src/app/our-space/our-space-state/our-space.actions';
 
 @Component({
-  selector: 'app-post',
-  templateUrl: './post.component.html',
-  styleUrls: ['./post.component.scss'],
+    selector: 'app-post',
+    templateUrl: './post.component.html',
+    styleUrls: ['./post.component.scss'],
+    standalone: false
 })
 export class PostComponent implements OnInit {
   user$: Observable<User>;
