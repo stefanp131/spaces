@@ -3,13 +3,12 @@ import { Store } from '@ngrx/store';
 import {
   selectUser,
   selectSearchUsersForUser,
-  selectFollowedUsers,
   selectFollowersForUser,
 } from '../account/account-state/account.selectors';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { UserService } from '../_services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable, Subject, map, switchMap, takeUntil } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { Profile } from '../_models/Profile';
 import { User } from '../_models/User';
 import { AppState } from '../app-state';

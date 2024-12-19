@@ -23,6 +23,7 @@ public static class AddApplicationServicesExtensions
         services.AddScoped<ICommentService, CommentService>();
         services.AddScoped<IAccountService, AccountService>();
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IPhotoService, PhotoService>();
         services.AddScoped<ITokenGenerator, TokenGenerator>();
         services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
         services.AddDbContext<SpacesContext>(options =>

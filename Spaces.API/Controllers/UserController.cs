@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,10 +12,28 @@ namespace Spaces.API.Controllers
     public class UserController : BaseApiController
     {
         private readonly IUserService _userService;
+        private readonly IPhotoService _photoService;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, IPhotoService photoService)
         {
             this._userService = userService;
+            this._photoService = photoService;
+        }
+        
+        [HttpPost("add-photo")] 
+        public async Task<ActionResult<PhotoDto>> AddPhoto([FromForm] PhotoDto photoDto)
+        {
+            await _photoService.AddPhotoAsync(photoDto.File, int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value));
+
+            return Ok();
+        }
+        
+        [HttpPost("delete-photo/{photoId}")] 
+        public async Task<ActionResult<PhotoDto>> DeletePhoto(int photoId)
+        {
+            await _photoService.DeletePhotoAsync(photoId, int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value));
+
+            return Ok();
         }
         
         [HttpGet()]

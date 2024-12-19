@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Spaces.DAL.Data;
 using Spaces.DAL.Entities;
+using Spaces.Services.Helpers;
 
 namespace Spaces.API.Extensions;
 
@@ -57,6 +58,8 @@ public static class AddIdentityServicesExtensions
         {
             opt.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
         });
+        
+        services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
 
         return services;
     }

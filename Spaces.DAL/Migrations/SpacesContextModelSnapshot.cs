@@ -17,7 +17,7 @@ namespace Spaces.DAL.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.9")
+                .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -187,9 +187,6 @@ namespace Spaces.DAL.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("ProfileImage")
-                        .HasColumnType("text");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
 
@@ -329,6 +326,33 @@ namespace Spaces.DAL.Migrations
                     b.HasIndex("TargetPostId");
 
                     b.ToTable("LikesForPosts");
+                });
+
+            modelBuilder.Entity("Spaces.DAL.Entities.Photo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsMain")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("PublicId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("text");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Photo");
                 });
 
             modelBuilder.Entity("Spaces.DAL.Entities.Post", b =>
@@ -492,6 +516,17 @@ namespace Spaces.DAL.Migrations
                     b.Navigation("TargetPost");
                 });
 
+            modelBuilder.Entity("Spaces.DAL.Entities.Photo", b =>
+                {
+                    b.HasOne("Spaces.DAL.Entities.AppUser", "User")
+                        .WithMany("Photos")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Spaces.DAL.Entities.Post", b =>
                 {
                     b.HasOne("Spaces.DAL.Entities.AppUser", "User")
@@ -517,6 +552,8 @@ namespace Spaces.DAL.Migrations
                     b.Navigation("FollowedByUsers");
 
                     b.Navigation("FollowedUsers");
+
+                    b.Navigation("Photos");
 
                     b.Navigation("Posts");
 
