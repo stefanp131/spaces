@@ -48,6 +48,7 @@ import {
   selectUser,
 } from 'src/app/account/account-state/account.selectors';
 import { AppState } from 'src/app/app-state';
+import { SocialHubService } from 'src/app/_services/socialhub.service';
 
 @Injectable()
 export class MySpaceEffects {
@@ -56,9 +57,9 @@ export class MySpaceEffects {
     private postsService: PostsService,
     private snackBar: MatSnackBar,
     private router: Router,
-    private postService: PostsService,
     private commentService: CommentsService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private socialHubService: SocialHubService
   ) {} 
 
   toggleLikePost$ = createEffect(() =>
@@ -67,9 +68,9 @@ export class MySpaceEffects {
       concatLatestFrom((action) => [this.store.select(selectUser), this.store.select(selectPostsLikedByUser(action.likedByUsers))]),
       map(([action, user, like]) => {
         if (like) {
-          this.postService.dislike(+user.id, action.postId);
+          this.socialHubService.dislikePost(+user.id, action.postId);
         } else {
-          this.postService.like(+user.id, action.postId);
+          this.socialHubService.likePost(+user.id, action.postId);
         }
         return toggleLikePostSuccess({
           like: like,
@@ -83,28 +84,28 @@ export class MySpaceEffects {
     )
   );
 
-  toggleLikeCommentt$ = createEffect(() =>
-  this.actions$.pipe(
-    ofType(toggleLikeComment),
-    concatLatestFrom((action) => [this.store.select(selectUser), this.store.select(selectCommentsLikedByUser(action.likedByUsers))]),
-    map(([action, user, like]) => {
-      if (like) {
-        this.commentService.dislike(+user.id, action.commentId);
-      } else {
-        this.commentService.like(+user.id, action.commentId);
-      }
-      return toggleLikeCommentSuccess({
-        like: like,
-        userId: +user.id,
-        commentId: action.commentId,
-        postId: action.postId
-      });
-    }),
-    catchError((error) => {
-      return of(toggleLikeCommentError({ error }));
-    })
-  )
-);
+  toggleLikeComment$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(toggleLikeComment),
+      concatLatestFrom((action) => [this.store.select(selectUser), this.store.select(selectCommentsLikedByUser(action.likedByUsers))]),
+      map(([action, user, like]) => {
+        if (like) {
+          this.socialHubService.dislikeComment(+user.id, action.commentId);
+        } else {
+          this.socialHubService.likeComment(+user.id, action.commentId);
+        }
+        return toggleLikeCommentSuccess({
+          like: like,
+          userId: +user.id,
+          commentId: action.commentId,
+          postId: action.postId
+        });
+      }),
+      catchError((error) => {
+        return of(toggleLikeCommentError({ error }));
+      })
+    )
+  );
 
   getPosts$ = createEffect(() =>
     this.actions$.pipe(

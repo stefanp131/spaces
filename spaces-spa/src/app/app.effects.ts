@@ -13,14 +13,14 @@ import {
 } from 'src/app/account/account-state/account.selectors';
 import { AppState, closeHubs, closeHubsError, closeHubsSuccess, openHubs, openHubsError, openHubsSuccess } from 'src/app/app-state';
 import { PostsService } from './_services/post.service';
+import { SocialHubService } from 'src/app/_services/socialhub.service';
 
 @Injectable()
 export class AppEffects {
   constructor(
     private actions$: Actions,
-    private postService: PostsService,
-    private commentService: CommentsService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private socialHubService: SocialHubService
   ) {}
 
   openHubs$ = createEffect(() =>
@@ -28,9 +28,7 @@ export class AppEffects {
       ofType(openHubs),
       withLatestFrom(this.store.select(selectUser)),
       map(([action , user]) => {
-        this.postService.createHubConnection(user);
-        this.commentService.createHubConnection(user);
-
+        this.socialHubService.createHubConnection(user);
         return openHubsSuccess();
       }),
       catchError((error) => {
@@ -43,9 +41,7 @@ export class AppEffects {
     this.actions$.pipe(
       ofType(closeHubs),
       map(() => {
-        this.postService.stopHubConnection();
-        this.commentService.stopHubConnection();
-
+        this.socialHubService.stopHubConnection();
         return closeHubsSuccess();
       }),
       catchError((error) => {

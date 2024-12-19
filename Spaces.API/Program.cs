@@ -59,9 +59,7 @@ if (app.Environment.IsDevelopment())
     app.UseEndpoints(endpoints =>
     {
         endpoints.MapControllers();
-        endpoints.MapHub<PostsHub>("hub/posts");
-        endpoints.MapHub<CommentsHub>("hub/comments");
-
+        endpoints.MapHub<SocialHub>("hub/social");
     });
 }
 else
@@ -69,9 +67,7 @@ else
     app.UseEndpoints(endpoints =>
     {
         endpoints.MapControllers();
-        endpoints.MapHub<PostsHub>("hub/likes");
-        endpoints.MapHub<CommentsHub>("hub/comments");
-
+        endpoints.MapHub<SocialHub>("hub/social");
         endpoints.MapFallbackToController("Index", "Fallback");
     });
 }

@@ -49,6 +49,7 @@ import {
 } from 'src/app/account/account-state/account.selectors';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app-state';
+import { SocialHubService } from 'src/app/_services/socialhub.service';
 
 @Injectable()
 export class OurSpaceEffects {
@@ -58,9 +59,8 @@ export class OurSpaceEffects {
     private userService: UserService,
     private snackBar: MatSnackBar,
     private router: Router,
-    private postService: PostsService,
-    private commentService: CommentsService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private socialHubService: SocialHubService
   ) {}
 
   getPostsAndUsers$ = createEffect(() =>
@@ -116,9 +116,9 @@ export class OurSpaceEffects {
       ]),
       map(([action, user, like]) => {
         if (like) {
-          this.postService.dislike(+user.id, action.postId);
+          this.socialHubService.dislikePost(+user.id, action.postId);
         } else {
-          this.postService.like(+user.id, action.postId);
+          this.socialHubService.likePost(+user.id, action.postId);
         }
         return toggleLikePostSuccess({
           like: like,
@@ -132,7 +132,7 @@ export class OurSpaceEffects {
     )
   );
 
-  toggleLikeCommentt$ = createEffect(() =>
+  toggleLikeComment$ = createEffect(() =>
     this.actions$.pipe(
       ofType(toggleLikeComment),
       concatLatestFrom((action) => [
@@ -141,9 +141,9 @@ export class OurSpaceEffects {
       ]),
       map(([action, user, like]) => {
         if (like) {
-          this.commentService.dislike(+user.id, action.commentId);
+          this.socialHubService.dislikeComment(+user.id, action.commentId);
         } else {
-          this.commentService.like(+user.id, action.commentId);
+          this.socialHubService.likeComment(+user.id, action.commentId);
         }
         return toggleLikeCommentSuccess({
           like: like,
@@ -216,7 +216,7 @@ export class OurSpaceEffects {
         createComment: { ...action.createComment, userId: +user.id },
       })),
       switchMap((action) =>
-        from(this.commentService.createComment(action.createComment)).pipe(
+        from(this.socialHubService.createComment(action.createComment)).pipe(
           map((comment: Comment) =>
             createCommentSuccess({
               comment: comment,
@@ -237,7 +237,7 @@ export class OurSpaceEffects {
     this.actions$.pipe(
       ofType(deleteComment),
       switchMap((action) =>
-        from(this.commentService.deleteComment(action.commentId)).pipe(
+        from(this.socialHubService.deleteComment(action.commentId)).pipe(
           map(() =>
             deleteCommentSuccess({
               commentId: action.commentId,
