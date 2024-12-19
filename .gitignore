@@ -480,3 +480,5 @@ fabric.properties
 .idea
 
 ./Spaces.API/appsettings.json
+
+.DS_Store
