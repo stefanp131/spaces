@@ -64,13 +64,13 @@ export const selectFollowersForUser = createSelector(
 export const selectPostsLikedByUser = (likedByUsers: LikesForPost[]) =>
   createSelector(selectAccount, (state: AccountState) =>
     likedByUsers.some(
-      (likedByUser) => likedByUser.sourceUserId == state.user.id
+      (likedByUser) => likedByUser.sourceUserId == state.user?.id
     )
   );
 
 export const selectCommentsLikedByUser = (likedByUsers: LikesForComment[]) =>
   createSelector(selectAccount, (state: AccountState) =>
     likedByUsers.some(
-      (likedByUser) => likedByUser.sourceUserId == state.user.id
+      (likedByUser) => likedByUser.sourceUserId == state.user?.id
     )
   );
