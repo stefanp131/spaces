@@ -55,6 +55,21 @@ public class UserRepository : IUsersRepository
             .Include("TargetUser.FollowedUsers")
             .Include("TargetUser.FollowedByUsers")
             .Select(follow => follow.TargetUser).ToListAsync();
+        
+        var sourceUser = await _context.Followers
+            .Where(follow => follow.SourceUserId == id)
+            .Include("SourceUser")
+            .Include("SourceUser.Posts")
+            .Include("SourceUser.Posts.LikedByUsers")
+            .Include("SourceUser.Posts.Comments")
+            .Include("SourceUser.Posts.Comments.LikedByUsers")
+            .Include("SourceUser.Posts.Comments.User")
+            .Include("SourceUser.FollowedUsers")
+            .Include("SourceUser.FollowedByUsers")
+            .Select(follow => follow.SourceUser)
+            .FirstOrDefaultAsync();
+        
+        if (sourceUser != null) { followers.Add(sourceUser);}
             
         if (!followers.Any())
         {
