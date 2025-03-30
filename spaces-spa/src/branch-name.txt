@@ -5,3 +5,4 @@ branch2
 
 feature 3
 branch2
+branch1
