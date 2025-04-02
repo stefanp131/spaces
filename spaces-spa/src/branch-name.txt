@@ -15,6 +15,6 @@ some master changes
 branch1
 z1
 
-z2
+z1
 
 test1
